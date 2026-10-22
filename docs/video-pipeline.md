@@ -9,9 +9,10 @@ Content approval remains a separate gate from final video approval.
    creates a unique artifact run, clears the prior video result and queues production.
 3. The existing isolated worker recognises `render_config` and runs actual TTS/rendering,
    without recrawling or regenerating the script.
-4. Each short caption gets real speech and measured WAV duration. Its frame uses the
-   selected photo or a text-card background; the spoken caption is burned into the frame.
-   A separate SRT file records the same measured intervals.
+4. Provider-sized utterances get speech and measured WAV duration independently of
+   subtitle/image chunks. Short scripts remain one utterance. Image frames or an uploaded
+   clip follow the audio timeline; ASS/SRT phrases use duration/word-count estimates.
+   Excess boundary silence between utterances is shortened without removing internal pauses.
 5. FFmpeg combines narration and the timed image sequence into H.264/AAC MP4, yuv420p,
    faststart, 24 fps. Audio/video streams are decoded for a basic validation and video
    duration is compared against narration duration before publishing the result to review.
@@ -40,3 +41,7 @@ Local synthesis uses Windows System.Speech with an installed matching-language v
 preferring PowerShell 7. Edge TTS is an online alternative and reports provider/network
 errors without substituting silent or fake speech. Tests on this machine use real local
 Vietnamese voice, real uploaded PNGs, real FFmpeg encoding and real browser playback.
+
+Narration now uses provider-sized utterances independently of subtitle/image chunks.
+Vietnamese voice selection, preview, cache and diagnostics are documented in
+[Vietnamese speech](vietnamese-speech.md).

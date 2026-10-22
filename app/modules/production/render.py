@@ -11,7 +11,10 @@ from app.config import Settings
 from app.contracts.captions import split_captions, timestamp
 from app.contracts.content import content_hash, content_text
 from app.contracts.errors import VideoFailure
+from app.contracts.speech import speech_segments
+from app.contracts.voices import get_voice
 from app.infrastructure.media.artifacts import artifact_directory
+from app.infrastructure.media.audio import long_pauses, trim_boundary_silence
 from app.infrastructure.media.commands import run_command
 from app.infrastructure.media.encoding import encode_video, inspect_video
 from app.infrastructure.media.frames import make_frame
@@ -40,8 +43,11 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         raise VideoFailure("Kịch bản đã thay đổi. Hãy duyệt và dựng lại từ phiên bản mới.")
     if len(text) > 30000:
         raise VideoFailure("Mỗi video tối đa 30.000 ký tự. Hãy rút gọn hoặc chia kịch bản.")
-    captions = split_captions(text)
-    if not captions:
+    voice_definition = get_voice(config["voice"])
+    segments = speech_segments(
+        text, voice_definition.max_characters, max_bytes=voice_definition.max_bytes
+    )
+    if not segments:
         raise VideoFailure("Kịch bản trống, không thể dựng video.")
     config = {**config, "style": config.get("style") or choose_style(package)}
     style = config["style"]
@@ -60,16 +66,41 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
     frames, audios, subtitles, cues = [], [], [], []
     elapsed = 0.0
     settings = Settings()
-    for index, caption in enumerate(captions):
-        progress(f"Voice and visuals {index + 1}/{len(captions)}")
+    speech_timeline = []
+    visual_groups = [split_captions(part) for part in segments]
+    visual_total = sum(map(len, visual_groups))
+    visual_offset = 0
+    for index, caption in enumerate(segments):
+        progress(f"Voice and visuals {index + 1}/{len(segments)}")
         checkpoint("voice", "start")
-        filename, duration = synthesize(caption, config["voice"], directory, index)
+        if config.get("speech_rate", 0):
+            filename, duration = synthesize(
+                caption, config["voice"], directory, index, rate=config["speech_rate"]
+            )
+        else:
+            filename, duration = synthesize(caption, config["voice"], directory, index)
+        boundary = {"trimmed_start_seconds": 0, "trimmed_end_seconds": 0}
+        if len(segments) > 1:
+            boundary = trim_boundary_silence(
+                directory / filename, trim_start=index > 0, trim_end=index < len(segments) - 1
+            )
+            duration = boundary["duration"]
+        speech_timeline.append(
+            {
+                "index": index,
+                "start": elapsed,
+                "duration": duration,
+                "text_characters": len(caption),
+                **boundary,
+            }
+        )
         checkpoint(
             "voice",
             "end",
             {
                 "filename": filename,
                 "duration": duration,
+                "boundary": boundary,
                 "sha256": hashlib.sha256((directory / filename).read_bytes()).hexdigest(),
             },
             audio_checks(directory / filename),
@@ -81,16 +112,23 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         if config.get("video_file"):
             checkpoint("visuals", "end", {"filename": config["video_file"]})
         else:
-            frame = make_frame(directory, config, package["title"], caption, index, len(captions))
-            checkpoint(
-                "visuals",
-                "end",
-                {
-                    "filename": frame,
-                    "sha256": hashlib.sha256((directory / frame).read_bytes()).hexdigest(),
-                },
-            )
-            frames.extend([f"file '{frame}'", f"duration {duration:.6f}"])
+            visual_chunks = visual_groups[index]
+            visual_weight = sum(len(part.split()) for part in visual_chunks)
+            visual_files = []
+            for visual_index, part in enumerate(visual_chunks):
+                frame = make_frame(
+                    directory,
+                    config,
+                    package["title"],
+                    part,
+                    visual_offset + visual_index,
+                    visual_total,
+                )
+                part_duration = duration * len(part.split()) / visual_weight
+                frames.extend([f"file '{frame}'", f"duration {part_duration:.6f}"])
+                visual_files.append(frame)
+            checkpoint("visuals", "end", {"filenames": visual_files})
+            visual_offset += len(visual_chunks)
         phrases = split_captions(caption, limit=style["caption_chars"])
         weight = sum(len(phrase.split()) for phrase in phrases)
         start = elapsed
@@ -147,6 +185,18 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         cwd=directory,
     )
     audio_evaluations = audio_checks(directory / "narration.wav")
+    pauses = long_pauses(directory / "narration.wav")
+    audio_evaluations.append(
+        check(
+            "audio_pauses",
+            "warn" if pauses else "pass",
+            {
+                "spans": pauses,
+                "threshold_seconds": 0.8,
+                "limitation": "Pauses may be natural punctuation; human listening required",
+            },
+        )
+    )
     checkpoint("audio", "end", {"duration": elapsed}, audio_evaluations)
     if has_blocker(audio_evaluations):
         raise VideoFailure("Giọng đọc bị im lặng hoặc clipping. Xem tab Chất lượng.")
@@ -178,6 +228,16 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         "video_checked": True,
     }
     result["quality"] = {"subtitle_repairs": repairs, "sample_times": sample_times}
+    result["speech"] = {
+        "segmentation_version": 2,
+        "segments": speech_timeline,
+        "rate": config.get("speech_rate", 0),
+        "provider": get_voice(config["voice"]).provider,
+        "long_pauses": pauses,
+    }
+    (directory / "speech-timeline.json").write_text(
+        json.dumps(result["speech"], ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     checkpoint(
         "qa",
         "end",

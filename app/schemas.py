@@ -3,7 +3,9 @@ from enum import StrEnum
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
+from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator, model_validator
+
+from app.contracts.voices import get_voice
 
 
 class Branch(StrEnum):
@@ -116,11 +118,30 @@ class Review(BaseModel):
     expected_content_hash: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
 
 
-class RenderOptions(BaseModel):
+class SpeechOptions(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    voice: Literal[
-        "local-vi", "local-en", "vi-VN-HoaiMyNeural", "vi-VN-NamMinhNeural", "en-US-AriaNeural"
-    ] = "local-vi"
+    voice: str = Field(default="vi-VN-HoaiMyNeural", min_length=1, max_length=80)
+    speech_rate: int = Field(default=0, ge=-30, le=30)
+
+    @field_validator("voice")
+    @classmethod
+    def supported_voice(cls, value):
+        get_voice(value)
+        return value
+
+
+class VoicePreview(SpeechOptions):
+    text: str = Field(min_length=1, max_length=300)
+
+    @field_validator("text")
+    @classmethod
+    def nonempty_text(cls, value):
+        if not value.strip():
+            raise ValueError("Đoạn nghe thử không được để trống.")
+        return value
+
+
+class RenderOptions(SpeechOptions):
     layout: Literal["portrait", "landscape"] = "portrait"
     images: list[str] = Field(default_factory=list, max_length=10)
     image_asset_ids: list[UUID] = Field(default_factory=list, max_length=10)

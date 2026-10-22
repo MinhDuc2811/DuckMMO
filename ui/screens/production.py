@@ -1,5 +1,4 @@
 import hashlib
-import os
 
 import streamlit as st
 
@@ -69,18 +68,14 @@ def render(opened=None, active=True, jobs_snapshot=None):
                         if request("DELETE", f"/api/jobs/{render_id}/assets/{asset['id']}"):
                             st.rerun()
             with st.form(f"render-{render_id}"):
+                catalog = request("GET", "/api/voices") or {"voices": []}
                 voices = {
-                    "local-vi": "Tiếng Việt · giọng trên máy",
-                    "local-en": "English · giọng trên máy",
-                    "vi-VN-HoaiMyNeural": "Tiếng Việt · Hoài My (Edge online)",
-                    "vi-VN-NamMinhNeural": "Tiếng Việt · Nam Minh (Edge online)",
-                    "en-US-AriaNeural": "English · Aria (Edge online)",
+                    item["id"]: item["label"] for item in catalog["voices"] if item["available"]
                 }
-                if os.name != "nt":
-                    voices = {
-                        key: label for key, label in voices.items() if not key.startswith("local-")
-                    }
                 voice = st.selectbox("Giọng đọc", list(voices), format_func=voices.get)
+                speech_rate = st.slider(
+                    "Tốc độ đọc (%)", -30, 30, 0, step=10, help="0 là tốc độ mặc định của giọng."
+                )
                 layout = st.selectbox(
                     "Khung hình",
                     ["portrait", "landscape"],
@@ -117,10 +112,26 @@ def render(opened=None, active=True, jobs_snapshot=None):
                     st.caption("Tối đa 10 ảnh, mỗi ảnh 3 MB. Không thêm ảnh: dùng nền chữ.")
                 st.caption("File lưu local, tái sử dụng được.")
                 st.caption(
-                    ("Giọng trên máy không gửi kịch bản ra ngoài; " if os.name == "nt" else "")
-                    + "Edge TTS gửi lời dẫn tới dịch vụ giọng đọc Microsoft và cần mạng."
+                    "Edge gửi lời dẫn tới Microsoft và cần mạng; giọng Windows chạy trên máy."
                 )
+                preview_text = st.text_area(
+                    "Đoạn nghe thử",
+                    max_chars=300,
+                    value="Xin chào, đây là giọng đọc tiếng Việt dành cho video của bạn. "
+                    "Chúng ta cùng lắng nghe một câu chuyện thật tự nhiên và liền mạch.",
+                )
+                preview = st.form_submit_button("Nghe thử giọng")
                 build = st.form_submit_button("Dựng video", type="primary")
+            if preview:
+                audio = request(
+                    "POST",
+                    "/api/voices/preview",
+                    raw=True,
+                    timeout=120,
+                    json={"text": preview_text, "voice": voice, "speech_rate": speech_rate},
+                )
+                if audio:
+                    st.audio(audio, format="audio/wav")
             if build:
                 uploads = ([pictures] if pictures else []) if kind == "video" else pictures
                 limit = 100_000_000 if kind == "video" else 3_000_000
@@ -143,6 +154,7 @@ def render(opened=None, active=True, jobs_snapshot=None):
                         f"/api/jobs/{render_id}/render",
                         json={
                             "voice": voice,
+                            "speech_rate": speech_rate,
                             "layout": layout,
                             "image_asset_ids": asset_ids if kind == "image" else [],
                             "video_asset_id": asset_ids[0] if kind == "video" else None,
