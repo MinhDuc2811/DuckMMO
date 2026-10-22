@@ -1,13 +1,16 @@
 """Shared quality checks used by hooks and CI. Run with uv run python."""
 
 import argparse
+import json
 import os
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
+from change_review import comparison, local_directory
 from review_code import ROOT, git, snapshot
+from review_impact import assess
 
 
 def run(*args, cwd=ROOT, env=None):
@@ -51,15 +54,77 @@ def migration_check(base):
             run(sys.executable, "-m", "alembic", "upgrade", "head", env=env)
 
 
-def checks(base, head, full):
-    run(sys.executable, "-m", "ruff", "check", ".")
-    run(sys.executable, "-m", "ruff", "format", "--check", ".")
-    run("git", "diff", "--check")
-    run("git", "diff", "--cached", "--check")
-    if full:
-        run(sys.executable, ROOT / "scripts/review_code.py", "--base", base, "--head", head)
-        run(sys.executable, "-m", "pytest", "-q", "-m", "not live")
-        migration_check(base)
+def checks(base, head, full, *, enforce_impact=False):
+    report = assess(*comparison(base, head)) if full else None
+    if report:
+        report["business_flow"] = {"status": "not_run", "checks": {}}
+    directory = local_directory() / "reports"
+    directory.mkdir(parents=True, exist_ok=True)
+    try:
+        run(sys.executable, "-m", "ruff", "check", ".")
+        run(sys.executable, "-m", "ruff", "format", "--check", ".")
+        run("git", "diff", "--check")
+        run("git", "diff", "--cached", "--check")
+        if full:
+            run(sys.executable, ROOT / "scripts/review_code.py", "--base", base, "--head", head)
+            status = report["business_flow"]["checks"]
+            status["offline_tests"] = "running"
+            run(sys.executable, "-m", "pytest", "-q", "-m", "not live")
+            status["offline_tests"] = "passed"
+            status["migrations"] = "running"
+            migration_check(base)
+            status["migrations"] = "passed"
+            if report["flow_tests_required"] and enforce_impact:
+                status["playwright"] = "running"
+                run(
+                    sys.executable,
+                    "-m",
+                    "pytest",
+                    "-q",
+                    "e2e/test_media_upload.py",
+                    "test_suite/features/speech/e2e",
+                    "--run-e2e",
+                    "--tracing",
+                    "retain-on-failure",
+                    "--screenshot",
+                    "only-on-failure",
+                )
+                status["playwright"] = "passed"
+            elif report["flow_tests_required"]:
+                status["playwright"] = "not_run_here; required in CI browser step"
+            report["business_flow"]["status"] = (
+                "passed_for_tested_scope"
+                if status.get("playwright") == "passed"
+                else "partial; no browser evidence in this step"
+            )
+            command = [
+                sys.executable,
+                ROOT / "scripts/review_impact.py",
+                "--base",
+                base,
+                "--head",
+                head,
+            ]
+            if enforce_impact:
+                command.append("--enforce")
+            run(*command)
+            report["gate_status"] = "passed"
+        else:
+            run(sys.executable, ROOT / "scripts/commit_review.py")
+    except (subprocess.CalledProcessError, OSError):
+        if report:
+            report["gate_status"] = "blocked"
+            if any(value == "running" for value in report["business_flow"]["checks"].values()):
+                report["business_flow"]["status"] = "failed_or_unavailable"
+            for name, value in report["business_flow"]["checks"].items():
+                if value == "running":
+                    report["business_flow"]["checks"][name] = "failed_or_unavailable"
+        raise
+    finally:
+        if report:
+            path = directory / f"{report['fingerprint']}.json"
+            path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+            print(f"Impact and flow report: {path}", flush=True)
 
 
 def main():
@@ -95,7 +160,7 @@ def main():
                 return 0
             # Include all outgoing branch changes relative to main, not just the last commit.
             for base, head in sorted(set(targets)):
-                checks(base, head, full=True)
+                checks(base, head, full=True, enforce_impact=True)
         else:
             if args.mode == "commit":
                 staged = set(git("diff", "--cached", "--name-only", "-z").split(b"\0"))

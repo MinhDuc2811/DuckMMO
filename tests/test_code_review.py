@@ -176,7 +176,7 @@ def test_push_gate_checks_actual_commit_and_propagates_failure(monkeypatch):
     monkeypatch.setattr(sys, "stdin", io.StringIO(line))
     monkeypatch.setattr(gate, "checks", lambda *args, **kwargs: calls.append((args, kwargs)))
     assert gate.main() == 0
-    assert calls == [(("baseline", head), {"full": True})]
+    assert calls == [(("baseline", head), {"full": True, "enforce_impact": True})]
 
     def fail(*_args, **_kwargs):
         raise subprocess.CalledProcessError(1, ["pytest"])

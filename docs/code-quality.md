@@ -20,7 +20,8 @@ Review mặc định đọc working tree, gồm file Python chưa tracked. Để
 uv run python scripts/review_code.py --base origin/main --head HEAD
 ```
 
-- Pre-commit: lint, format và diff whitespace. Không tự sửa hoặc stage file.
+- Pre-commit: lint, format, diff whitespace và review staged diff theo [change-impact.md](change-impact.md).
+  Commit-msg lưu mô tả what/where/why và điểm ảnh hưởng vào commit body. Không tự stage file.
 - Pre-push: yêu cầu working tree sạch và checkout đúng commit đang push; chạy review,
   toàn bộ test offline (gồm architecture/query count/media) và migration trên DB tạm.
 - Migration kiểm tra cả DB mới và nâng schema baseline lên schema mới; không dùng DB thật.
@@ -101,3 +102,5 @@ Git hook có thể bị bỏ qua bằng `--no-verify`, và workflow chỉ hoạt
 `quality` của workflow `Code quality`, required review, dismiss stale review và không cho bypass.
 Việc thêm các file này **không tự bật branch protection**. Nếu cho phép direct push main,
 CI chỉ báo lỗi sau khi code đã lên main. Checkout/máy khác phải cài hook riêng.
+
+Điểm ảnh hưởng và human review trước push là gate độc lập: xem [change-impact.md](change-impact.md).

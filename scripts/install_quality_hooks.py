@@ -14,8 +14,8 @@ if not existing:
     hooks = subprocess.check_output(
         ["git", "rev-parse", "--git-path", "hooks"], cwd=ROOT, text=True
     ).strip()
-    for name in ("pre-commit", "pre-push"):
+    for name in ("pre-commit", "pre-push", "commit-msg"):
         if (ROOT / hooks / name).exists():
             raise SystemExit(f"Existing {name} hook; integrate .githooks manually.")
 subprocess.run(["git", "config", "--local", "core.hooksPath", ".githooks"], cwd=ROOT, check=True)
-print("Installed pre-commit/pre-push hooks for this checkout.")
+print("Installed pre-commit/commit-msg/pre-push hooks for this checkout.")

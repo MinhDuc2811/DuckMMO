@@ -31,17 +31,36 @@ def production(path):
     return path.endswith(".py") and path.startswith(("app/", "ui/"))
 
 
+class TreeSnapshot(dict):
+    """File bytes plus Git modes; callers using plain dictionaries remain compatible."""
+
+    def __init__(self, files, modes):
+        super().__init__(files)
+        self.modes = modes
+
+
 def snapshot(ref, root=ROOT):
-    """Read committed trees directly; worktree mode also includes untracked code."""
+    """Read exact committed/index bytes, or an explicit working tree preview."""
+    if ref == "STAGED":
+        if git("ls-files", "--unmerged", root=root):
+            raise ValueError("Resolve index conflicts before reviewing staged code")
+        entries = git("ls-files", "--stage", "-z", root=root).decode().split("\0")
+        modes = {entry.split("\t", 1)[1]: entry.split(" ", 1)[0] for entry in entries if entry}
+        return TreeSnapshot({name: git("show", f":{name}", root=root) for name in modes}, modes)
     if ref == "WORKTREE":
         names = git("ls-files", "--cached", "--others", "--exclude-standard", "-z", root=root)
-        return {
-            name: (root / name).read_bytes()
-            for name in set(names.decode().split("\0")) - {""}
-            if (root / name).is_file()
-        }
-    names = git("ls-tree", "-rz", "--name-only", ref, root=root).decode().split("\0")
-    return {name: git("show", f"{ref}:{name}", root=root) for name in names if name}
+        files, modes = {}, {}
+        for name in set(names.decode().split("\0")) - {""}:
+            path = root / name
+            if path.is_symlink():
+                files[name], modes[name] = os.readlink(path).encode(), "120000"
+            elif path.is_file():
+                files[name] = path.read_bytes()
+                modes[name] = "100755" if path.stat().st_mode & 0o111 else "100644"
+        return TreeSnapshot(files, modes)
+    entries = git("ls-tree", "-rz", ref, root=root).decode().split("\0")
+    modes = {entry.split("\t", 1)[1]: entry.split(" ", 1)[0] for entry in entries if entry}
+    return TreeSnapshot({name: git("show", f"{ref}:{name}", root=root) for name in modes}, modes)
 
 
 def canonical_function(node):
@@ -299,7 +318,7 @@ def main(argv=None):
             args.output.write_text(output + "\n", encoding="utf-8")
         print(output)
         return 0 if report["allowed"] else 1
-    except (OSError, subprocess.CalledProcessError) as exc:
+    except (OSError, ValueError, subprocess.CalledProcessError) as exc:
         print(f"Review could not run: {exc}")
         return 2
 
