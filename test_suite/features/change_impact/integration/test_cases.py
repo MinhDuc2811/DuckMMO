@@ -1,17 +1,17 @@
-"""Real Git commit hook and SSH verification, using disposable keys/repos only."""
+"""Real Git commit hook and user confirmation, using disposable repositories."""
 
 import json
 import os
 import shutil
 import subprocess
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import date, timedelta
 
 import pytest
 
-from scripts.change_review import encoded, local_directory
+from scripts.change_review import local_directory
 from scripts.review_code import git, snapshot
-from scripts.review_impact import approval_request, assess, verify_approval
+from scripts.review_impact import assess, confirmation_record, save_confirmation, verify_approval
 from test_suite.support.paths import PROJECT_ROOT
 
 
@@ -85,34 +85,30 @@ def test_staged_review_ignores_unstaged_bytes_and_inherited_git_env(repository, 
     assert snapshot("WORKTREE", repository)["docs/new.md"] == b"unstaged change"
 
 
-def test_real_ssh_signature_required_and_tampering_or_expiry_rejected(tmp_path):
-    key = tmp_path / "fixture-key"
-    generated = command(tmp_path, "ssh-keygen", "-q", "-t", "ed25519", "-N", "", "-f", str(key))
-    assert generated.returncode == 0, generated.stderr
-    signers = tmp_path / "allowed_signers"
-    signers.write_text("human-fixture " + key.with_suffix(".pub").read_text())
+def test_user_confirmation_requires_complete_matching_approved_record(tmp_path):
     report = assess({}, {"app/contracts/new.py": b"x = 1"})
-    payload = tmp_path / f"{report['fingerprint']}.json"
-    now = datetime.now(timezone.utc)
-    entry = approval_request(report, "human-fixture", now=now)
-    payload.write_bytes(encoded(entry))
-    assert verify_approval(report, tmp_path, signers, now=now) is None  # Unsigned is not approval.
-    signed = command(
-        tmp_path,
-        "ssh-keygen",
-        "-Y",
-        "sign",
-        "-f",
-        str(key),
-        "-n",
-        "duckmmo-impact-review",
-        str(payload),
+    today = date.today()
+    entry = confirmation_record(
+        report,
+        "human-fixture",
+        "approved",
+        today.isoformat(),
+        "The complete contract change shown in review",
+        "User explicitly approved this change in the chat",
     )
-    assert signed.returncode == 0, signed.stderr
-    assert verify_approval(report, tmp_path, signers, now=now)["reviewer"] == "human-fixture"
-    assert verify_approval(report, tmp_path, signers, now=now + timedelta(days=8)) is None
+    assert verify_approval(report, tmp_path) is None
+    save_confirmation(entry, tmp_path)
+    assert verify_approval(report, tmp_path)["username"] == "human-fixture"
     changed = assess({}, {"app/contracts/new.py": b"x = 2"})
-    assert verify_approval(changed, tmp_path, signers, now=now) is None
-    entry["reviewer"] = "someone-else"
-    payload.write_bytes(encoded(entry))
-    assert verify_approval(report, tmp_path, signers, now=now) is None
+    assert verify_approval(changed, tmp_path) is None
+    for override in (
+        {"username": ""},
+        {"scope": ""},
+        {"status": "pending"},
+        {"status": "rejected"},
+        {"changed_files": []},
+        {"review_date": (today + timedelta(days=1)).isoformat()},
+    ):
+        save_confirmation({**entry, **override}, tmp_path)
+        assert verify_approval(report, tmp_path) is None
+    assert len((tmp_path / "confirmations/history.jsonl").read_text().splitlines()) == 7

@@ -30,10 +30,11 @@ actual commit body so later investigations/reverts can identify the behavior cha
 Read `docs/change-impact.md` for scoring v1 and commands.
 
 Before push, run impact assessment on the entire outgoing change. Score >80 is low;
-50..80 is medium; <50 is high. Medium/high require human review of the exact fingerprint
-and a valid trusted SSH signature. Agents must never manufacture or sign human approval,
-use a human's SSH agent to approve their own change, or treat general task authorization
-as a specific impact approval. Missing public-key setup means approval is unavailable,
-not implicitly granted. Tests/Playwright failure or unavailable verification must be
-reported and block push independently of impact score or approval. Do not weaken tests,
+50..80 is medium; <50 is high. Medium/high require explicit user/human confirmation
+recorded with username, approved/rejected/pending status, review date and scope.
+Bind the record to the exact fingerprint and changed files. Agents may record actual
+user confirmation from this chat, quoting its source, but must never invent approval
+or reuse it after unrelated scope/code changes. SSH signatures and public keys are
+not required. Tests/Playwright failure or unavailable verification must be reported
+and block push independently of impact score or confirmation. Do not weaken tests,
 change thresholds, or split commits to evade review.

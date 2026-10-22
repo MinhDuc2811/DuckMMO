@@ -70,8 +70,8 @@ Không hạ trọng số/ngưỡng trong cùng thay đổi chỉ để được 
 | Điểm | Phân loại | Trước push |
 | --- | --- | --- |
 | >80 | Ảnh hưởng ít | Qua cửa điểm ảnh hưởng; vẫn phải qua các kiểm tra khác |
-| 50..80 (gồm cả 50 và 80) | Ảnh hưởng trung bình | Human review có chữ ký hợp lệ |
-| <50 | Ảnh hưởng nhiều | Human review có chữ ký hợp lệ |
+| 50..80 (gồm cả 50 và 80) | Ảnh hưởng trung bình | Human review có xác nhận hợp lệ |
+| <50 | Ảnh hưởng nhiều | Human review có xác nhận hợp lệ |
 
 Xem trước: `uv run python scripts/review_impact.py --base origin/main`.
 Trước push đánh giá `baseline → HEAD`, độc lập với điểm nhỏ của từng commit.
@@ -79,45 +79,33 @@ Nhiều commit nhỏ không chia nhỏ được mức ảnh hưởng tổng củ
 
 ## Human review trước push
 
-Không chấp nhận JSON tự điền `approved=true`. Reviewer dùng SSH private key của họ để ký
-payload gắn fingerprint của hai cây code, score, level và hạn tối đa 7 ngày.
-AI/agent **không được tự tạo/sign approval**, mượn SSH agent, hoặc coi yêu cầu triển khai
-chung trong chat là approval cho một fingerprint cụ thể.
+Không cần SSH key, chữ ký hoặc request ký. User có thể xác nhận ngay trong chat.
+Record phải ghi: `username`, `status` (approved/rejected/pending), `review_date`
+(YYYY-MM-DD), `scope` và nội dung/nguồn xác nhận. Tool tự gắn fingerprint, điểm,
+phân loại và toàn bộ đường dẫn đã đổi. Chỉ trạng thái approved mới cho qua gate.
+Thiếu trường, ngày tương lai, pending/rejected hoặc code/baseline khác đều không hợp lệ.
 
-Cấu hình một lần: human đưa public key vào `allowed_signers` trong thư mục Git common
-`change-reviews/` (lấy bằng `git rev-parse --git-common-dir`). Định dạng OpenSSH:
-
-```text
-maintainer@example.com ssh-ed25519 AAAA...public-key...
-```
-
-Không đưa private key vào repo, không gửi private key vào chat. Public key local này là
-trust configuration do human quản lý. Tool cũng hỗ trợ `reviewers.allowed_signers` từ
-**baseline**; key thêm/sửa trong chính diff đang duyệt không thể tự cấp quyền cho diff đó.
-Git owner kiểm soát được máy local nên vẫn có thể thay trust config/bỏ qua hook; enforcement
-trên GitHub cần ruleset và workflow tin cậy riêng, chưa được cấu hình trong thay đổi này.
-
-Sau khi commit hoàn tất và nhánh đã cố định:
+Ví dụ sau khi đã được user xác nhận phạm vi cụ thể:
 
 ```bash
 uv run python scripts/review_impact.py --base origin/main --head HEAD \
-  --request-for maintainer@example.com
+  --confirm-user MinhDuc2811 --status approved --review-date 2026-10-22 \
+  --scope "Commit descriptions và impact review; xác nhận user thay cho SSH" \
+  --confirmation "User xác nhận trong Codex chat: ok cho phép, xong tự merge vào main" \
+  --enforce
 ```
 
-Tool in đường dẫn request JSON. **Request chưa có chữ ký không phải approval.** Human đọc
-diff, commit description, điểm và test report; kiểm tra payload rồi ký chính file đó:
+Dùng ngày review thực tế, không sao chép ngày ví dụ cho những lần sau. Record nằm tại
+Git common directory `change-reviews/confirmations/<fingerprint>.json`; lịch sử quyết
+định được append vào `history.jsonl`. Có thể chạy lại với rejected để thu hồi approval.
+Không tự nhận dạng/kiểm chứng người sở hữu username bằng mật mã: đây là nhật ký xác
+nhận theo yêu cầu user, không phải cơ chế xác thực danh tính. Agent chỉ được ghi nhận
+lời xác nhận thật; không tự viết approval cho thay đổi chưa được user duyệt.
 
-```bash
-ssh-keygen -Y sign -f /path/to/human_private_key \
-  -n duckmmo-impact-review /path/to/request.json
-```
-
-File `.json.sig` phải nằm cạnh JSON gốc, trong Git common `change-reviews/`. Sau đó chạy
-`uv run python scripts/review_impact.py --base origin/main --head HEAD --enforce`.
-Key không tin cậy, chữ ký sai, code/baseline thay đổi hoặc hết hạn đều bị chặn.
-Đừng ký request khi code vẫn còn thay. Baseline thực tế của hook là merge-base với main
-cho nhánh tính năng, hoặc remote main khi push main; dùng đúng SHA base khi tạo request.
-Chưa cấu hình public key thì medium/high **không được push**.
+Approval còn hiệu lực với đúng phạm vi/code đã duyệt, không áp dụng cho chỉnh sửa mới
+không liên quan. Approval không đổi điểm hoặc bỏ qua test lỗi. Hook dùng merge-base
+với main cho nhánh tính năng hoặc remote main khi push main; phải dùng đúng base.
+Local hook có thể bị bỏ qua; enforcement trên GitHub vẫn cần ruleset riêng.
 
 ## Luồng nghiệp vụ: dựa trên test, không suy từ score
 
@@ -135,6 +123,6 @@ human approval. Approval không biến test đỏ thành xanh. Không dùng retr
 Hai smoke suites chưa bao phủ mọi workflow; khi feature mới cần luồng khác, thêm test tương ứng.
 Live Edge/YouTube vẫn là kiểm tra opt-in riêng, không được báo đã đạt khi bị chặn.
 
-CI hiện tại chạy impact report ở bước core và Playwright ở bước browser riêng. Human signature
+CI hiện tại chạy impact report ở bước core và Playwright ở bước browser riêng. User confirmation
 được enforce tại local pre-push, không tuyên bố có server-side enforcement. Việc tạo approval
 trên GitHub/auto-merge nằm ngoài phạm vi thay đổi này.

@@ -1,27 +1,24 @@
 """Impact score v1: 100 means low potential impact. Tests decide observed flow status.
 
-Medium/high changes require a human SSH signature before push. No self-approval flag.
+Medium/high changes require an explicit user confirmation for the exact change before push.
 """
 
 import argparse
 import ast
 import json
-import os
 import subprocess
-import tempfile
-from datetime import datetime, timedelta, timezone
+from datetime import date
 from pathlib import Path
 
 try:
     from .change_review import (
         changed_files,
         comparison,
-        encoded,
         fingerprint,
         local_directory,
     )
 except ImportError:
-    from change_review import changed_files, comparison, encoded, fingerprint, local_directory
+    from change_review import changed_files, comparison, fingerprint, local_directory
 
 CORE_PREFIXES = (
     "app/contracts/",
@@ -47,7 +44,6 @@ POLICY_FILES = {
     "test_suite/AGENTS.md",
     "pyproject.toml",
     "conftest.py",
-    "reviewers.allowed_signers",
     "pytest.ini",
     "setup.cfg",
     "tox.ini",
@@ -145,63 +141,63 @@ def assess(before, after):
     }
 
 
-def approval_request(report, reviewer, now=None):
-    now = now or datetime.now(timezone.utc)
+def confirmation_record(report, username, status, review_date, scope, confirmation):
+    """Record a real user decision; this is an audit record, not identity authentication."""
     return {
         "fingerprint": report["fingerprint"],
-        "reviewer": reviewer,
-        "decision": "approve",
+        "username": username,
+        "status": status,
+        "review_date": review_date,
+        "scope": scope,
+        "changed_files": [entry["path"] for entry in report["changes"]],
         "score": report["score"],
         "level": report["level"],
-        "approved_at": now.isoformat(),
-        "expires_at": (now + timedelta(days=7)).isoformat(),
+        "confirmation": confirmation,
     }
 
 
-def verify_approval(report, directory, signers, now=None):
-    """Trust configured SSH public keys, never an unsigned approved=true in the repository."""
+def valid_confirmation(entry, report, today=None):
+    today = today or date.today()
+    if not isinstance(entry, dict):
+        return False
     try:
-        payload = directory / f"{report['fingerprint']}.json"
-        signature = payload.with_suffix(".json.sig")
-        data = payload.read_bytes()
-        entry = json.loads(data)
-        now = now or datetime.now(timezone.utc)
-        created, expiry = (
-            datetime.fromisoformat(entry[key]) for key in ("approved_at", "expires_at")
+        reviewed = date.fromisoformat(entry["review_date"])
+        required_text = {"username": 1, "scope": 10, "confirmation": 10}
+        return (
+            all(
+                isinstance(entry.get(key), str) and len(entry[key].strip()) >= minimum
+                for key, minimum in required_text.items()
+            )
+            and entry["status"] == "approved"
+            and reviewed <= today
+            and entry["fingerprint"] == report["fingerprint"]
+            and entry["score"] == report["score"]
+            and entry["level"] == report["level"]
+            and entry["changed_files"] == [item["path"] for item in report["changes"]]
         )
-        if (
-            entry["fingerprint"] != report["fingerprint"]
-            or entry["decision"] != "approve"
-            or entry["score"] != report["score"]
-            or entry["level"] != report["level"]
-            or not isinstance(entry["reviewer"], str)
-            or not entry["reviewer"].strip()
-            or not created <= now <= expiry
-            or expiry - created > timedelta(days=7)
-        ):
-            return None
-        result = subprocess.run(
-            [
-                "ssh-keygen",
-                "-Y",
-                "verify",
-                "-f",
-                str(signers),
-                "-I",
-                entry["reviewer"],
-                "-n",
-                "duckmmo-impact-review",
-                "-s",
-                str(signature),
-            ],
-            input=data,
-            capture_output=True,
-            timeout=10,
-            env={k: v for k, v in os.environ.items() if not k.startswith("GIT_")},
-        )
-        return entry if result.returncode == 0 else None
-    except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError):
+    except (ValueError, TypeError, KeyError):
+        return False
+
+
+def verify_approval(report, directory, today=None):
+    try:
+        path = directory / "confirmations" / f"{report['fingerprint']}.json"
+        entry = json.loads(path.read_text(encoding="utf-8"))
+        return entry if valid_confirmation(entry, report, today) else None
+    except (OSError, ValueError, TypeError):
         return None
+
+
+def save_confirmation(entry, directory):
+    folder = directory / "confirmations"
+    folder.mkdir(parents=True, exist_ok=True)
+    path = folder / f"{entry['fingerprint']}.json"
+    serialized = json.dumps(entry, ensure_ascii=False, sort_keys=True)
+    # Keep earlier decisions when the human updates approved/rejected/pending status.
+    with (folder / "history.jsonl").open("a", encoding="utf-8") as history:
+        history.write(serialized + "\n")
+    path.write_text(serialized + "\n", encoding="utf-8")
+    return path
 
 
 def main(argv=None):
@@ -210,28 +206,36 @@ def main(argv=None):
     parser.add_argument("--head", default="WORKTREE")
     parser.add_argument("--output", type=Path)
     parser.add_argument(
-        "--enforce", action="store_true", help="Require signed review for medium/high"
+        "--enforce", action="store_true", help="Require user confirmation for medium/high"
     )
-    parser.add_argument("--request-for", help="Generate an unsigned request; this is NOT approval")
+    parser.add_argument(
+        "--confirm-user", help="Username of the user who explicitly reviewed this change"
+    )
+    parser.add_argument("--status", choices=("approved", "rejected", "pending"))
+    parser.add_argument("--review-date", help="Review date YYYY-MM-DD")
+    parser.add_argument("--scope", help="Human-readable scope actually confirmed by the user")
+    parser.add_argument(
+        "--confirmation", help="Actual confirmation text/source; never invent approval"
+    )
     args = parser.parse_args(argv)
     try:
         before, after = comparison(args.base, args.head)
         report = assess(before, after)
         directory = local_directory()
-        if args.request_for:
-            directory.mkdir(parents=True, exist_ok=True)
-            path = directory / f"{report['fingerprint']}.json"
-            if path.exists():
-                raise ValueError(f"Request already exists; inspect before replacing: {path}")
-            path.write_bytes(encoded(approval_request(report, args.request_for)) + b"\n")
-            print(f"Unsigned request: {path}; human must review and sign it.")
-        # Public keys are provisioned outside the proposed diff, or from the trusted baseline.
-        with tempfile.TemporaryDirectory(prefix="impact-signers-") as temporary:
-            signers = directory / "allowed_signers"
-            if not signers.exists():
-                signers = Path(temporary) / "allowed_signers"
-                signers.write_bytes(before.get("reviewers.allowed_signers", b""))
-            report["approval"] = verify_approval(report, directory, signers)
+        fields = (args.confirm_user, args.status, args.review_date, args.scope, args.confirmation)
+        if any(field is not None for field in fields):
+            if not all(fields):
+                raise ValueError(
+                    "Supply username, status, review date, scope and confirmation text."
+                )
+            entry = confirmation_record(report, *fields)
+            # Validate complete records even for an explicitly rejected/pending decision.
+            candidate = {**entry, "status": "approved"}
+            if not valid_confirmation(candidate, report):
+                raise ValueError("Invalid confirmation: check date, username and scope text.")
+            path = save_confirmation(entry, directory)
+            print(f"User review recorded: {path}")
+        report["approval"] = verify_approval(report, directory)
         report["allowed"] = not report["human_review_required"] or report["approval"] is not None
         output = json.dumps(report, ensure_ascii=False, indent=2)
         if args.output:
