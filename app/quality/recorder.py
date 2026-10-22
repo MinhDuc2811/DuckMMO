@@ -7,6 +7,7 @@ from contextlib import contextmanager
 
 from sqlalchemy import select
 
+from app.contracts.content import content_hash as content_digest
 from app.db import Evaluation, PipelineRevision, ReviewFeedback, StepRun, now
 
 
@@ -14,13 +15,6 @@ def digest(value):
     return hashlib.sha256(
         json.dumps(value, sort_keys=True, ensure_ascii=False, default=str).encode()
     ).hexdigest()
-
-
-def content_digest(package):
-    text = package.get("video_content") or "\n\n".join(
-        scene["narration"] for scene in package.get("scenes", [])
-    )
-    return hashlib.sha256(text.encode()).hexdigest()
 
 
 def revision(session, job):

@@ -110,7 +110,9 @@ def test_measured_candidate_canary_and_rollback(client):  # noqa: F811
     original = choose_style({"branch": "novel"}, use_learned=False)
     # Controlled weak baseline proves that the harness measures improvement, not a constant score.
     with client.app.state.sessions() as session:
+        # Force replacement to sort before the old config in an ORM flush batch.
         baseline = LearningConfig(
+            id="ffffffff-ffff-ffff-ffff-ffffffffffff",
             family="style",
             branch="novel",
             state="active",
@@ -136,6 +138,7 @@ def test_measured_candidate_canary_and_rollback(client):  # noqa: F811
                 )
             )
         candidate = LearningConfig(
+            id="00000000-0000-0000-0000-000000000001",
             family="style",
             branch="novel",
             config={**original, "font_size": 40, "caption_chars": 48},
@@ -149,7 +152,7 @@ def test_measured_candidate_canary_and_rollback(client):  # noqa: F811
         session.commit()
         exp_id, candidate_id = experiment.id, candidate.id
     promoted = client.post(f"/api/learning/experiments/{exp_id}/promote")
-    assert promoted.status_code == 200
+    assert promoted.status_code == 200, promoted.text
     assert promoted.json()["state"] == "canary"
     assert choose_style({"branch": "novel"})["learning_config_id"] == candidate_id
     assert client.post(f"/api/learning/configs/{candidate_id}/rollback").status_code == 200
@@ -159,6 +162,7 @@ def test_measured_candidate_canary_and_rollback(client):  # noqa: F811
 def test_migration_preserves_existing_job(client):  # noqa: F811
     from alembic import command
     from alembic.config import Config
+
     job = submit(client).json()
     command.downgrade(Config("alembic.ini"), "0003")
     command.upgrade(Config("alembic.ini"), "head")

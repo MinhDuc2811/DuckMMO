@@ -58,7 +58,7 @@ def script_checks(package):
 def subtitle_checks(cues, duration, style, width, height):
     from PIL import Image, ImageDraw
 
-    from app.services.video import font, wrap
+    from app.infrastructure.media.frames import font, wrap
 
     draw = ImageDraw.Draw(Image.new("RGB", (width, height)))
     face = font(style["font_size"] if width == 720 else int(style["font_size"] * 0.85))

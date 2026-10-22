@@ -26,13 +26,13 @@ class AIConnection(BaseModel):
         return self
 
 
-def connection_path():
-    return Settings().artifact_dir.resolve().parent / "settings" / "analysis.json"
+def connection_path(settings=None):
+    return (settings or Settings()).artifact_dir.resolve().parent / "settings" / "analysis.json"
 
 
-def load_connection():
-    settings = Settings()
-    path = connection_path()
+def load_connection(settings=None):
+    settings = settings or Settings()
+    path = connection_path(settings)
     if path.exists():
         return AIConnection.model_validate_json(path.read_text(encoding="utf-8"))
     if all(
@@ -50,9 +50,9 @@ def load_connection():
     return None
 
 
-def save_connection(base_url, model, api_key, **options):
+def save_connection(base_url, model, api_key, *, settings=None, **options):
     connection = AIConnection(base_url=base_url, model=model, api_key=api_key, **options)
-    path = connection_path()
+    path = connection_path(settings)
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(".tmp")
     temporary.write_text(

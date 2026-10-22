@@ -10,6 +10,7 @@ import httpx
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from app.config import Settings
+from app.infrastructure.persistence.styles import learned_style
 from app.services.web_import import PublicWebTransport
 
 
@@ -79,7 +80,7 @@ def load_catalog():
             return builtin, "builtin_after_sync_failure"
 
 
-def choose_style(package, use_learned=True):
+def choose_style(package, use_learned=True, *, session=None):
     # Return a snapshot, so updates never change queued or running jobs.
     raw, sync_status = load_catalog()
     catalog = StyleCatalog.model_validate_json(raw)
@@ -94,32 +95,9 @@ def choose_style(package, use_learned=True):
         "sync_status": sync_status,
     }
     if use_learned:
-        from sqlalchemy import select
-        from sqlalchemy.exc import OperationalError
-
-        from app.db import LearningConfig, make_engine, make_sessions
-
-        engine = make_engine(Settings().database_url)
-        try:
-            with make_sessions(engine)() as session:
-                active = session.scalar(
-                    select(LearningConfig).where(
-                        LearningConfig.branch == branch,
-                        LearningConfig.family == "style",
-                        LearningConfig.state.in_(("active", "canary")),
-                    )
-                )
-                if active:
-                    selected = {
-                        **active.config,
-                        "learning_config_id": active.id,
-                        "selection_reason": "Style đã qua benchmark và được duyệt áp dụng",
-                    }
-        except OperationalError:
-            # Pre-migration setup still reads bundled styles; runtime migrates before startup.
-            pass
-        finally:
-            engine.dispose()
+        learned = learned_style(branch, session)
+        if learned:
+            selected = learned
     return selected
 
 

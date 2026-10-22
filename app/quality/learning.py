@@ -21,7 +21,7 @@ TEXTS = [
 
 
 def benchmark(style):
-    from app.services.video import split_captions
+    from app.contracts.captions import split_captions
 
     cases = []
     for i, text in enumerate(TEXTS):
@@ -171,6 +171,9 @@ def promote(session, experiment):
         raise ValueError("Baseline đã đổi. Chạy benchmark lại trước khi áp dụng.")
     if current:
         current.state = "retired"
+        # Release the partial unique index before activating the replacement.
+        # Both writes remain in the caller's transaction; rollback restores both.
+        session.flush()
     candidate.state = "canary"
     experiment.state = "canary"
     return candidate
