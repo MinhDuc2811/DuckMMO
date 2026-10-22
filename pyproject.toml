@@ -27,7 +27,7 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "test_suite/features"]
 pythonpath = ["."]
 markers = ["live: accesses external websites; requires network connectivity"]
 

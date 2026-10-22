@@ -8,8 +8,8 @@ References: https://github.com/harry0703/MoneyPrinterTurbo and https://github.co
 New renders automatically choose a bundled style by content branch: novel -> cinematic,
 comic -> bold, research -> clean. Uploaded images use slow zoom for story/comic presets;
 research uses static images. Captions are separate ASS overlays, with outlines and fades.
-The original narration chunks are synthesized unchanged. Shorter subtitle phrases divide each
-chunk's measured audio duration proportionally by word count. This is estimated phrase timing,
+Narration uses provider-sized utterances independently of subtitle layout. Shorter subtitle
+phrases divide each utterance's measured audio duration proportionally by word count. This is estimated phrase timing,
 not word alignment or karaoke. UTF-8 Vietnamese is retained and ASS overrides are escaped.
 SRT, ASS and the selected style JSON are available as job artifacts.
 

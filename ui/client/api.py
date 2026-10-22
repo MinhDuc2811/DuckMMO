@@ -9,7 +9,7 @@ API_URL = os.getenv("STUDIO_API_URL", "http://127.0.0.1:8000").rstrip("/")
 HEADERS = {"X-API-Key": os.getenv("STUDIO_API_KEY", "")}
 
 
-def request(method, path, extra_headers=None, **kwargs):
+def request(method, path, extra_headers=None, *, raw=False, **kwargs):
     try:
         response = httpx.request(
             method,
@@ -19,7 +19,7 @@ def request(method, path, extra_headers=None, **kwargs):
             **kwargs,
         )
         response.raise_for_status()
-        return response.json()
+        return response.content if raw else response.json()
     except httpx.HTTPStatusError as exc:
         try:
             detail = exc.response.json().get("detail")

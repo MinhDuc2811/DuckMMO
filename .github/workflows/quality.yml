@@ -33,4 +33,6 @@ jobs:
       - run: uv run --frozen python scripts/check_quality.py ci --base "$QUALITY_BASE"
       - run: uv run --frozen playwright install --with-deps chromium
       - name: Browser upload and workflow regression
-        run: uv run --frozen pytest -q e2e/test_media_upload.py
+        run: >-
+          uv run --frozen pytest -q e2e/test_media_upload.py
+          test_suite/features/speech/e2e --run-e2e

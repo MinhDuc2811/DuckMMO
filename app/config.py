@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     youtube_client_id: str = ""
     youtube_client_secret: SecretStr = SecretStr("")
     youtube_refresh_token: SecretStr = SecretStr("")
+    speech_cache_enabled: bool = True
     style_catalog_url: str = ""
     artifact_dir: Path = Path("data/artifacts")
     media_upload_max_bytes: int = Field(default=100_000_000, ge=1)

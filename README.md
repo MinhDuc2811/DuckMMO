@@ -145,3 +145,11 @@ API dùng header `Idempotency-Key` để gửi lại an toàn; cùng key khác n
 Xem [backlog](docs/backlog.md) và [quyết định kiến trúc](docs/architecture.md).
 
 Automatic styles: new renders choose a content-specific preset and burn styled ASS captions with FFmpeg/libass. See [automatic styles](docs/auto-styles.md) for catalog sync, pinned versions and phrase-timing limitations.
+
+Giọng Việt: Phase 3 có nghe thử, chỉnh tốc độ, Edge Hoài My/Nam Minh miễn phí
+và giọng Windows đã cài. Không tích hợp provider TTS trả phí. Lời đọc được chia độc lập với phụ đề để tránh ngắt giữa
+câu mỗi 105 ký tự. Xem [giọng đọc tiếng Việt và debug audio](docs/vietnamese-speech.md).
+
+Test mới tổ chức theo feature và năm tầng trong [test_suite](test_suite/README.md).
+Ví dụ: `uv run pytest --feature speech --test-layer unit -q`. Quy tắc bảo toàn test
+và danh sách case nằm trong thư mục này; live TTS và Playwright chạy riêng có opt-in.

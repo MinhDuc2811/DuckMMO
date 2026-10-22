@@ -28,8 +28,8 @@ uv run python scripts/review_code.py --base origin/main --head HEAD
   Chạy `git fetch origin main` trước push để baseline cập nhật. Không lấy commit cũ bất kỳ
   làm baseline chỉ để tăng điểm.
 - CI chạy lại các kiểm tra từ PR base hoặc commit main trước push và browser upload clip.
-  CI browser hiện chỉ bao phủ upload clip; khi thay UI/workflow khác, bổ sung browser test
-  tương ứng. Không tuyên bố toàn bộ UI đã được kiểm thử chỉ từ một smoke test.
+  CI browser bao phủ upload clip và chọn giọng/tốc độ đọc; khi thay UI/workflow khác,
+  bổ sung browser test tương ứng. Không tuyên bố toàn bộ UI đã được kiểm thử từ các smoke test.
 - Thay đổi trên cây staged phải là code đã lint; không partial-stage phiên bản khác
   working tree. CI/pre-push kiểm tra lại bản commit cuối cùng.
 
