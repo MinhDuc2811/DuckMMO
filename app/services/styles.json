@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "styles": [
+    {"id":"story-cinematic","name":"Kể chuyện · Điện ảnh","branch":"novel","accent":"#E9C68F","background":"#102B32","font_size":44,"outline":3,"motion":"slow_zoom","fade_ms":160,"caption_chars":48},
+    {"id":"comic-bold","name":"Truyện tranh · Nổi bật","branch":"comic","accent":"#FFD43B","background":"#241C35","font_size":50,"outline":4,"motion":"slow_zoom","fade_ms":80,"caption_chars":40},
+    {"id":"research-clean","name":"Thông tin · Rõ ràng","branch":"research","accent":"#67D9E8","background":"#102536","font_size":42,"outline":2,"motion":"static","fade_ms":120,"caption_chars":52}
+  ]
+}
