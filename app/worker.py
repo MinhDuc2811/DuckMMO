@@ -6,6 +6,9 @@ import time
 
 from app.config import Settings
 from app.db import make_engine, make_sessions
+from app.infrastructure.local_lock import LocalBusy, exclusive_lock
+from app.infrastructure.media.cleanup import cleanup
+from app.infrastructure.media.storage import LocalMediaStorage
 from app.pipeline.lifecycle import claim_one
 from app.pipeline.runner import PipelineDependencies
 from app.pipeline.runner import execute_job as run_pipeline
@@ -46,16 +49,22 @@ def main():
         if args.job_id:
             execute_job(sessions, args.job_id)
             return
-        recover_interrupted(sessions)
-        while True:
-            job_id = claim_one(sessions)
-            handled = job_id is not None
-            if job_id:
-                run_isolated(sessions, job_id)
-            if args.once:
-                break
-            if not handled:
-                time.sleep(1)
+        storage = LocalMediaStorage(settings)
+        with exclusive_lock(storage.root / ".worker.lock"):
+            try:
+                cleanup(storage, sessions, apply=True)
+            except LocalBusy:
+                logging.getLogger(__name__).info("Skipping cleanup while upload is active")
+            recover_interrupted(sessions)
+            while True:
+                job_id = claim_one(sessions)
+                handled = job_id is not None
+                if job_id:
+                    run_isolated(sessions, job_id)
+                if args.once:
+                    break
+                if not handled:
+                    time.sleep(1)
     except KeyboardInterrupt:
         pass
     finally:

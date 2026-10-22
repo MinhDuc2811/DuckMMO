@@ -1,28 +1,30 @@
 import imageio_ffmpeg
 
+from app.config import Settings
 from app.contracts.errors import VideoFailure
 from app.infrastructure.media.commands import run_command
+from app.infrastructure.media.probe import MediaFailure
+from app.infrastructure.media.storage import LocalMediaStorage
+from app.infrastructure.media.visuals import input_arguments, visual_filters
 
 
 def encode_video(directory, config, style, width, height, elapsed, *, run_command=run_command):
     ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
-    filters = "fps=24"
-    if config["image_files"] and style["motion"] == "slow_zoom":
-        filters += (
-            f",zoompan=z='min(1+on*0.000015,1.06)':"
-            f"x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':d=1:s={width}x{height}:fps=24"
-        )
-    filters += ",ass=subtitles.ass"
+    settings = Settings()
+    try:
+        LocalMediaStorage(settings).ensure_capacity(int(elapsed * 4_000_000))
+        visual_input = input_arguments(config, directory, settings.ffmpeg_threads)
+    except MediaFailure as exc:
+        raise VideoFailure(str(exc)) from exc
+    filters = visual_filters(config, style, width, height)
     run_command(
         [
             ffmpeg,
             "-y",
-            "-f",
-            "concat",
-            "-safe",
-            "1",
-            "-i",
-            "frames.ffconcat",
+            "-nostdin",
+            "-filter_threads",
+            str(settings.ffmpeg_threads),
+            *visual_input,
             "-i",
             "narration.wav",
             "-map",
@@ -33,6 +35,8 @@ def encode_video(directory, config, style, width, height, elapsed, *, run_comman
             filters,
             "-c:v",
             "libx264",
+            "-threads",
+            str(settings.ffmpeg_threads),
             "-preset",
             "veryfast",
             "-crf",
@@ -45,6 +49,8 @@ def encode_video(directory, config, style, width, height, elapsed, *, run_comman
             "128k",
             "-t",
             str(elapsed),
+            "-fs",
+            str(max(1_000_000, int(elapsed * 4_000_000))),
             "-movflags",
             "+faststart",
             "video.mp4",

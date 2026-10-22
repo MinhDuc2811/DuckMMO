@@ -3,7 +3,9 @@
 Content approval remains a separate gate from final video approval.
 
 1. Phase 2 approves the current script: `approved`.
-2. `POST /api/jobs/{id}/render` checks the approved content hash, validates images,
+2. Upload image/clip assets through the streaming local media API when needed (see
+   [local media](local-media.md)); DB rows contain metadata, file bytes stay on disk.
+   `POST /api/jobs/{id}/render` checks the approved content hash, validates images or pins uploaded asset references,
    creates a unique artifact run, clears the prior video result and queues production.
 3. The existing isolated worker recognises `render_config` and runs actual TTS/rendering,
    without recrawling or regenerating the script.
@@ -28,7 +30,9 @@ subtitles.srt, script.txt, poster.png, per-caption assets and manifest.json. UUI
 and a fixed artifact-kind mapping avoid accepting file paths from the HTTP client.
 
 Limits: 30,000 script characters per video, 10 images, 3 MB/image and 20 megapixels.
-Visuals are user-uploaded images or text cards, not AI-generated illustrations. Music,
+Visuals are user-uploaded images, one uploaded clip, or text cards. Clips loop/cut to
+narration duration, discard original audio and use pad/crop with styled captions.
+They are not AI-generated illustrations. Music,
 automatic image sourcing/generation, transitions and social publishing are not implemented.
 Speech timing is at caption/phrase level, not word-highlight karaoke.
 

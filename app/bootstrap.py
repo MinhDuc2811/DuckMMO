@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from app.api.routers import content, jobs, production, publishing, quality, system
+from app.api.routers import content, jobs, media, production, publishing, quality, system
 from app.api.routers import settings as settings_routes
 from app.config import Settings
 from app.db import make_engine, make_sessions
@@ -27,8 +27,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @api.exception_handler(ApplicationError)
     async def application_error(_request: Request, exc: ApplicationError):
-        return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
+        return JSONResponse(
+            status_code=exc.status_code, content={"detail": exc.detail}, headers=exc.headers
+        )
 
-    for module in (content, system, jobs, production, quality, publishing, settings_routes):
+    for module in (content, system, jobs, media, production, quality, publishing, settings_routes):
         api.include_router(module.router)
     return api

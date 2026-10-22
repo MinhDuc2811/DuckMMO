@@ -7,6 +7,7 @@ from typing import Callable
 
 import imageio_ffmpeg
 
+from app.config import Settings
 from app.contracts.captions import split_captions, timestamp
 from app.contracts.content import content_hash, content_text
 from app.contracts.errors import VideoFailure
@@ -58,6 +59,7 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         progress("Style catalog: đã đồng bộ phiên bản mới nhất từ nguồn kết nối")
     frames, audios, subtitles, cues = [], [], [], []
     elapsed = 0.0
+    settings = Settings()
     for index, caption in enumerate(captions):
         progress(f"Voice and visuals {index + 1}/{len(captions)}")
         checkpoint("voice", "start")
@@ -72,18 +74,23 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
             },
             audio_checks(directory / filename),
         )
+        if elapsed + duration > settings.render_max_duration:
+            raise VideoFailure(f"Video tối đa {settings.render_max_duration:g} giây.")
         audios.append(f"file '{filename}'")
         checkpoint("visuals", "start")
-        frame = make_frame(directory, config, package["title"], caption, index, len(captions))
-        checkpoint(
-            "visuals",
-            "end",
-            {
-                "filename": frame,
-                "sha256": hashlib.sha256((directory / frame).read_bytes()).hexdigest(),
-            },
-        )
-        frames.extend([f"file '{frame}'", f"duration {duration:.6f}"])
+        if config.get("video_file"):
+            checkpoint("visuals", "end", {"filename": config["video_file"]})
+        else:
+            frame = make_frame(directory, config, package["title"], caption, index, len(captions))
+            checkpoint(
+                "visuals",
+                "end",
+                {
+                    "filename": frame,
+                    "sha256": hashlib.sha256((directory / frame).read_bytes()).hexdigest(),
+                },
+            )
+            frames.extend([f"file '{frame}'", f"duration {duration:.6f}"])
         phrases = split_captions(caption, limit=style["caption_chars"])
         weight = sum(len(phrase.split()) for phrase in phrases)
         start = elapsed
@@ -97,7 +104,8 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
             subtitles.append(f"{len(cues)}\n{timestamp(start)} --> {timestamp(end)}\n{phrase}\n")
             start = end
         elapsed += duration
-    frames.append(f"file '{frame}'")
+    if not config.get("video_file"):
+        frames.append(f"file '{frame}'")
     (directory / "frames.ffconcat").write_text("\n".join(frames), encoding="utf-8")
     (directory / "audio.ffconcat").write_text("\n".join(audios), encoding="utf-8")
     (directory / "subtitles.srt").write_text("\n".join(subtitles), encoding="utf-8")
@@ -159,9 +167,13 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         "caption_count": len(cues),
         "style": style,
         "subtitle_timing": "phrase_duration_estimate",
-        "motion": style["motion"] if config["image_files"] else "static",
+        "motion": "source"
+        if config.get("video_file")
+        else (style["motion"] if config["image_files"] else "static"),
         "voice": config["voice"],
-        "visuals": "uploaded_images" if config["image_files"] else "text_cards",
+        "visuals": "uploaded_video"
+        if config.get("video_file")
+        else ("uploaded_images" if config["image_files"] else "text_cards"),
         "audio_checked": True,
         "video_checked": True,
     }

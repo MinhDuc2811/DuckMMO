@@ -1,8 +1,7 @@
 # Kiến trúc module
 
 Ứng dụng là modular monolith: API, UI và worker vẫn chạy thành các process như trước,
-chia sẻ contract và nghiệp vụ trong cùng repository. Không đổi database schema hay URL API
-trong lần refactor này. Không cần Redis, broker hoặc microservice cho single-supervisor hiện tại.
+chia sẻ contract và nghiệp vụ trong cùng repository. Phần local media bổ sung migration `0005` và API assets; các API cũ giữ tương thích. Không cần Redis, broker hoặc microservice cho single-supervisor hiện tại.
 
 ## Ranh giới trách nhiệm
 
@@ -142,3 +141,11 @@ Không sử dụng trực tiếp làm dịch vụ public.
 Thiết kế mục tiêu cho lớp đánh giá, feedback, benchmark và cải thiện theo phiên bản nằm ở
 [quality-learning-plan.md](quality-learning-plan.md). Các phần recorder, evaluator, feedback và style benchmark đã có implementation;
 những khả năng mở rộng trong kế hoạch cần đối chiếu từng mục với runtime.
+
+## Local media sau khi tích hợp
+
+Router `app/api/routers/media.py` gọi use case `app/modules/production/assets.py`.
+Storage, probe, pinning, encoding và cleanup nằm trong `app/infrastructure/media/`;
+model `MediaAsset` nằm trong `app/infrastructure/persistence/database.py`.
+UI dùng `ui/client/media.py` trong `ui/screens/production.py`.
+Xem [local-media.md](local-media.md) để cấu hình và debug.
