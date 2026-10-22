@@ -1,0 +1,39 @@
+[project]
+name = "ai-content-studio"
+version = "0.1.0"
+description = "Shared content pipeline for Comic, Novel and Research"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "sqlalchemy>=2.0,<2.1",
+  "alembic>=1.14,<2",
+  "psycopg[binary]>=3.2,<4",
+  "pydantic-settings>=2.7,<3",
+  "streamlit>=1.66,<2",
+  "httpx>=0.28,<1",
+  "trafilatura>=2,<3",
+  "psutil>=7,<8",
+  "edge-tts>=7,<8",
+  "imageio-ffmpeg>=0.6,<1",
+  "pillow>=12,<13",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8,<10",
+    "pytest-playwright>=0.10.0",
+    "ruff>=0.11,<1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["live: accesses external websites; requires network connectivity"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

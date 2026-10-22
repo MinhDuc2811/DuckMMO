@@ -1,0 +1,13 @@
+{
+  "exceptions": [
+    {
+      "fingerprint": "0e54d413c6fbb82175c2b3853294f7c697f0b5566c125bad59de0899a3a3acab",
+      "owner": "Codex — repair of hook environment isolation",
+      "expires": "2026-10-29",
+      "reason": "Restore the exact application tree from e48f0d5 after a Git fixture inherited pre-push environment and accidentally committed its temporary tree to main.",
+      "common_considered": "The restored code includes infrastructure.media.storage.file_digest and ui/client/api.py. Findings are pre-existing debt in the previously tested application tree.",
+      "why_not_reuse": "This corrective commit restores the known-good application verbatim rather than combining emergency restoration with unrelated media/UI refactoring. Only quality tools and their tests change.",
+      "risk_and_validation": "All application files are compared with e48f0d5; offline tests and fresh/upgrade migrations run again. New regression tests simulate inherited GIT_DIR and GIT_WORK_TREE; child commands strip all GIT_ variables."
+    }
+  ]
+}
