@@ -29,6 +29,7 @@ from app.db import (
     make_sessions,
     now,
 )
+from app.media_api import media_router
 from app.publishing import youtube
 from app.quality.evaluators import script_checks
 from app.quality.learning import create_experiment, learn_from_feedback, promote
@@ -45,6 +46,7 @@ from app.schemas import (
     WebImport,
     YouTubePublish,
 )
+from app.services.media_storage import file_digest
 from app.services.video import (
     VideoFailure,
     artifact_directory,
@@ -93,6 +95,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return job
 
     protected = [Depends(authenticate)]
+    api.include_router(media_router(settings, authenticate, get_session, load_job))
 
     @api.post("/api/import/web", response_model=JobRead, status_code=201, dependencies=protected)
     def import_web(payload: WebImport, session=Depends(get_session)):
@@ -256,7 +259,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 422, "Mỗi video tối đa 30.000 ký tự; hãy rút gọn hoặc chia kịch bản."
             )
         try:
-            job.render_config = prepare_render(job.id, payload, job.package)
+            job.render_config = prepare_render(job.id, payload, job.package, session=session)
         except VideoFailure as exc:
             raise HTTPException(422, str(exc))
         job.video, job.status, job.attempts, job.error = None, "queued", 0, None
@@ -304,10 +307,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         ] != content_hash(job.package):
             raise HTTPException(409, "Video hoặc kịch bản đã thay đổi. Hãy mở lại bản mới.")
         media_path = artifact_directory(job.id, job.video["run_id"]) / "video.mp4"
-        if (
-            not media_path.is_file()
-            or hashlib.sha256(media_path.read_bytes()).hexdigest() != job.video["sha256"]
-        ):
+        if not media_path.is_file() or file_digest(media_path) != job.video["sha256"]:
             raise HTTPException(
                 409, "File video bị thiếu hoặc đã đổi. Hãy dựng lại trước khi duyệt."
             )

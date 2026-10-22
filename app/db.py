@@ -53,6 +53,17 @@ class JobEvent(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 
+class MediaAsset(Base):
+    __tablename__ = "media_assets"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    job_id: Mapped[str] = mapped_column(ForeignKey("jobs.id"), index=True)
+    kind: Mapped[str] = mapped_column(String(10))
+    size: Mapped[int] = mapped_column(Integer)
+    sha256: Mapped[str] = mapped_column(String(64), index=True)
+    details: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
 class PipelineRevision(Base):
     __tablename__ = "pipeline_revisions"
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))

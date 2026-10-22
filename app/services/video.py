@@ -18,7 +18,11 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from app.config import Settings
 from app.quality.evaluators import audio_checks, check, has_blocker, subtitle_checks
+from app.services.local_lock import LocalBusy, exclusive_lock
+from app.services.media_probe import MediaFailure
+from app.services.media_storage import LocalMediaStorage, file_digest
 from app.services.styles import choose_style, write_ass
+from app.services.video_visuals import input_arguments, pin_assets, visual_filters
 
 
 class VideoFailure(ValueError):
@@ -58,27 +62,36 @@ def artifact_directory(job_id, run_id):
     return Settings().artifact_dir.resolve() / str(UUID(job_id)) / str(UUID(run_id))
 
 
-def prepare_render(job_id, options, package=None):
-    config = options.model_dump(exclude={"images"})
+def prepare_render(job_id, options, package=None, session=None):
+    config = options.model_dump(mode="json", exclude={"images"})
     config["style"] = choose_style(package or {"branch": "novel"})
     config["run_id"] = str(uuid4())
     directory = artifact_directory(job_id, config["run_id"])
     directory.mkdir(parents=True, exist_ok=False)
     config["image_files"] = []
-    for i, encoded in enumerate(options.images):
-        try:
-            raw = base64.b64decode(encoded, validate=True)
-            with Image.open(io.BytesIO(raw)) as image:
-                if image.width * image.height > 20_000_000:
-                    raise ValueError("Image too large")
-                image = ImageOps.exif_transpose(image).convert("RGB")
-                image.thumbnail((1920, 1920))
-                filename = f"input-{i:02}.png"
-                image.save(directory / filename)
-                config["image_files"].append(filename)
-        except (ValueError, OSError, Image.DecompressionBombError) as exc:
-            raise VideoFailure("Ảnh không hợp lệ hoặc vượt giới hạn 20 megapixel.") from exc
-    return config
+    storage = LocalMediaStorage(Settings())
+    try:
+        with exclusive_lock(storage.root / ".media.lock"):
+            storage.ensure_capacity(len(options.images) * 12_000_000)
+            pin_assets(session, storage, job_id, options, directory, config)
+            for i, encoded in enumerate(options.images):
+                raw = base64.b64decode(encoded, validate=True)
+                with Image.open(io.BytesIO(raw)) as image:
+                    if image.width * image.height > 20_000_000:
+                        raise ValueError("Image too large")
+                    image = ImageOps.exif_transpose(image).convert("RGB")
+                    image.thumbnail((1920, 1920))
+                    filename = f"input-{i:02}.png"
+                    image.save(directory / filename)
+                    config["image_files"].append(filename)
+        return config
+    except (ValueError, OSError, Image.DecompressionBombError, LocalBusy) as exc:
+        shutil.rmtree(directory)
+        raise VideoFailure(
+            str(exc)
+            if isinstance(exc, (MediaFailure, LocalBusy))
+            else "Ảnh không hợp lệ hoặc vượt giới hạn 20 megapixel."
+        ) from exc
 
 
 def split_captions(text, limit=105):
@@ -230,6 +243,7 @@ def render_video(job_id, package, config, progress, checkpoint=None):
         progress("Style catalog: đã đồng bộ phiên bản mới nhất từ nguồn kết nối")
     frames, audios, subtitles, cues = [], [], [], []
     elapsed = 0.0
+    settings = Settings()
     for index, caption in enumerate(captions):
         progress(f"Voice and visuals {index + 1}/{len(captions)}")
         checkpoint("voice", "start")
@@ -244,18 +258,18 @@ def render_video(job_id, package, config, progress, checkpoint=None):
             },
             audio_checks(directory / filename),
         )
+        if elapsed + duration > settings.render_max_duration:
+            raise VideoFailure(f"Video tối đa {settings.render_max_duration:g} giây.")
         audios.append(f"file '{filename}'")
         checkpoint("visuals", "start")
-        frame = make_frame(directory, config, package["title"], caption, index, len(captions))
-        checkpoint(
-            "visuals",
-            "end",
-            {
-                "filename": frame,
-                "sha256": hashlib.sha256((directory / frame).read_bytes()).hexdigest(),
-            },
-        )
-        frames.extend([f"file '{frame}'", f"duration {duration:.6f}"])
+        if config.get("video_file"):
+            checkpoint("visuals", "end", {"filename": config["video_file"]})
+        else:
+            frame = make_frame(directory, config, package["title"], caption, index, len(captions))
+            checkpoint(
+                "visuals", "end", {"filename": frame, "sha256": file_digest(directory / frame)}
+            )
+            frames.extend([f"file '{frame}'", f"duration {duration:.6f}"])
         phrases = split_captions(caption, limit=style["caption_chars"])
         weight = sum(len(phrase.split()) for phrase in phrases)
         start = elapsed
@@ -269,7 +283,8 @@ def render_video(job_id, package, config, progress, checkpoint=None):
             subtitles.append(f"{len(cues)}\n{timestamp(start)} --> {timestamp(end)}\n{phrase}\n")
             start = end
         elapsed += duration
-    frames.append(f"file '{frame}'")
+    if not config.get("video_file"):
+        frames.append(f"file '{frame}'")
     (directory / "frames.ffconcat").write_text("\n".join(frames), encoding="utf-8")
     (directory / "audio.ffconcat").write_text("\n".join(audios), encoding="utf-8")
     (directory / "subtitles.srt").write_text("\n".join(subtitles), encoding="utf-8")
@@ -349,23 +364,20 @@ def render_video(job_id, package, config, progress, checkpoint=None):
         raise VideoFailure("Giọng đọc bị im lặng hoặc clipping. Xem tab Chất lượng.")
     checkpoint("render", "start")
     progress("Encoding MP4")
-    filters = "fps=24"
-    if config["image_files"] and style["motion"] == "slow_zoom":
-        filters += (
-            f",zoompan=z='min(1+on*0.000015,1.06)':"
-            f"x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':d=1:s={width}x{height}:fps=24"
-        )
-    filters += ",ass=subtitles.ass"
+    try:
+        LocalMediaStorage(settings).ensure_capacity(int(elapsed * 4_000_000))
+        visual_input = input_arguments(config, directory, settings.ffmpeg_threads)
+    except MediaFailure as exc:
+        raise VideoFailure(str(exc)) from exc
+    filters = visual_filters(config, style, width, height)
     run_command(
         [
             ffmpeg,
             "-y",
-            "-f",
-            "concat",
-            "-safe",
-            "1",
-            "-i",
-            "frames.ffconcat",
+            "-nostdin",
+            "-filter_threads",
+            str(settings.ffmpeg_threads),
+            *visual_input,
             "-i",
             "narration.wav",
             "-map",
@@ -376,6 +388,8 @@ def render_video(job_id, package, config, progress, checkpoint=None):
             filters,
             "-c:v",
             "libx264",
+            "-threads",
+            str(settings.ffmpeg_threads),
             "-preset",
             "veryfast",
             "-crf",
@@ -388,6 +402,8 @@ def render_video(job_id, package, config, progress, checkpoint=None):
             "128k",
             "-t",
             str(elapsed),
+            "-fs",
+            str(max(1_000_000, int(elapsed * 4_000_000))),
             "-movflags",
             "+faststart",
             "video.mp4",
@@ -435,16 +451,20 @@ def render_video(job_id, package, config, progress, checkpoint=None):
     result = {
         "run_id": config["run_id"],
         "content_hash": config["expected_content_hash"],
-        "sha256": hashlib.sha256((directory / "video.mp4").read_bytes()).hexdigest(),
+        "sha256": file_digest(directory / "video.mp4"),
         "duration": metadata["duration"],
         "width": metadata["size"][0],
         "height": metadata["size"][1],
         "caption_count": len(cues),
         "style": style,
         "subtitle_timing": "phrase_duration_estimate",
-        "motion": style["motion"] if config["image_files"] else "static",
+        "motion": "source"
+        if config.get("video_file")
+        else (style["motion"] if config["image_files"] else "static"),
         "voice": config["voice"],
-        "visuals": "uploaded_images" if config["image_files"] else "text_cards",
+        "visuals": "uploaded_video"
+        if config.get("video_file")
+        else ("uploaded_images" if config["image_files"] else "text_cards"),
         "audio_checked": True,
         "video_checked": True,
     }

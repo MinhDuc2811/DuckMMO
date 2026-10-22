@@ -24,6 +24,9 @@ from app.quality.recorder import (
 )
 from app.schemas import ContentPackage
 from app.services.analysis import AnalysisFailure, analyse
+from app.services.local_lock import LocalBusy, exclusive_lock
+from app.services.media_cleanup import cleanup
+from app.services.media_storage import LocalMediaStorage
 from app.services.preflight import preflight
 from app.services.video import VideoFailure, render_video
 from app.services.web_import import ImportFailure, import_url
@@ -344,16 +347,22 @@ def main():
         if args.job_id:
             execute_job(sessions, args.job_id)
             return
-        recover_interrupted(sessions)
-        while True:
-            job_id = claim_one(sessions)
-            handled = job_id is not None
-            if job_id:
-                run_isolated(sessions, job_id)
-            if args.once:
-                break
-            if not handled:
-                time.sleep(1)
+        storage = LocalMediaStorage(settings)
+        with exclusive_lock(storage.root / ".worker.lock"):
+            try:
+                cleanup(storage, sessions, apply=True)
+            except LocalBusy:
+                logger.info("Skipping retention cleanup while an upload is active")
+            recover_interrupted(sessions)
+            while True:
+                job_id = claim_one(sessions)
+                handled = job_id is not None
+                if job_id:
+                    run_isolated(sessions, job_id)
+                if args.once:
+                    break
+                if not handled:
+                    time.sleep(1)
     except KeyboardInterrupt:
         pass
     finally:

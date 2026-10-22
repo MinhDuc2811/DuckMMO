@@ -80,6 +80,19 @@ Bấm vào tên tác vụ để mở đúng nguồn/tiến trình ở Phase 1 ho
 Nút **Xóa** đưa tác vụ đã kết thúc vào thùng rác; **Hoàn tác xóa** khôi phục dữ liệu.
 Tác vụ đang chạy phải được dừng trước khi xóa. Nút **Nội dung mới** mở luồng tạo mới.
 
+## Dùng clip làm nguồn hình
+
+Phase 3 hỗ trợ **Ảnh / Clip**, tải file và tái sử dụng nguồn đã lưu. Clip ngắn tự lặp
+cho đủ lời đọc; clip dài được cắt theo thời lượng đầu ra. Có lựa chọn giữ đủ hình
+hoặc crop giữa; tiếng gốc được thay bằng lời đọc. Cần FFprobe trên PATH (thuộc gói
+FFmpeg hệ thống), rồi chạy `uv run alembic upgrade head`.
+
+File lưu trên đĩa local; SQLite chỉ lưu metadata và ID. API nhận file theo từng khối,
+worker dựng tuần tự, có giới hạn dung lượng/CPU và dọn các lượt dựng cũ không còn
+được tham chiếu. Xem [thiết kế, giới hạn, API và debug local media](docs/local-media.md).
+Streamlit vẫn giữ file upload trong RAM trước khi gửi API; dùng API streaming cho
+batch lớn và giữ file tải qua UI nhỏ.
+
 ## PostgreSQL
 
 ```powershell

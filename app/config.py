@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic import SecretStr
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.engine import make_url
 
@@ -18,6 +18,12 @@ class Settings(BaseSettings):
     youtube_refresh_token: SecretStr = SecretStr("")
     style_catalog_url: str = ""
     artifact_dir: Path = Path("data/artifacts")
+    media_upload_max_bytes: int = Field(default=100_000_000, ge=1)
+    media_storage_max_bytes: int = Field(default=10_000_000_000, ge=1)
+    media_min_free_bytes: int = Field(default=500_000_000, ge=0)
+    media_max_duration: float = Field(default=120, gt=0)
+    render_max_duration: float = Field(default=600, gt=0)
+    ffmpeg_threads: int = Field(default=2, ge=1, le=16)
 
     def prepare_database_directory(self) -> None:
         url = make_url(self.database_url)

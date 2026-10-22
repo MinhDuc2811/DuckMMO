@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import StrEnum
 from typing import Literal
+from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
 
@@ -122,10 +123,17 @@ class RenderOptions(BaseModel):
     ] = "local-vi"
     layout: Literal["portrait", "landscape"] = "portrait"
     images: list[str] = Field(default_factory=list, max_length=10)
+    image_asset_ids: list[UUID] = Field(default_factory=list, max_length=10)
+    video_asset_id: UUID | None = None
+    video_fit: Literal["pad", "crop"] = "pad"
     expected_content_hash: str = Field(pattern=r"^[a-f0-9]{64}$")
 
     @model_validator(mode="after")
     def bound_images(self):
+        if self.video_asset_id and (self.images or self.image_asset_ids):
+            raise ValueError("Chọn ảnh hoặc clip, không chọn cả hai.")
+        if len(self.images) + len(self.image_asset_ids) > 10:
+            raise ValueError("Tối đa 10 ảnh")
         if any(len(image) > 4_000_000 for image in self.images):
             raise ValueError("Mỗi ảnh tối đa 3 MB")
         return self
