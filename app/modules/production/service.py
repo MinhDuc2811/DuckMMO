@@ -51,7 +51,9 @@ def queue_render(job_id: UUID, payload: RenderOptions, *, session):
 
 def get_artifact(
     job_id: UUID,
-    kind: Literal["video", "audio", "subtitles", "styled_subtitles", "style", "poster", "script"],
+    kind: Literal[
+        "video", "audio", "soundtrack", "subtitles", "styled_subtitles", "style", "poster", "script"
+    ],
     *,
     session,
 ):
@@ -61,6 +63,10 @@ def get_artifact(
     filename, media_type = {
         "video": ("video.mp4", "video/mp4"),
         "audio": ("narration.wav", "audio/wav"),
+        "soundtrack": (
+            "soundtrack.wav" if job.video.get("music", {}).get("mixed") else "narration.wav",
+            "audio/wav",
+        ),
         "subtitles": ("subtitles.srt", "application/x-subrip"),
         "styled_subtitles": ("subtitles.ass", "text/plain"),
         "style": ("style.json", "application/json"),

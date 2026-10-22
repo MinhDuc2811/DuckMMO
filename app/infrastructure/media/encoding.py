@@ -26,7 +26,7 @@ def encode_video(directory, config, style, width, height, elapsed, *, run_comman
             str(settings.ffmpeg_threads),
             *visual_input,
             "-i",
-            "narration.wav",
+            config.get("audio_file", "narration.wav"),
             "-map",
             "0:v:0",
             "-map",

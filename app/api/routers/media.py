@@ -19,7 +19,7 @@ def list_assets(job_id: UUID, session=Depends(get_session)):
 @router.post("/{job_id}/assets", status_code=201)
 async def upload_asset(
     job_id: UUID,
-    kind: Literal["image", "video"],
+    kind: Literal["image", "video", "audio"],
     request: Request,
     settings=Depends(get_settings),
     session=Depends(get_session),

@@ -4,17 +4,15 @@ import streamlit as st
 
 from ui.client.api import request
 from ui.client.media import upload_media
+from ui.components.presentation import music_controls, visual_controls
 from ui.components.progress import render_production_progress
 from ui.state.workspace import select_workspace
 
 
 def render(opened=None, active=True, jobs_snapshot=None):
     st.subheader("Bước 5–6 · Chuẩn bị và dựng video")
-    st.write("Hệ thống tự chọn style theo nội dung, căn phụ đề và dựng video từ ảnh của bạn.")
-    st.info(
-        "Style tự động: kể chuyện điện ảnh, truyện tranh nổi bật hoặc thông tin rõ ràng. "
-        "Không cần chỉnh font và hiệu ứng từng video."
-    )
+    st.write("Biến kịch bản đã duyệt thành video theo phong cách của bạn.")
+    st.caption("Chọn hình ảnh → phong cách → âm thanh → nghe thử → dựng video.")
     candidates = (
         list(jobs_snapshot) if jobs_snapshot is not None else request("GET", "/api/jobs")
     ) or []
@@ -50,6 +48,7 @@ def render(opened=None, active=True, jobs_snapshot=None):
                     st.rerun()
             if render_job.get("error"):
                 st.error(render_job["error"])
+            st.markdown("### Hình ảnh cho video")
             media_mode = st.radio(
                 "Nguồn hình", ["Ảnh", "Clip"], horizontal=True, key=f"media-mode-{render_id}"
             )
@@ -67,7 +66,13 @@ def render(opened=None, active=True, jobs_snapshot=None):
                     if st.button(f"Xóa file {asset['id'][:8]}", key=f"delete-asset-{asset['id']}"):
                         if request("DELETE", f"/api/jobs/{render_id}/assets/{asset['id']}"):
                             st.rerun()
+            saved = render_job.get("render_config") or {}
+            visual, presentation_catalog = visual_controls(request, render_id, saved)
+            music, music_upload, music_mode = music_controls(
+                presentation_catalog, saved_assets, saved, render_id
+            )
             with st.form(f"render-{render_id}"):
+                st.markdown("### 3. Giọng đọc & xuất video")
                 catalog = request("GET", "/api/voices") or {"voices": []}
                 voices = {
                     item["id"]: item["label"] for item in catalog["voices"] if item["available"]
@@ -114,14 +119,25 @@ def render(opened=None, active=True, jobs_snapshot=None):
                 st.caption(
                     "Edge gửi lời dẫn tới Microsoft và cần mạng; giọng Windows chạy trên máy."
                 )
+                st.markdown("**Nghe thử trước khi dựng**")
+                st.caption("Dùng đoạn ngắn bên dưới để kiểm tra giọng đọc và âm lượng nhạc.")
                 preview_text = st.text_area(
                     "Đoạn nghe thử",
                     max_chars=300,
                     value="Xin chào, đây là giọng đọc tiếng Việt dành cho video của bạn. "
                     "Chúng ta cùng lắng nghe một câu chuyện thật tự nhiên và liền mạch.",
                 )
-                preview = st.form_submit_button("Nghe thử giọng")
-                build = st.form_submit_button("Dựng video", type="primary")
+                voice_action, music_action = st.columns(2)
+                with voice_action:
+                    preview = st.form_submit_button("Nghe thử giọng", width="stretch")
+                with music_action:
+                    music_preview = st.form_submit_button(
+                        "Nghe thử nhạc nền", width="stretch", disabled=music_mode == "off"
+                    )
+                mix_preview = st.form_submit_button("Nghe thử giọng + nhạc", width="stretch")
+                st.divider()
+                st.caption("Bắt đầu dựng khi đã chọn xong. Tiến trình sẽ hiển thị ngay tại đây.")
+                build = st.form_submit_button("Dựng video", type="primary", width="stretch")
             if preview:
                 audio = request(
                     "POST",
@@ -129,6 +145,40 @@ def render(opened=None, active=True, jobs_snapshot=None):
                     raw=True,
                     timeout=120,
                     json={"text": preview_text, "voice": voice, "speech_rate": speech_rate},
+                )
+                if audio:
+                    st.audio(audio, format="audio/wav")
+            if build or mix_preview or music_preview:
+                if music_upload is not None and music_mode == "upload":
+                    music_ids = upload_media(request, render_id, [music_upload], "audio")
+                    if music_ids is None:
+                        st.stop()
+                    music["asset_id"] = music_ids[0]
+                if music_mode == "upload" and not music["asset_id"]:
+                    st.error("Chọn hoặc upload một file nhạc.")
+                    st.stop()
+            if music_preview:
+                audio = request(
+                    "POST",
+                    f"/api/jobs/{render_id}/music-preview",
+                    raw=True,
+                    timeout=120,
+                    json=music,
+                )
+                if audio:
+                    st.audio(audio, format="audio/wav")
+            if mix_preview:
+                audio = request(
+                    "POST",
+                    f"/api/jobs/{render_id}/audio-preview",
+                    raw=True,
+                    timeout=120,
+                    json={
+                        "text": preview_text,
+                        "voice": voice,
+                        "speech_rate": speech_rate,
+                        "music": music,
+                    },
                 )
                 if audio:
                     st.audio(audio, format="audio/wav")
@@ -154,6 +204,8 @@ def render(opened=None, active=True, jobs_snapshot=None):
                         f"/api/jobs/{render_id}/render",
                         json={
                             "voice": voice,
+                            "visual": visual,
+                            "music": music,
                             "speech_rate": speech_rate,
                             "layout": layout,
                             "image_asset_ids": asset_ids if kind == "image" else [],

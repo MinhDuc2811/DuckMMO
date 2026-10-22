@@ -5,6 +5,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator, model_validator
 
+from app.contracts.presentation import MusicOptions, VisualOptions
 from app.contracts.voices import get_voice
 
 
@@ -141,7 +142,13 @@ class VoicePreview(SpeechOptions):
         return value
 
 
+class AudioPreview(VoicePreview):
+    music: MusicOptions = Field(default_factory=MusicOptions)
+
+
 class RenderOptions(SpeechOptions):
+    visual: VisualOptions = Field(default_factory=VisualOptions)
+    music: MusicOptions = Field(default_factory=MusicOptions)
     layout: Literal["portrait", "landscape"] = "portrait"
     images: list[str] = Field(default_factory=list, max_length=10)
     image_asset_ids: list[UUID] = Field(default_factory=list, max_length=10)

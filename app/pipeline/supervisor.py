@@ -3,44 +3,14 @@ import subprocess
 import sys
 import time
 
-import psutil
 from sqlalchemy import select
 
 from app.db import Job, JobEvent
+from app.infrastructure.processes import stop_process
 from app.pipeline.lifecycle import finish_cancel
 from app.quality.recorder import (
     close_interrupted,
 )
-
-
-def stop_process(process):
-    if process.poll() is None:
-        try:
-            children = psutil.Process(process.pid).children(recursive=True)
-        except psutil.NoSuchProcess:
-            children = []
-        # Windows venv python.exe can be a launcher for another python.exe.
-        # Stop its descendants as well; killing the launcher alone leaves the job alive.
-        for child in reversed(children):
-            try:
-                child.terminate()
-            except psutil.NoSuchProcess:
-                pass
-        process.terminate()
-        try:
-            process.wait(timeout=3)
-        except subprocess.TimeoutExpired:
-            process.kill()
-            process.wait(timeout=3)
-        _, alive = psutil.wait_procs(children, timeout=3)
-        for child in alive:
-            try:
-                child.kill()
-            except psutil.NoSuchProcess:
-                pass
-        _, survivors = psutil.wait_procs(alive, timeout=3)
-        if survivors:
-            raise RuntimeError("Unable to stop job descendants")
 
 
 def supervise_job(sessions, job_id, process):

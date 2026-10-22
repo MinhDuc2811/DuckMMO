@@ -9,7 +9,9 @@ from PIL import Image, ImageOps
 
 from app.config import Settings
 from app.contracts.errors import VideoFailure
+from app.contracts.presentation import apply_presentation
 from app.infrastructure.local_lock import LocalBusy, exclusive_lock
+from app.infrastructure.media.music import pin_music
 from app.infrastructure.media.probe import MediaFailure
 from app.infrastructure.media.storage import LocalMediaStorage
 from app.infrastructure.media.visuals import pin_assets
@@ -22,7 +24,14 @@ def artifact_directory(job_id, run_id):
 
 def prepare_render(job_id, options, package=None, *, session=None):
     config = options.model_dump(mode="json", exclude={"images"})
-    config["style"] = choose_style(package or {"branch": "novel"}, session=session)
+    config["style"] = apply_presentation(
+        choose_style(
+            package or {"branch": "novel"},
+            use_learned=options.visual.preset == "auto",
+            session=session,
+        ),
+        options.visual,
+    )
     config["run_id"] = str(uuid4())
     directory = artifact_directory(job_id, config["run_id"])
     directory.mkdir(parents=True, exist_ok=False)
@@ -32,6 +41,7 @@ def prepare_render(job_id, options, package=None, *, session=None):
         with exclusive_lock(storage.root / ".media.lock"):
             storage.ensure_capacity(len(options.images) * 12_000_000)
             pin_assets(session, storage, job_id, options, directory, config)
+            pin_music(session, storage, job_id, options.music, directory, config)
             for i, encoded in enumerate(options.images):
                 raw = base64.b64decode(encoded, validate=True)
                 with Image.open(io.BytesIO(raw)) as image:

@@ -5,17 +5,24 @@ import subprocess
 from pathlib import Path
 
 from app.contracts.errors import VideoFailure
+from app.infrastructure.processes import stop_process
 
 
 def run_command(args, cwd=None, timeout=300):
     try:
-        result = subprocess.run(
+        process = subprocess.Popen(
             args,
             cwd=cwd,
-            capture_output=True,
-            timeout=timeout,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
         )
+        try:
+            stdout, stderr = process.communicate(timeout=timeout)
+        except BaseException:
+            stop_process(process)
+            raise
+        result = subprocess.CompletedProcess(args, process.returncode, stdout, stderr)
     except (OSError, subprocess.TimeoutExpired) as exc:
         raise VideoFailure("Không chạy được bộ dựng hình/giọng đọc hoặc quá thời gian.") from exc
     if result.returncode:

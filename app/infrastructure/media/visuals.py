@@ -37,6 +37,8 @@ def pin_assets(session, storage, job_id, options, directory, config):
 
 
 def input_arguments(config, directory, threads):
+    if config.get("motion_file"):
+        return ["-i", "motion.mp4"]
     if config.get("video_file"):
         source = directory / "input-clip"
         if not source.is_file() or file_digest(source) != config["video_sha256"]:
@@ -58,6 +60,8 @@ def input_arguments(config, directory, threads):
 
 def visual_filters(config, style, width, height):
     filters = "fps=24"
+    if config.get("motion_file"):
+        return filters + ",ass=subtitles.ass"
     if config.get("video_file"):
         if config["video_fit"] == "crop":
             filters += (

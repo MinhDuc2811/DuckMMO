@@ -25,6 +25,69 @@ def inspect_image(path):
         raise MediaFailure("Ảnh không hợp lệ; cần PNG/JPEG tối đa 20 megapixel.") from exc
 
 
+def inspect_audio(path, settings):
+    probe = shutil.which("ffprobe")
+    if not probe:
+        raise MediaFailure("Cần FFprobe để kiểm tra nhạc tải lên.")
+    try:
+        result = subprocess.run(
+            [
+                probe,
+                "-v",
+                "error",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "wav,mp3,flac,ogg,mov",
+                "-show_entries",
+                "format=duration:stream=codec_type",
+                "-of",
+                "json",
+                str(path),
+            ],
+            capture_output=True,
+            timeout=15,
+            check=True,
+        )
+        info = json.loads(result.stdout)
+        duration = float(info["format"]["duration"])
+        if not math.isfinite(duration) or not 0.5 <= duration <= 600:
+            raise MediaFailure("Nhạc phải dài từ 0,5 đến 600 giây.")
+        if not any(s["codec_type"] == "audio" for s in info["streams"]):
+            raise MediaFailure("File không có âm thanh.")
+        subprocess.run(
+            [
+                imageio_ffmpeg.get_ffmpeg_exe(),
+                "-v",
+                "error",
+                "-nostdin",
+                "-protocol_whitelist",
+                "file,pipe",
+                "-format_whitelist",
+                "wav,mp3,flac,ogg,mov",
+                "-threads",
+                str(settings.ffmpeg_threads),
+                "-i",
+                str(path),
+                "-map",
+                "0:a:0",
+                "-t",
+                "1",
+                "-f",
+                "null",
+                "-",
+            ],
+            capture_output=True,
+            timeout=15,
+            check=True,
+        )
+        return {"duration": duration}
+    except MediaFailure:
+        raise
+    except (OSError, subprocess.SubprocessError, ValueError, KeyError) as exc:
+        raise MediaFailure("Nhạc không hợp lệ; cần WAV/MP3/FLAC/OGG/M4A đọc được.") from exc
+
+
 def inspect_video(path, settings):
     probe = shutil.which("ffprobe")
     if not probe:

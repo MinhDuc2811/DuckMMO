@@ -8,7 +8,7 @@ from sqlalchemy import func, select
 
 from app.db import MediaAsset
 from app.infrastructure.local_lock import LocalBusy, exclusive_lock
-from app.infrastructure.media.probe import MediaFailure, inspect_image, inspect_video
+from app.infrastructure.media.probe import MediaFailure, inspect_audio, inspect_image, inspect_video
 from app.infrastructure.media.storage import LocalMediaStorage, file_digest
 from app.modules.errors import ApplicationError
 from app.modules.jobs.lookup import load_job
@@ -44,7 +44,9 @@ async def upload_asset(job_id, kind, chunks, content_length, *, settings, sessio
     limit = (
         min(settings.media_upload_max_bytes, 3_000_000)
         if kind == "image"
-        else (settings.media_upload_max_bytes)
+        else min(settings.media_upload_max_bytes, 20_000_000)
+        if kind == "audio"
+        else settings.media_upload_max_bytes
     )
     try:
         # One upload across API processes. Fail fast instead of buffering waiting requests.
@@ -88,6 +90,8 @@ async def upload_asset(job_id, kind, chunks, content_length, *, settings, sessio
             details = (
                 await to_thread(inspect_image, temporary)
                 if kind == "image"
+                else await to_thread(inspect_audio, temporary, settings)
+                if kind == "audio"
                 else await to_thread(inspect_video, temporary, settings)
             )
             # Recheck deletion after receiving a potentially slow request.

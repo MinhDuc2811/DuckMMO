@@ -2,7 +2,9 @@
 
 import hashlib
 import json
+import sys
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Callable
 
 import imageio_ffmpeg
@@ -18,7 +20,11 @@ from app.infrastructure.media.audio import long_pauses, trim_boundary_silence
 from app.infrastructure.media.commands import run_command
 from app.infrastructure.media.encoding import encode_video, inspect_video
 from app.infrastructure.media.frames import make_frame
+from app.infrastructure.media.music import mix_audio
+from app.infrastructure.media.scenes import build_plan
 from app.infrastructure.media.speech import synthesize
+from app.infrastructure.media.storage import LocalMediaStorage
+from app.infrastructure.media.visuals import input_arguments
 from app.modules.production.subtitles import resolve_subtitles
 from app.quality.evaluators import audio_checks, check, has_blocker
 from app.services.styles import choose_style
@@ -64,6 +70,7 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
     elif style.get("sync_status") == "synced":
         progress("Style catalog: đã đồng bộ phiên bản mới nhất từ nguồn kết nối")
     frames, audios, subtitles, cues = [], [], [], []
+    scene_timeline = []
     elapsed = 0.0
     settings = Settings()
     speech_timeline = []
@@ -110,6 +117,7 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         audios.append(f"file '{filename}'")
         checkpoint("visuals", "start")
         if config.get("video_file"):
+            scene_timeline.append((elapsed, duration, caption))
             checkpoint("visuals", "end", {"filename": config["video_file"]})
         else:
             visual_chunks = visual_groups[index]
@@ -125,6 +133,17 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
                     visual_total,
                 )
                 part_duration = duration * len(part.split()) / visual_weight
+                scene_timeline.append(
+                    (
+                        elapsed
+                        + sum(
+                            duration * len(p.split()) / visual_weight
+                            for p in visual_chunks[:visual_index]
+                        ),
+                        part_duration,
+                        part,
+                    )
+                )
                 frames.extend([f"file '{frame}'", f"duration {part_duration:.6f}"])
                 visual_files.append(frame)
             checkpoint("visuals", "end", {"filenames": visual_files})
@@ -200,7 +219,36 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
     checkpoint("audio", "end", {"duration": elapsed}, audio_evaluations)
     if has_blocker(audio_evaluations):
         raise VideoFailure("Giọng đọc bị im lặng hoặc clipping. Xem tab Chất lượng.")
+    # Budget both intermediate motion/audio and final output before expensive work.
+    LocalMediaStorage(settings).ensure_capacity(int(elapsed * 8_100_000) + 10_000_000)
+    checkpoint("audio_mix", "start")
+    config["audio_file"] = mix_audio(directory, config, elapsed, run_command=run_command)
+    if config["audio_file"] != "narration.wav":
+        mixed_checks = audio_checks(directory / config["audio_file"])
+        checkpoint("audio_mix", "end", {"filename": config["audio_file"]}, mixed_checks)
+        if has_blocker(mixed_checks):
+            raise VideoFailure("Âm thanh trộn không đạt kiểm tra; xem tab Chất lượng.")
+    else:
+        checkpoint("audio_mix", "end", {"filename": "narration.wav"})
     checkpoint("render", "start")
+    if config.get("visual", {}).get("preset", "auto") != "auto":
+        input_arguments(config, directory, settings.ffmpeg_threads)  # verify pinned clip
+        plan = build_plan(config, package["title"], scene_timeline, width, height)
+        plan_path = directory / "scene-plan.json"
+        plan_path.write_text(json.dumps(plan, ensure_ascii=False, indent=2), encoding="utf-8")
+        progress("Rendering scene components")
+        run_command(
+            [
+                sys.executable,
+                "-m",
+                "app.infrastructure.media.scenes",
+                str(plan_path),
+                str(settings.ffmpeg_threads),
+            ],
+            cwd=Path(__file__).resolve().parents[3],
+            timeout=max(300, int(elapsed * 10)),
+        )
+        config["motion_file"] = "motion.mp4"
     progress("Encoding MP4")
     encode_video(directory, config, style, width, height, elapsed, run_command=run_command)
     checkpoint("render", "end", {"filename": "video.mp4"})
@@ -217,7 +265,9 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         "caption_count": len(cues),
         "style": style,
         "subtitle_timing": "phrase_duration_estimate",
-        "motion": "source"
+        "motion": "scene_components"
+        if config.get("motion_file")
+        else "source"
         if config.get("video_file")
         else (style["motion"] if config["image_files"] else "static"),
         "voice": config["voice"],
@@ -227,6 +277,8 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         "audio_checked": True,
         "video_checked": True,
     }
+    result["presentation"] = config.get("visual", {"preset": "auto"})
+    result["music"] = {**config.get("music", {}), "mixed": bool(config.get("music_file"))}
     result["quality"] = {"subtitle_repairs": repairs, "sample_times": sample_times}
     result["speech"] = {
         "segmentation_version": 2,

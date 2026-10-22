@@ -7,9 +7,11 @@ from fastapi.responses import FileResponse
 from starlette.background import BackgroundTask
 
 from app.api.dependencies import authenticate, get_session, get_settings
+from app.contracts.presentation import MusicOptions, VisualOptions, presentation_catalog
+from app.modules.production.previews import audio_preview, style_preview
 from app.modules.production.service import get_artifact, queue_render, review_video
 from app.modules.production.voices import preview_speech, voice_catalog
-from app.schemas import JobRead, RenderOptions, VideoReview, VoicePreview
+from app.schemas import AudioPreview, JobRead, RenderOptions, VideoReview, VoicePreview
 
 router = APIRouter()
 protected = [Depends(authenticate)]
@@ -25,7 +27,9 @@ def endpoint_queue_render(job_id: UUID, payload: RenderOptions, session=Depends(
 @router.get("/api/jobs/{job_id}/artifacts/{kind}", dependencies=protected, name="get_artifact")
 def endpoint_get_artifact(
     job_id: UUID,
-    kind: Literal["video", "audio", "subtitles", "styled_subtitles", "style", "poster", "script"],
+    kind: Literal[
+        "video", "audio", "soundtrack", "subtitles", "styled_subtitles", "style", "poster", "script"
+    ],
     session=Depends(get_session),
 ):
     artifact = get_artifact(job_id=job_id, kind=kind, session=session)
@@ -60,4 +64,47 @@ def endpoint_voice_preview(payload: VoicePreview, settings=Depends(get_settings)
         media_type="audio/wav",
         filename="voice-preview.wav",
         background=BackgroundTask(shutil.rmtree, path.parent),
+    )
+
+
+@router.get("/api/production/catalog", dependencies=protected)
+def endpoint_presentation_catalog():
+    return presentation_catalog()
+
+
+@router.post("/api/production/style-preview", dependencies=protected)
+def endpoint_style_preview(payload: VisualOptions, settings=Depends(get_settings)):
+    if payload.preset == "auto":
+        from app.modules.errors import ApplicationError
+
+        raise ApplicationError(422, "Chọn một preset để xem mẫu chuyển động.")
+    path = style_preview(payload, settings)
+    return FileResponse(
+        path, media_type="image/gif", background=BackgroundTask(shutil.rmtree, path.parent)
+    )
+
+
+@router.post("/api/jobs/{job_id}/audio-preview", dependencies=protected)
+def endpoint_audio_preview(
+    job_id: UUID,
+    payload: AudioPreview,
+    settings=Depends(get_settings),
+    session=Depends(get_session),
+):
+    path = audio_preview(job_id, payload, settings, session=session)
+    return FileResponse(
+        path, media_type="audio/wav", background=BackgroundTask(shutil.rmtree, path.parent)
+    )
+
+
+@router.post("/api/jobs/{job_id}/music-preview", dependencies=protected)
+def endpoint_music_preview(
+    job_id: UUID,
+    payload: MusicOptions,
+    settings=Depends(get_settings),
+    session=Depends(get_session),
+):
+    path = audio_preview(job_id, payload, settings, session=session, music_only=True)
+    return FileResponse(
+        path, media_type="audio/wav", background=BackgroundTask(shutil.rmtree, path.parent)
     )

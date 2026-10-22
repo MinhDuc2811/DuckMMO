@@ -32,7 +32,12 @@ def render(opened=None, active=True, jobs_snapshot=None):
         video_job = videos[video_id]
         meta = video_job["video"]
         if style := meta.get("style"):
-            st.caption(f"Style tự động: {style['name']} · Thư viện v{style['catalog_version']}")
+            label = (
+                "Style tự động"
+                if meta.get("presentation", {}).get("preset", "auto") == "auto"
+                else "Phong cách"
+            )
+            st.caption(f"{label}: {style['name']} · Thư viện v{style['catalog_version']}")
             st.caption("Phụ đề căn theo thời lượng đoạn đọc; chưa căn chính xác từng từ.")
         st.caption(
             f"{meta['width']}×{meta['height']} · {meta['duration']:.1f} giây · "
