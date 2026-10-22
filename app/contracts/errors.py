@@ -1,2 +1,0 @@
-class VideoFailure(ValueError):
-    pass
