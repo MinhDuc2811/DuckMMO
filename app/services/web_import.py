@@ -5,10 +5,12 @@ import logging
 import re
 import socket
 import time
+from datetime import datetime, timezone
 from urllib.parse import urljoin, urlsplit
 
 import httpx
 import trafilatura
+from lxml import html
 from trafilatura.metadata import extract_metadata
 
 logger = logging.getLogger(__name__)
@@ -164,4 +166,29 @@ def import_url(url: str) -> dict:
     except httpx.RequestError as exc:
         logger.warning("crawl stage=network error_type=%s", type(exc).__name__)
         raise ImportFailure("Lỗi kết nối hoặc TLS khi tải website.", "network") from exc
-    return {"title": title, "content": content, "source_url": final_url}
+    return {
+        "title": title,
+        "content": content,
+        "source_url": final_url,
+        "published_at": publication_date(document),
+        "retrieved_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def publication_date(document: str) -> str | None:
+    """Read explicit publication metadata only; never substitute retrieval or modified dates."""
+    try:
+        tree = html.fromstring(document)
+        values = tree.xpath(
+            '//meta[@property="article:published_time" or @name="pubdate" '
+            'or @itemprop="datePublished"]/@content | '
+            '//time[@itemprop="datePublished"]/@datetime'
+        )
+        for value in values:
+            try:
+                return datetime.fromisoformat(value.strip().replace("Z", "+00:00")).isoformat()
+            except ValueError:
+                continue
+    except (ValueError, TypeError):
+        pass
+    return None

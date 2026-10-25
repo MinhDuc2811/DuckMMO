@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import select
 
 from app.db import Job, JobEvent
@@ -17,6 +19,41 @@ from app.services.web_import import ImportFailure
 def ingest_sources(session, job, dependencies):
     job_id = job.id
     package = ContentPackage.model_validate(job.package)
+    if package.research and not package.source_urls:
+
+        def checkpoint():
+            check_running(session, job)
+            session.commit()
+
+        session.add(
+            JobEvent(
+                job_id=job_id, status="running", message="Discovery started: searching sources"
+            )
+        )
+        checkpoint()
+        discovery = dependencies.discover(package.research, checkpoint=checkpoint)
+        check_running(session, job)
+        data = package.model_dump(mode="json")
+        data["source_urls"] = discovery["urls"]
+        data["discovery"] = discovery
+        data["sources"] = [
+            {
+                "label": url[:300],
+                "url": url,
+                "rights_note": "Nguồn tìm tự động; chưa xác minh quyền sử dụng.",
+            }
+            for url in discovery["urls"]
+        ]
+        package = ContentPackage.model_validate(data)
+        job.package = package.model_dump(mode="json")
+        session.add(
+            JobEvent(
+                job_id=job_id,
+                status="running",
+                message=f"Discovery completed: {len(discovery['urls'])} sources",
+            )
+        )
+        session.commit()
     source_run = None
     if package.source_urls:
         source_run = begin(
@@ -31,17 +68,55 @@ def ingest_sources(session, job, dependencies):
         session.commit()
     if package.source_urls and not package.source_documents:
         documents = []
-        for url in package.source_urls:
+        fetched_sources = []
+        crawl_warnings = []
+        for source_index, url in enumerate(package.source_urls):
             check_running(session, job)
             session.commit()
-            documents.append(dependencies.import_url(str(url)))
+            try:
+                documents.append(dependencies.import_url(str(url)))
+                fetched_sources.append(package.sources[source_index])
+            except ImportFailure as exc:
+                if not package.research:
+                    raise
+                crawl_warnings.append({"url": str(url), "error": str(exc)})
             check_running(session, job)
         # Commit raw input before analysis so it remains inspectable if analysis fails.
+        if not documents:
+            raise ImportFailure(
+                "Không đọc được nội dung các nguồn đã tìm. Kiểm tra website/mạng.", "extract"
+            )
         data = package.model_dump(mode="json")
+        if package.research:
+            date_warnings = []
+            for document in documents:
+                published = document.get("published_at")
+                try:
+                    published_date = datetime.fromisoformat(published).date() if published else None
+                except (ValueError, TypeError):
+                    published_date = None
+                if published_date != package.research.target_date:
+                    date_warnings.append(
+                        {
+                            "url": document["source_url"],
+                            "published_at": published,
+                            "reason": "different_date" if published_date else "unknown_date",
+                        }
+                    )
+            data["discovery"] = {
+                **(data["discovery"] or {}),
+                "crawl_warnings": crawl_warnings,
+                "date_warnings": date_warnings,
+            }
         data["source_documents"] = documents
-        data["title"] = documents[0]["title"]
+        if not package.research:
+            data["title"] = documents[0]["title"]
         data["sources"] = [
-            {**data["sources"][i], "label": doc["title"], "url": doc["source_url"]}
+            {
+                **fetched_sources[i].model_dump(mode="json"),
+                "label": doc["title"],
+                "url": doc["source_url"],
+            }
             for i, doc in enumerate(documents)
         ]
         data["video_content"] = "\n\n".join(doc["content"] for doc in documents)

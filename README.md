@@ -153,3 +153,11 @@ câu mỗi 105 ký tự. Xem [giọng đọc tiếng Việt và debug audio](doc
 Test mới tổ chức theo feature và năm tầng trong [test_suite](test_suite/README.md).
 Ví dụ: `uv run pytest --feature speech --test-layer unit -q`. Quy tắc bảo toàn test
 và danh sách case nằm trong thư mục này; live TTS và Playwright chạy riêng có opt-in.
+
+## Tạo nội dung từ keyword
+
+Phase 1 hỗ trợ nhập keyword, chọn cây chủ đề và website mặc định cho từng chủ đề,
+ví dụ `research / news / esport / fifa-online`. Worker tìm bài trên website ưu tiên,
+tìm thêm trên web, crawl nguồn rồi dùng kết nối AI hiện có để tổng hợp bản thảo có
+ngày yêu cầu và dẫn nguồn. Không cần dán URL cho mỗi job. Mặc định search DuckDuckGo;
+Google cần cấu hình API riêng. Xem [cách dùng và giới hạn](docs/keyword-research.md).

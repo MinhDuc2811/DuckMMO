@@ -12,6 +12,7 @@ from app.quality.recorder import (
     observe_style,
 )
 from app.services.analysis import AnalysisFailure
+from app.services.discovery import discover_sources
 from app.services.video import VideoFailure
 from app.services.web_import import ImportFailure
 
@@ -24,6 +25,7 @@ class PipelineDependencies:
     analyse: Callable
     preflight: Callable
     render_video: Callable
+    discover: Callable = discover_sources
 
 
 def execute_job(sessions, job_id, dependencies):

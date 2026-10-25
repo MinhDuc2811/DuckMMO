@@ -4,6 +4,7 @@ from uuid import uuid4
 import streamlit as st
 
 from ui.client.api import request
+from ui.components.research import render as render_research
 from ui.state.workspace import select_workspace
 
 
@@ -48,6 +49,8 @@ def render(opened=None, active=True, jobs_snapshot=None):
                     "Đã lưu kết nối AI. Bấm Thử lại ở tác vụ lỗi để tiếp tục phân tích."
                 )
                 st.rerun()
+    render_research()
+    st.markdown("**Hoặc chỉ định link nguồn**")
     with st.form("phase1-web"):
         website_urls = st.text_area(
             "Link nguồn (mỗi dòng một URL)", placeholder="https://website.com/bai-viet"

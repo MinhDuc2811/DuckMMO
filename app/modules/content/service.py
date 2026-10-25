@@ -112,3 +112,30 @@ def review(job_id: UUID, payload: Review, *, session):
     )
     session.commit()
     return job
+
+
+def import_keyword(payload, *, session, settings):
+    from app.services.research_preferences import load_preferences
+
+    research = payload.model_dump(mode="json", exclude={"branch", "language"})
+    try:
+        preferences = load_preferences(settings)
+    except (ValueError, OSError):
+        raise ApplicationError(422, "Cấu hình chủ đề bị lỗi; lưu lại trong Nguồn nghiên cứu.")
+    if not research["preferred_url"]:
+        for profile in preferences.profiles:
+            if profile.branch == payload.branch and profile.topic_path == payload.topic_path:
+                research["preferred_url"] = (
+                    str(profile.preferred_url) if profile.preferred_url else None
+                )
+                break
+    if not research["preferred_url"] and not research["search_web"]:
+        raise ApplicationError(422, "Cần website ưu tiên hoặc bật tìm thêm trên web.")
+    package = {
+        "branch": payload.branch,
+        "language": payload.language,
+        "title": f"{payload.keyword} — {payload.target_date.strftime('%d/%m/%Y')}"[:200],
+        "research": research,
+        "sources": [{"label": "Đang tìm nguồn", "rights_note": "Chưa xác minh quyền sử dụng."}],
+    }
+    return create_job(JobCreate(package=package), session=session)
