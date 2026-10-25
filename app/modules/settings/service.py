@@ -34,3 +34,21 @@ def update_ai_connection(payload: AIConnectionUpdate, settings):
     except (ValueError, OSError):
         raise ApplicationError(422, "Chưa lưu được. Kiểm tra URL HTTP/HTTPS, tên model và API key.")
     return public_connection(connection)
+
+
+def read_research(settings):
+    from app.services.research_preferences import load_preferences
+
+    try:
+        return load_preferences(settings)
+    except (ValueError, OSError):
+        raise ApplicationError(422, "Không đọc được cấu hình nguồn nghiên cứu.")
+
+
+def update_research(payload, settings):
+    from app.services.research_preferences import save_preferences
+
+    try:
+        return save_preferences(payload, settings)
+    except (ValueError, OSError):
+        raise ApplicationError(422, "Không lưu được cấu hình nguồn nghiên cứu.")

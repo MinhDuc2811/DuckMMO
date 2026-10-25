@@ -63,6 +63,32 @@ def render(opened=None, active=True, jobs_snapshot=None):
                 f"{analysis['source_count']} nguồn · "
                 + ("Đã phân tích AI" if analysis.get("ai_generated") else "Nội dung nhập thủ công")
             )
+        if package.get("research"):
+            research = package["research"]
+            st.caption(f"Keyword: {research['keyword']} · Ngày yêu cầu: {research['target_date']}")
+            with st.expander("Nguồn và giới hạn của nghiên cứu"):
+                for index, document in enumerate(package.get("source_documents", []), 1):
+                    st.write(f"[{index}] {document['title']}")
+                    st.write(document["source_url"])
+                    st.caption(
+                        "Ngày đăng theo website: "
+                        + (document.get("published_at") or "Chưa xác định")
+                        + " · Lấy dữ liệu: "
+                        + (document.get("retrieved_at") or "Chưa ghi nhận")
+                    )
+                discovery = package.get("discovery") or {}
+                for warning in discovery.get("date_warnings", []):
+                    reason = (
+                        "khác ngày yêu cầu"
+                        if warning["reason"] == "different_date"
+                        else "chưa xác định ngày đăng"
+                    )
+                    st.warning(f"Nguồn {reason}: {warning['url']}")
+                for warning in discovery.get("warnings", []):
+                    st.warning(warning)
+                for warning in discovery.get("crawl_warnings", []):
+                    st.warning(f"Không đọc được nguồn {warning['url']}: {warning['error']}")
+                st.caption("Dẫn nguồn giúp truy vết; cần tự kiểm tra ngày đăng và độ chính xác.")
         # Bind each editor to its loaded revision to prevent stale overwrites.
         editor_key = f"editor-{selected}"
         revision_key = f"revision-{selected}"

@@ -2,9 +2,9 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
-from app.api.dependencies import authenticate, get_session
-from app.modules.content.service import edit_content, import_web, review
-from app.schemas import ContentEdit, JobRead, Review, WebImport
+from app.api.dependencies import authenticate, get_session, get_settings
+from app.modules.content.service import edit_content, import_keyword, import_web, review
+from app.schemas import ContentEdit, JobRead, KeywordImport, Review, WebImport
 
 router = APIRouter()
 protected = [Depends(authenticate)]
@@ -36,3 +36,10 @@ def endpoint_edit_content(job_id: UUID, payload: ContentEdit, session=Depends(ge
 )
 def endpoint_review(job_id: UUID, payload: Review, session=Depends(get_session)):
     return review(job_id=job_id, payload=payload, session=session)
+
+
+@router.post("/api/import/keyword", response_model=JobRead, status_code=201, dependencies=protected)
+def endpoint_import_keyword(
+    payload: KeywordImport, session=Depends(get_session), settings=Depends(get_settings)
+):
+    return import_keyword(payload, session=session, settings=settings)

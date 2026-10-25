@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     database_url: str = "sqlite:///./data/studio.db"
     api_url: str = "http://127.0.0.1:8000"
     api_key: SecretStr = SecretStr("")
+    search_provider: str = "duckduckgo"
+    google_search_api_key: SecretStr = SecretStr("")
+    google_search_engine_id: str = ""
     analysis_base_url: str = ""
     analysis_api_key: SecretStr = SecretStr("")
     analysis_model: str = ""

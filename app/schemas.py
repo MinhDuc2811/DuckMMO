@@ -6,6 +6,7 @@ from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator, model_validator
 
 from app.contracts.presentation import MusicOptions, VisualOptions
+from app.contracts.research import ResearchRequest
 from app.contracts.voices import get_voice
 
 
@@ -53,13 +54,15 @@ class ContentPackage(BaseModel):
     language: Literal["vi", "en", "zh", "ja", "ko"] = "vi"
     sources: list[Source] = Field(min_length=1, max_length=50)
     scenes: list[Scene] = Field(default_factory=list, max_length=200)
+    research: ResearchRequest | None = None
+    discovery: dict | None = None
     source_urls: list[HttpUrl] = Field(default_factory=list, max_length=10)
     source_documents: list[dict] = Field(default_factory=list, max_length=10)
     video_content: str | None = Field(default=None, min_length=1, max_length=200000)
 
     @model_validator(mode="after")
     def validate_references(self):
-        if not self.scenes and not self.source_urls:
+        if not self.scenes and not self.source_urls and self.research is None:
             raise ValueError("Content requires scenes or source URLs to fetch in Phase 1")
         for scene in self.scenes:
             if any(i < 0 or i >= len(self.sources) for i in scene.source_indices):
@@ -200,3 +203,8 @@ class YouTubePublish(BaseModel):
     privacy: Literal["private", "unlisted", "public"] = "private"
     made_for_kids: bool
     expected_video_hash: str = Field(pattern=r"^[a-f0-9]{64}$")
+
+
+class KeywordImport(ResearchRequest):
+    branch: Branch = Branch.RESEARCH
+    language: Literal["vi", "en", "zh", "ja", "ko"] = "vi"

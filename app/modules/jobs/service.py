@@ -22,7 +22,11 @@ from app.schemas import (
 
 def create_job(payload: JobCreate, idempotency_key: str | None = None, *, session):
     data = payload.package.model_dump(mode="json")
-    fingerprint = hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()
+    # Preserve replay fingerprints for manual/URL requests created before research fields existed.
+    fingerprint_data = {
+        k: v for k, v in data.items() if k not in {"research", "discovery"} or v is not None
+    }
+    fingerprint = hashlib.sha256(json.dumps(fingerprint_data, sort_keys=True).encode()).hexdigest()
 
     def existing_job():
         existing = session.scalar(select(Job).where(Job.idempotency_key == idempotency_key))
