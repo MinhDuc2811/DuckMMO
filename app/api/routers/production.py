@@ -2,12 +2,13 @@ import shutil
 from typing import Literal
 from uuid import UUID
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from fastapi.responses import FileResponse
 from starlette.background import BackgroundTask
 
 from app.api.dependencies import authenticate, get_session, get_settings
 from app.contracts.presentation import MusicOptions, VisualOptions, presentation_catalog
+from app.modules.production.library import library_asset, stock_search
 from app.modules.production.previews import audio_preview, style_preview
 from app.modules.production.service import get_artifact, queue_render, review_video
 from app.modules.production.voices import preview_speech, voice_catalog
@@ -72,6 +73,12 @@ def endpoint_presentation_catalog():
     return presentation_catalog()
 
 
+@router.get("/api/production/library/{kind}/{asset_id}", dependencies=protected)
+def endpoint_library_asset(kind: Literal["background", "music"], asset_id: str):
+    asset = library_asset(kind, asset_id)
+    return FileResponse(asset.path, media_type=asset.media_type, filename=asset.filename)
+
+
 @router.post("/api/production/style-preview", dependencies=protected)
 def endpoint_style_preview(payload: VisualOptions, settings=Depends(get_settings)):
     if payload.preset == "auto":
@@ -108,3 +115,14 @@ def endpoint_music_preview(
     return FileResponse(
         path, media_type="audio/wav", background=BackgroundTask(shutil.rmtree, path.parent)
     )
+
+
+@router.get("/api/production/stock/search", dependencies=protected)
+def endpoint_stock_search(
+    provider: Literal["pexels", "openverse"],
+    q: str = Query(min_length=2, max_length=160),
+    kind: Literal["image", "video", "audio"] = "image",
+    page: int = Query(default=1, ge=1, le=20),
+    settings=Depends(get_settings),
+):
+    return stock_search(provider, kind, q, page, settings)

@@ -6,6 +6,7 @@ from functools import lru_cache
 from PIL import Image, ImageDraw, ImageOps
 
 from app.infrastructure.media.frames import font, wrap
+from app.infrastructure.media.lesson_card import lesson_card_frame
 
 
 @lru_cache(maxsize=24)
@@ -63,6 +64,8 @@ def progress_layer(canvas, accent, fraction, index, total):
 def scene_frame(size, style, scene, t, options, image=None):
     """Four independent layouts plus reusable title/card/rule/progress/decorative layers."""
     w, h = size
+    if scene["layout"] == "lesson_card":
+        return lesson_card_frame(size, style, scene, image, options.get("video_fit", "crop"))
     duration = scene["duration"]
     phase = max(0, min(1, t / duration))
     reveal = 1 - (1 - min(1, t / 0.55)) ** 3

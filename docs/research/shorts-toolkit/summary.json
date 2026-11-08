@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-08",
+  "scope": "Read-only repository research; no packages installed or app code changed",
+  "addresses_checked": 61,
+  "reachable_repositories": 59,
+  "readme_sources": 59,
+  "root_license_sources": 56,
+  "catalog_rows": 59,
+  "runtime_benchmarks": false,
+  "audio_audition": false
+}

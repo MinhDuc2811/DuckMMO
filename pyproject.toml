@@ -17,6 +17,8 @@ dependencies = [
   "edge-tts>=7,<8",
   "imageio-ffmpeg>=0.6,<1",
   "pillow>=12,<13",
+  "pysubs2>=1.8,<2",
+  "rapidfuzz>=3.14,<4",
 ]
 
 [dependency-groups]

@@ -186,3 +186,85 @@ def make_engine(url: str):
 
 def make_sessions(engine):
     return sessionmaker(engine, expire_on_commit=False)
+
+
+class LearningTopic(Base):
+    __tablename__ = "learning_topics"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    name: Mapped[str] = mapped_column(String(200), unique=True)
+    parent_id: Mapped[str | None] = mapped_column(ForeignKey("learning_topics.id"), nullable=True)
+
+
+class LearningItem(Base):
+    __tablename__ = "learning_items"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    kind: Mapped[str] = mapped_column(String(20), index=True)
+    title: Mapped[str] = mapped_column(String(200))
+    source: Mapped[dict] = mapped_column(JSON)
+    fingerprint: Mapped[str] = mapped_column(String(64), unique=True)
+    status: Mapped[str] = mapped_column(String(20), default="draft")
+    version: Mapped[int] = mapped_column(Integer, default=1)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    __mapper_args__ = {"version_id_col": version}
+
+
+class LearningItemTopic(Base):
+    __tablename__ = "learning_item_topics"
+    item_id: Mapped[str] = mapped_column(ForeignKey("learning_items.id"), primary_key=True)
+    topic_id: Mapped[str] = mapped_column(ForeignKey("learning_topics.id"), primary_key=True)
+
+
+class VocabularySense(Base):
+    __tablename__ = "vocabulary_senses"
+    item_id: Mapped[str] = mapped_column(ForeignKey("learning_items.id"), primary_key=True)
+    lemma: Mapped[str] = mapped_column(String(2000), index=True)
+    part_of_speech: Mapped[str] = mapped_column(String(20))
+    sense: Mapped[str] = mapped_column(Text)
+    ipa_uk: Mapped[str] = mapped_column(String(200))
+    definition: Mapped[str] = mapped_column(Text)
+    examples: Mapped[list] = mapped_column(JSON)
+
+
+class GrammarPattern(Base):
+    __tablename__ = "grammar_patterns"
+    item_id: Mapped[str] = mapped_column(ForeignKey("learning_items.id"), primary_key=True)
+    form: Mapped[str] = mapped_column(Text)
+    function: Mapped[str] = mapped_column(Text)
+    explanation: Mapped[str] = mapped_column(Text)
+    examples: Mapped[list] = mapped_column(JSON)
+
+
+class LearningSample(Base):
+    __tablename__ = "learning_samples"
+    item_id: Mapped[str] = mapped_column(ForeignKey("learning_items.id"), primary_key=True)
+    skill: Mapped[str] = mapped_column(String(20))
+    prompt: Mapped[str] = mapped_column(Text)
+    response: Mapped[str] = mapped_column(Text)
+    annotations: Mapped[list] = mapped_column(JSON)
+
+
+class LearningExercise(Base):
+    __tablename__ = "learning_exercises"
+    item_id: Mapped[str] = mapped_column(ForeignKey("learning_items.id"), primary_key=True)
+    question: Mapped[str] = mapped_column(Text)
+    options: Mapped[list] = mapped_column(JSON)
+    answer: Mapped[str] = mapped_column(Text)
+    explanation: Mapped[str] = mapped_column(Text)
+
+
+class LearningReview(Base):
+    __tablename__ = "learning_reviews"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    item_id: Mapped[str] = mapped_column(ForeignKey("learning_items.id"), index=True)
+    version: Mapped[int] = mapped_column(Integer)
+    reviewer: Mapped[str] = mapped_column(String(2000))
+    note: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class LearningRevision(Base):
+    __tablename__ = "learning_revisions"
+    item_id: Mapped[str] = mapped_column(ForeignKey("learning_items.id"), primary_key=True)
+    version: Mapped[int] = mapped_column(Integer, primary_key=True)
+    snapshot: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)

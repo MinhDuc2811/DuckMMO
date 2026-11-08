@@ -6,6 +6,7 @@ from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator, model_validator
 
 from app.contracts.presentation import MusicOptions, VisualOptions
+from app.contracts.study_pack import BackgroundId
 from app.contracts.voices import get_voice
 
 
@@ -147,6 +148,7 @@ class AudioPreview(VoicePreview):
 
 
 class RenderOptions(SpeechOptions):
+    background_id: BackgroundId | None = None
     visual: VisualOptions = Field(default_factory=VisualOptions)
     music: MusicOptions = Field(default_factory=MusicOptions)
     layout: Literal["portrait", "landscape"] = "portrait"
@@ -158,6 +160,8 @@ class RenderOptions(SpeechOptions):
 
     @model_validator(mode="after")
     def bound_images(self):
+        if self.background_id and (self.images or self.image_asset_ids or self.video_asset_id):
+            raise ValueError("Chọn ảnh có sẵn hoặc file của bạn, không chọn cả hai.")
         if self.video_asset_id and (self.images or self.image_asset_ids):
             raise ValueError("Chọn ảnh hoặc clip, không chọn cả hai.")
         if len(self.images) + len(self.image_asset_ids) > 10:

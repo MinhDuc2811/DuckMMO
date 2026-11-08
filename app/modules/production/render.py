@@ -273,6 +273,8 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         "voice": config["voice"],
         "visuals": "uploaded_video"
         if config.get("video_file")
+        else "library_background"
+        if config.get("background_id")
         else ("uploaded_images" if config["image_files"] else "text_cards"),
         "audio_checked": True,
         "video_checked": True,

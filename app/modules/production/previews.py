@@ -6,7 +6,7 @@ import wave
 from pathlib import Path
 
 from app.contracts.errors import VideoFailure
-from app.contracts.presentation import apply_presentation
+from app.contracts.presentation import apply_presentation, uses_lesson_card
 from app.infrastructure.local_lock import LocalBusy, exclusive_lock
 from app.infrastructure.media.music import mix_audio, pin_music
 from app.infrastructure.media.probe import MediaFailure
@@ -28,7 +28,15 @@ def style_preview(options, settings):
             config = dict(
                 visual=options.model_dump(), style=apply_presentation({}, options), image_files=[]
             )
-            plan = build_plan(config, "Phong cách của bạn", [(0, 1), (1, 1)], 240, 426)
+            timeline = (
+                [
+                    (0, 1, "Self-paced learning: learn at your own pace."),
+                    (1, 1, "Review a difficult lesson whenever you need to."),
+                ]
+                if uses_lesson_card(config["visual"])
+                else [(0, 1), (1, 1)]
+            )
+            plan = build_plan(config, "English lesson", timeline, 240, 426)
             plan["fps"] = 12
             frames = list(render_frames(plan, directory))
             path = directory / "style-preview.gif"

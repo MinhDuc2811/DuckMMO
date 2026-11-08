@@ -15,6 +15,7 @@ def voice_catalog(settings):
     return {
         "voices": items,
         "default_voice": "vi-VN-HoaiMyNeural",
+        "english_default_voice": "en-GB-SoniaNeural",
         "availability_note": "Đã cấu hình không đồng nghĩa kết nối/quota đã được xác minh.",
     }
 

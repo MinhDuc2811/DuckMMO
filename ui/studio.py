@@ -11,7 +11,7 @@ import streamlit as st
 from ui.client.api import request
 from ui.components.activity import render_activity_log
 from ui.components.workspace import render_workspace
-from ui.screens import content_review, ingestion, production, publishing, video_review
+from ui.screens import content_review, ielts, ingestion, production, publishing, video_review
 from ui.state.workspace import apply_pending_navigation
 
 st.set_page_config(page_title="AI Content Studio", page_icon="🦆", layout="wide")
@@ -41,10 +41,13 @@ with main_column:
             "Phase 3 · Sản xuất video",
             "Phase 4 · Duyệt video",
             "Phase 5 · YouTube",
+            "Thư viện IELTS",
         ],
         key="workflow_phase",
         on_change="rerun",
     )
-    for tab, screen in zip(tabs, (ingestion, content_review, production, video_review, publishing)):
+    for tab, screen in zip(
+        tabs, (ingestion, content_review, production, video_review, publishing, ielts)
+    ):
         with tab:
             screen.render(opened=opened, active=tab.open, jobs_snapshot=jobs_snapshot)

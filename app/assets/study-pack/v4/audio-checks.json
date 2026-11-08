@@ -1,0 +1,23 @@
+{
+  "quiet-pages": {
+    "duration_seconds": 32.0,
+    "peak": 7899,
+    "clipped_samples": 0,
+    "boundary_step": 7,
+    "p99_adjacent_step": 1741
+  },
+  "morning-air": {
+    "duration_seconds": 32.0,
+    "peak": 8291,
+    "clipped_samples": 0,
+    "boundary_step": 124,
+    "p99_adjacent_step": 773
+  },
+  "soft-focus": {
+    "duration_seconds": 40.0,
+    "peak": 8269,
+    "clipped_samples": 0,
+    "boundary_step": 55,
+    "p99_adjacent_step": 1961
+  }
+}

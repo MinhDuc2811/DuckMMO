@@ -1,0 +1,1245 @@
+[
+  {
+    "repo": "remotion-dev/remotion",
+    "category": "video",
+    "url": "https://github.com/remotion-dev/remotion",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/remotion-dev/remotion/main/README.md",
+      "characters": 4616,
+      "first_lines": "<p align=\"center\">\n  <a href=\"https://www.remotion.dev/\">\n    <picture>\n      <source media=\"(prefers-color-scheme: dark)\" type=\"image/avif\" srcset=\"https://remotion.media/homepage/readme-hero-dark-8e3738026d0c.avif\">\n      <source media=\"(prefers-color-scheme: dark)\" type=\"image/webp\" srcset=\"https://remotion.media/homepage/readme-hero-dark-29b3646a987b.webp\">\n      <source type=\"image/avif\" srcset=\"https://remotion.media/homepage/readme-hero-light-d5565fc15159.avif\">\n      <img alt=\"Remotion — Studio, Codex and VS Code working together\" src=\"https://remotion.media/homepage/readme-hero-light-f7ec8ed9562c.webp\" width=\"100%\">\n    </picture>\n  </a>",
+      "saved_sha256": "4c6717ce4a4f556300edf18cb8c64965786754649889353599b3435810268e58"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/remotion-dev/remotion/main/LICENSE.md",
+      "characters": 2822,
+      "first_lines": "# Remotion License\n\nIn Remotion 5.0, the license will slightly change. [View the changes here](https://github.com/remotion-dev/remotion/pull/3750).\n\n---\n\nDepending on the type of your legal entity, you are granted permission to use Remotion for your project. Individuals and small companies are allowed to use Remotion to create videos for free (even commercial), while a company license is required for for-profit organizations of a certain size. This two-tier system was designed to ensure funding for this project while still allowing the source code to be available and the program to be free for most. Read below for the exact terms of use.\n\n- [Free License](#free-license)",
+      "saved_sha256": "bd65083b940f61904f6ef298aade918a7cad72a3e35bc406e36fab365844b673"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "FFmpeg/FFmpeg",
+    "category": "video",
+    "url": "https://github.com/FFmpeg/FFmpeg",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/FFmpeg/FFmpeg/master/README.md",
+      "characters": 2026,
+      "first_lines": "# FFmpeg README\n\nFFmpeg is a collection of libraries and tools to process multimedia content\nsuch as audio, video, subtitles and related metadata.\n\n## Libraries\n\n* `libavcodec` provides implementation of a wider range of codecs.\n* `libavformat` implements streaming protocols, container formats and basic I/O access.",
+      "saved_sha256": "86474c8f0806772f831a9c7a4982fd2398507372c577d229b76f60bbb3e7dead"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/FFmpeg/FFmpeg/master/LICENSE.md",
+      "characters": 4352,
+      "first_lines": "# License\n\nMost files in FFmpeg are under the GNU Lesser General Public License version 2.1\nor later (LGPL v2.1+). Read the file `COPYING.LGPLv2.1` for details. Some other\nfiles have MIT/X11/BSD-style licenses. In combination the LGPL v2.1+ applies to\nFFmpeg.\n\nSome optional parts of FFmpeg are licensed under the GNU General Public License\nversion 2 or later (GPL v2+). See the file `COPYING.GPLv2` for details. None of",
+      "saved_sha256": "e6dc72d5665a1ebd6dcc841de59278dad4ca77ecc47b03f1064a55c3e9ea8bb8"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "Zulko/moviepy",
+    "category": "video",
+    "url": "https://github.com/Zulko/moviepy",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/Zulko/moviepy/master/README.md",
+      "characters": 5004,
+      "first_lines": "# MoviePy\n\n\n[![MoviePy page on the Python Package Index](https://badge.fury.io/py/moviepy.svg)](https://pypi.org/project/moviepy/) [![Discuss MoviePy on Gitter](https://img.shields.io/gitter/room/movie-py/gitter?color=46BC99&logo=gitter)](Gitter_) [![Build status on gh-actions](https://img.shields.io/github/actions/workflow/status/Zulko/moviepy/test_suite.yml?logo=github)](https://github.com/Zulko/moviepy/actions/workflows/test_suite.yml) [![Code coverage from coveralls.io](https://img.shields.io/coveralls/github/Zulko/moviepy/master?logo=coveralls)](https://coveralls.io/github/Zulko/moviepy?branch=master)\n\n> [!NOTE]\n> MoviePy recently upgraded to v2.0, introducing major breaking changes. You can consult the last v1 docs [here](https://zulko.github.io/moviepy/v1.0.3/) but beware that v1 is no longer maintained. For more info on how to update your code from v1 to v2, see [this guide](https://zulko.github.io/moviepy/getting_started/updating_to_v2.html).\n\nMoviePy (online documentation [here](https://zulko.github.io/moviepy/)) is a Python library for video editing: cuts, concatenations, title insertions, video compositing (a.k.a. non-linear editing), video processing, and creation of custom effects.",
+      "saved_sha256": "34b932b6bb7320500bd1c1693ba615482f576672ea72a205eb017529cc714120"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/Zulko/moviepy/master/LICENCE.txt",
+      "characters": 1071,
+      "first_lines": "The MIT License (MIT)\n\nCopyright (c) 2015 Zulko\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights",
+      "saved_sha256": "05ecc6144af83d1b87b64f3e36f4367349ac4486afbf29e57341b7c4745dd38a"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "PyAV-Org/PyAV",
+    "category": "video",
+    "url": "https://github.com/PyAV-Org/PyAV",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/PyAV-Org/PyAV/master/README.md",
+      "characters": 3594,
+      "first_lines": "PyAV\n====\n\nPyAV is a Pythonic binding for the [FFmpeg][ffmpeg] libraries. We aim to provide all the power and control of the underlying library, but manage the gritty details as much as possible.\n\n---\n\n[![GitHub Test Status][github-tests-badge]][github-tests] [![Documentation][docs-badge]][docs] [![Python Package Index][pypi-badge]][pypi] [![Conda Forge][conda-badge]][conda]\n",
+      "saved_sha256": "3ebebb2d36aae9edc3ade5adbcaa30385a394f9d68d945e1184a1660b1bd16ea"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/PyAV-Org/PyAV/master/LICENSE.txt",
+      "characters": 1505,
+      "first_lines": "Copyright retained by original committers. All rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n    * Redistributions of source code must retain the above copyright\n      notice, this list of conditions and the following disclaimer.\n    * Redistributions in binary form must reproduce the above copyright\n      notice, this list of conditions and the following disclaimer in the\n      documentation and/or other materials provided with the distribution.",
+      "saved_sha256": "76af0461ffb92e19f1c14449e95557d83a2dfaa1baf202d49e5f1d8746c0da19"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "motion-canvas/motion-canvas",
+    "category": "video",
+    "url": "https://github.com/motion-canvas/motion-canvas",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/motion-canvas/motion-canvas/main/README.md",
+      "characters": 5248,
+      "first_lines": "<br/>\n<p align=\"center\">\n  <a href=\"https://motion-canvas.github.io\">\n    <picture>\n      <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://motion-canvas.github.io/img/logo_dark.svg\">\n      <img width=\"180\" alt=\"Motion Canvas logo\" src=\"https://motion-canvas.github.io/img/logo.svg\">\n    </picture>\n  </a>\n</p>",
+      "saved_sha256": "9895daa20be79849a312b5cb5b9ed36db2d1a6dfe9731b5e53a67b222abe9cd9"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/motion-canvas/motion-canvas/main/LICENSE",
+      "characters": 1070,
+      "first_lines": "MIT License\n\nCopyright (c) 2022 motion-canvas\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "b3f12201916c5d478263cd210cf17f3d0c007d03bd574e0b77cac6307953068e"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "mifi/editly",
+    "category": "video",
+    "url": "https://github.com/mifi/editly",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/mifi/editly/master/README.md",
+      "characters": 29445,
+      "first_lines": "![](logo.png)\n\n[![Discord](https://img.shields.io/discord/986052452245700659)](https://discord.gg/P3u6zKbDK7) [![NPM version](https://img.shields.io/npm/v/editly.svg?style=flat-square)](https://npmjs.org/package/editly) ![Build status](https://github.com/mifi/editly/actions/workflows/test.yml/badge.svg) [![PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/mifino/usd)\n\n**Editly** is a tool and framework for declarative NLE (**non-linear video editing**) using Node.js and ffmpeg. Editly allows you to easily and **programmatically create a video** from a **set of clips, images, audio and titles**, with smooth transitions and music overlaid.\n\nEditly has a simple CLI for quickly assembling a video from a set of clips or images, or you can use its more flexible JavaScript API.\n\nInspired by [ffmpeg-concat](https://github.com/transitive-bullshit/ffmpeg-concat), editly is much faster and doesn't require much storage because it uses **streaming** editing. Editly aims to be very extensible and feature rich with a pluggable interface for adding new **dynamic content**.",
+      "saved_sha256": "6221eb2ba4914a46b70ffd1220e69ba9367e93327453d8f016a68064462da61e"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/mifi/editly/master/LICENSE",
+      "characters": 1071,
+      "first_lines": "MIT License\n\nCopyright (c) 2020 Mikael Finstad\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "c7b1aac19b0d6a4b66fce2db663cd51026082ec0c091cb17eca9ffe7c27fe2f9"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "ManimCommunity/manim",
+    "category": "video",
+    "url": "https://github.com/ManimCommunity/manim",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/ManimCommunity/manim/main/README.md",
+      "characters": 8378,
+      "first_lines": "<p align=\"center\">\n    <a href=\"https://www.manim.community/\"><img src=\"https://raw.githubusercontent.com/ManimCommunity/manim/main/logo/cropped.png\" alt=\"Manim Community logo\"></a>\n    <br />\n    <br />\n    <a href=\"https://pypi.org/project/manim/\"><img src=\"https://img.shields.io/pypi/v/manim.svg?style=flat&logo=pypi\" alt=\"PyPI Latest Release\"></a>\n    <a href=\"https://hub.docker.com/r/manimcommunity/manim\"><img src=\"https://img.shields.io/docker/v/manimcommunity/manim?color=%23099cec&label=docker%20image&logo=docker\" alt=\"Docker image\"> </a>\n    <a href=\"https://mybinder.org/v2/gh/ManimCommunity/jupyter_examples/HEAD?filepath=basic_example_scenes.ipynb\"><img src=\"https://mybinder.org/badge_logo.svg\" alt=\"Launch Binder\"></a>\n    <a href=\"http://choosealicense.com/licenses/mit/\"><img src=\"https://img.shields.io/badge/license-MIT-red.svg?style=flat\" alt=\"MIT License\"></a>\n    <a href=\"https://www.reddit.com/r/manim/\"><img src=\"https://img.shields.io/reddit/subreddit-subscribers/manim.svg?color=orange&label=reddit&logo=reddit\" alt=\"Reddit\" href=></a>",
+      "saved_sha256": "41cac8aeb33a726c1b0a70d10233ee06d9cd73c6df0bace8145637d75c5fc283"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/ManimCommunity/manim/main/LICENSE",
+      "characters": 1072,
+      "first_lines": "MIT License\n\nCopyright (c) 2018 3Blue1Brown LLC\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "c6a922fc1cfaed7ac0f87aa1dc77ebf5a3c8d1ccc5ab01da33153f0d013bf019"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "SYSTRAN/faster-whisper",
+    "category": "captions",
+    "url": "https://github.com/SYSTRAN/faster-whisper",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/SYSTRAN/faster-whisper/master/README.md",
+      "characters": 15249,
+      "first_lines": "[![CI](https://github.com/SYSTRAN/faster-whisper/workflows/CI/badge.svg)](https://github.com/SYSTRAN/faster-whisper/actions?query=workflow%3ACI) [![PyPI version](https://badge.fury.io/py/faster-whisper.svg)](https://badge.fury.io/py/faster-whisper)\n\n# Faster Whisper transcription with CTranslate2\n\n**faster-whisper** is a reimplementation of OpenAI's Whisper model using [CTranslate2](https://github.com/OpenNMT/CTranslate2/), which is a fast inference engine for Transformer models.\n\nThis implementation is up to 4 times faster than [openai/whisper](https://github.com/openai/whisper) for the same accuracy while using less memory. The efficiency can be further improved with 8-bit quantization on both CPU and GPU.\n\n## Benchmark",
+      "saved_sha256": "43efe4a6eb9046d5ba4dcdcf2abcc27ad9e021f3edfc00bd6eb4913a9abe065b"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/SYSTRAN/faster-whisper/master/LICENSE",
+      "characters": 1064,
+      "first_lines": "MIT License\n\nCopyright (c) 2023 SYSTRAN\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "af6798135e729f8aa6c853936d037dfdea449734d26b8ea6a89805fca758c0d5"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "m-bain/whisperX",
+    "category": "captions",
+    "url": "https://github.com/m-bain/whisperX",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/m-bain/whisperX/main/README.md",
+      "characters": 16419,
+      "first_lines": "<h1 align=\"center\">WhisperX</h1>\n\n## Recall.ai - Meeting Transcription API\n\nIf you’re looking for a transcription API for meetings, consider checking out [Recall.ai's Meeting Transcription API](https://www.recall.ai/product/meeting-transcription-api?utm_source=github&utm_medium=sponsorship&utm_campaign=mbain-whisperx), an API that works with Zoom, Google Meet, Microsoft Teams, and more. Recall.ai diarizes by pulling the speaker data and separate audio streams from the meeting platforms, which means 100% accurate speaker diarization with actual speaker names.\n\n\n<p align=\"center\">\n  <a href=\"https://github.com/m-bain/whisperX/stargazers\">",
+      "saved_sha256": "98ebee691ebee0ca5bdd9257dad72e1e74a9c216ff3adb7fa68d5164007a84ea"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/m-bain/whisperX/main/LICENSE",
+      "characters": 1297,
+      "first_lines": "BSD 2-Clause License\n\nCopyright (c) 2024, Max Bain\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice, this\n   list of conditions and the following disclaimer.",
+      "saved_sha256": "cddc25bce26226b4a04ed12839d9006b7a4403da9020ef6428ef7282a6567441"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "jianfch/stable-ts",
+    "category": "captions",
+    "url": "https://github.com/jianfch/stable-ts",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/jianfch/stable-ts/main/README.md",
+      "characters": 108608,
+      "first_lines": "> [!NOTE] \n> **Development on this repository is indefinitely paused.** \n> This will remain the case for the foreseeable future.\n\n# Stabilizing Timestamps for Whisper\n\nThis library modifies [Whisper](https://github.com/openai/whisper) to produce more reliable timestamps and extends its functionality.\n\nhttps://github.com/jianfch/stable-ts/assets/28970749/7adf0540-3620-4b2b-b2d4-e316906d6dfa",
+      "saved_sha256": "18daa39d22a5f3d4978eb6c3aa28e3aec35fac670b592289dbb7c84d230b7f90"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/jianfch/stable-ts/main/LICENSE",
+      "characters": 1061,
+      "first_lines": "MIT License\n\nCopyright (c) 2022 jian\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "69ac6d54d38598c96443b5314597568bb8fa21726c46168fcec98764de33dc23"
+    },
+    "repository_http_status": 200,
+    "archived_banner": true,
+    "default_branch": "main"
+  },
+  {
+    "repo": "MontrealCorpusTools/Montreal-Forced-Aligner",
+    "category": "captions",
+    "url": "https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/MontrealCorpusTools/Montreal-Forced-Aligner/main/README.md",
+      "characters": 4334,
+      "first_lines": "# Montreal Forced Aligner\n\n![Continuous Integration](https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner/actions/workflows/main.yml/badge.svg)\n[![codecov](https://codecov.io/gh/MontrealCorpusTools/Montreal-Forced-Aligner/branch/main/graph/badge.svg?token=GgfM9GXFJ4)](https://codecov.io/gh/MontrealCorpusTools/Montreal-Forced-Aligner)\n[![Documentation Status](https://readthedocs.org/projects/montreal-forced-aligner/badge/?version=latest)](http://montreal-forced-aligner.readthedocs.io/en/latest/?badge=latest)\n[![Interrogate Status](https://montreal-forced-aligner.readthedocs.io/en/latest/_static/interrogate_badge.svg)](https://github.com/MontrealCorpusTools/montreal-forced-aligner/)\n[![DOI](https://zenodo.org/badge/44983969.svg)](https://zenodo.org/badge/latestdoi/44983969)\n\nThe Montreal Forced Aligner is a command line utility for performing forced alignment of speech datasets using Kaldi (http://kaldi-asr.org/).",
+      "saved_sha256": "6d2984839ae2ab96e894791bacad79c7a7b75d8cb0f498458ee372766eed0bc5"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/MontrealCorpusTools/Montreal-Forced-Aligner/main/LICENSE",
+      "characters": 1066,
+      "first_lines": "Copyright (c) 2016 Montreal Corpus Tools\n\n\nPermission is hereby granted, free of charge, to any person obtaining a\ncopy of this software and associated documentation files (the\n\"Software\"), to deal in the Software without restriction, including\nwithout limitation the rights to use, copy, modify, merge, publish,\ndistribute, sublicense, and/or sell copies of the Software, and to\npermit persons to whom the Software is furnished to do so, subject to",
+      "saved_sha256": "ffaac053ec76f9df77885df9102299bf0950f3ca5b3dfd04b898aee0c77bc605"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "tkarabela/pysubs2",
+    "category": "captions",
+    "url": "https://github.com/tkarabela/pysubs2",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/tkarabela/pysubs2/master/README.md",
+      "characters": 3046,
+      "first_lines": "[![pysubs2 build master branch](https://img.shields.io/github/actions/workflow/status/tkarabela/pysubs2/main.yml?branch=master)](https://github.com/tkarabela/pysubs2/actions)\n[![pysubs2 test code coverage](https://img.shields.io/codecov/c/github/tkarabela/pysubs2)](https://app.codecov.io/github/tkarabela/pysubs2)\n[![Static Badge](https://img.shields.io/badge/MyPy%20%26%20Pyrefly%20%26%20Ruff-checked-blue?style=flat)](https://github.com/tkarabela/pysubs2/actions)\n[![PyPI - Version](https://img.shields.io/pypi/v/pysubs2.svg?style=flat)](https://pypi.org/project/pysubs2/)\n[![PyPI - Status](https://img.shields.io/pypi/status/pysubs2.svg?style=flat)](https://pypi.org/project/pysubs2/)\n[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pysubs2.svg?style=flat)](https://pypi.org/project/pysubs2/)\n[![PyPI - License](https://img.shields.io/pypi/l/pysubs2.svg?style=flat)](LICENSE.txt)\n[![GitHub Repo stars](https://img.shields.io/github/stars/tkarabela/pysubs2?style=flat&label=GitHub%20stars)](https://github.com/tkarabela/pysubs2)\n",
+      "saved_sha256": "7f4de072185cc797935b5c7bc83f424b0168752d556d12b4b7735797f2209d14"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/tkarabela/pysubs2/master/LICENSE.txt",
+      "characters": 1063,
+      "first_lines": "Copyright (c) 2014-2026 Tomas Karabela\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n",
+      "saved_sha256": "93d82c4caf14f9ac8845377399860ee8e3628481d8017ebe33febb8bf7236211"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "rany2/edge-tts",
+    "category": "speech",
+    "url": "https://github.com/rany2/edge-tts",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/rany2/edge-tts/master/README.md",
+      "characters": 5136,
+      "first_lines": "# edge-tts\n\n`edge-tts` is a Python module that allows you to use Microsoft Edge's online text-to-speech service from within your Python code or using the provided `edge-tts` or `edge-playback` command.\n\n## Installation\n\nTo install it, run the following command:\n\n    $ pip install edge-tts",
+      "saved_sha256": "7f8b8d1941037c3bc341deae0bb148de7a95d9b41a47dc89c90093d3cc61a0e9"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/rany2/edge-tts/master/LICENSE",
+      "characters": 9041,
+      "first_lines": "The MIT license is used for 'src/edge_tts/srt_composer.py' only. All\nremaining files are licensed under the LGPLv3.\n\n-----------------------------------------------------------------------\n\nThe MIT License\n\nCopyright (c) 2014-2023 Christopher Down\nCopyright (c) 2025- rany <rany@riseup.net>",
+      "saved_sha256": "3613045a46a5bce847f80eadbbf013e4260ef19d728ffd061d61e792689ec3a8"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "hexgrad/kokoro",
+    "category": "speech",
+    "url": "https://github.com/hexgrad/kokoro",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/hexgrad/kokoro/main/README.md",
+      "characters": 7795,
+      "first_lines": "# kokoro\n\nAn inference library for [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M). You can [`pip install kokoro`](https://pypi.org/project/kokoro/).\n\n> **Kokoro** is an open-weight TTS model with 82 million parameters. Despite its lightweight architecture, it delivers comparable quality to larger models while being significantly faster and more cost-efficient. With Apache-licensed weights, Kokoro can be deployed anywhere from production environments to personal projects.\n\n### Usage\nYou can run this basic cell on [Google Colab](https://colab.research.google.com/). [Listen to samples](https://huggingface.co/hexgrad/Kokoro-82M/blob/main/SAMPLES.md).\n```py",
+      "saved_sha256": "b50b84220668f8247a2405b249c34c7083acc24114279ff1429fd79f46a2c04b"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/hexgrad/kokoro/main/LICENSE",
+      "characters": 11357,
+      "first_lines": "                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,",
+      "saved_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "OHF-Voice/piper1-gpl",
+    "category": "speech",
+    "url": "https://github.com/OHF-Voice/piper1-gpl",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/OHF-Voice/piper1-gpl/main/README.md",
+      "characters": 2817,
+      "first_lines": "![Piper](etc/logo.png)\n\nA fast and local neural text-to-speech engine that embeds [espeak-ng][] for phonemization.\n\nInstall with:\n\n``` sh\npip install piper-tts\n```",
+      "saved_sha256": "a73f576020071a1d58701a40026a451385ef4dad4c9ba0a2499544d988d06e84"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/OHF-Voice/piper1-gpl/main/COPYING",
+      "characters": 35148,
+      "first_lines": "                    GNU GENERAL PUBLIC LICENSE\n                       Version 3, 29 June 2007\n\n Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>\n Everyone is permitted to copy and distribute verbatim copies\n of this license document, but changing it is not allowed.\n\n                            Preamble\n",
+      "saved_sha256": "0ae0485a5bd37a63e63603596417e4eb0e653334fa6c7f932ca3a0e85d4af227"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "rhasspy/piper",
+    "category": "speech",
+    "url": "https://github.com/rhasspy/piper",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/rhasspy/piper/master/README.md",
+      "characters": 63,
+      "first_lines": "Development has moved: https://github.com/OHF-Voice/piper1-gpl",
+      "saved_sha256": "468eb54e31be1c02f5a5bbcd23157a30cf5eed251729f052ccacc01685ce2fa7"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/rhasspy/piper/master/LICENSE.md",
+      "characters": 1071,
+      "first_lines": "MIT License\n\nCopyright (c) 2022 Michael Hansen\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "4cd71dece7037f1d6d93cce7570c57ab75ea9ac566fd4990be2f3ab08d15b47f"
+    },
+    "repository_http_status": 200,
+    "archived_banner": true,
+    "default_branch": "master"
+  },
+  {
+    "repo": "idiap/coqui-ai-TTS",
+    "category": "speech",
+    "url": "https://github.com/idiap/coqui-ai-TTS",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/idiap/coqui-ai-TTS/dev/README.md",
+      "characters": 16956,
+      "first_lines": "# <img src=\"https://raw.githubusercontent.com/idiap/coqui-ai-TTS/main/images/coqui-log-green-TTS.png\" height=\"56\"/>\n\n\n**🐸 Coqui TTS is a library for advanced Text-to-Speech generation.**\n\n🚀 Pretrained models in +1100 languages.\n\n🛠️ Tools for training new models and fine-tuning existing models in any language.\n",
+      "saved_sha256": "bb59adbc3483f70bc9b72abece28a02b10d4e2150566b7e922eff5fb8ecd504f"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/idiap/coqui-ai-TTS/dev/LICENSE.txt",
+      "characters": 16725,
+      "first_lines": "Mozilla Public License Version 2.0\n==================================\n\n1. Definitions\n--------------\n\n1.1. \"Contributor\"\n    means each individual or legal entity that creates, contributes to\n    the creation of, or owns Covered Software.",
+      "saved_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "dev"
+  },
+  {
+    "repo": "Azure-Samples/cognitive-services-speech-sdk",
+    "category": "speech",
+    "url": "https://github.com/Azure-Samples/cognitive-services-speech-sdk",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-speech-sdk/master/README.md",
+      "characters": 16977,
+      "first_lines": "---\npage_type: sample\nlanguages:\n- cpp\n- csharp\n- java\n- javascript\n- nodejs\n- objc",
+      "saved_sha256": "48e4e73c0f41e0c372a6a814995bd13e6e8ef6bf6475939958d2af4dc48dcd03"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-speech-sdk/master/LICENSE.md",
+      "characters": 1162,
+      "first_lines": "    MIT License\n\n    Copyright (c) Microsoft Corporation. All rights reserved.\n\n    Permission is hereby granted, free of charge, to any person obtaining a copy\n    of this software and associated documentation files (the \"Software\"), to deal\n    in the Software without restriction, including without limitation the rights\n    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n    copies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "27ebda9d51f0a56b7e281ccd8230a27236dcb51c05f64b07869ecf6e965d68b0"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "csteinmetz1/pyloudnorm",
+    "category": "audio",
+    "url": "https://github.com/csteinmetz1/pyloudnorm",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/csteinmetz1/pyloudnorm/master/README.md",
+      "characters": 5732,
+      "first_lines": "# pyloudnorm  [![Build Status](https://travis-ci.org/csteinmetz1/pyloudnorm.svg?branch=master)](https://travis-ci.org/csteinmetz1/pyloudnorm) ![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.3551801.svg)\nFlexible audio loudness meter in Python. \n\nImplementation of [ITU-R BS.1770-4](https://www.itu.int/dms_pubrec/itu-r/rec/bs/R-REC-BS.1770-4-201510-I!!PDF-E.pdf). <br/>\nAllows control over gating block size and frequency weighting filters for additional control. \n\nFor full details on the implementation see our [paper](https://csteinmetz1.github.io/pyloudnorm-eval/paper/pyloudnorm_preprint.pdf) with a summary in our [AES presentation video](https://www.youtube.com/watch?v=krSJpQ3d4gE).\n\n## Installation",
+      "saved_sha256": "785334fd8e20773300c2a52bc0cbd8f3bdefa6ff229441d460afedb989b1a204"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/csteinmetz1/pyloudnorm/master/LICENSE",
+      "characters": 1076,
+      "first_lines": "MIT License\n\nCopyright (c) 2018 Christian Steinmetz\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "1616faebaa2add8b57d4f76403c0c4aa427fdb0d241d8e52b7a12dce4906beaa"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "jiaaro/pydub",
+    "category": "audio",
+    "url": "https://github.com/jiaaro/pydub",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/jiaaro/pydub/master/README.markdown",
+      "characters": 9748,
+      "first_lines": "# Pydub [![Build Status](https://travis-ci.org/jiaaro/pydub.svg?branch=master)](https://travis-ci.org/jiaaro/pydub) [![Build status](https://ci.appveyor.com/api/projects/status/gy1ucp9o5khq7fqi/branch/master?svg=true)](https://ci.appveyor.com/project/jiaaro/pydub/branch/master)\n\nPydub lets you do stuff to audio in a way that isn't stupid.\n\n**Stuff you might be looking for**:\n - [Installing Pydub](https://github.com/jiaaro/pydub#installation)\n - [API Documentation](https://github.com/jiaaro/pydub/blob/master/API.markdown)",
+      "saved_sha256": "0d77cf3ff72f07f508d3beb73815c032ca2b27d5c41a212e40d5112eede691d4"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/jiaaro/pydub/master/LICENSE",
+      "characters": 1074,
+      "first_lines": "Copyright (c) 2011 James Robert, http://jiaaro.com\n\nPermission is hereby granted, free of charge, to any person obtaining\na copy of this software and associated documentation files (the\n\"Software\"), to deal in the Software without restriction, including\nwithout limitation the rights to use, copy, modify, merge, publish,\ndistribute, sublicense, and/or sell copies of the Software, and to\npermit persons to whom the Software is furnished to do so, subject to\nthe following conditions:",
+      "saved_sha256": "ae856536224cc7a389e968771fc5f259814bdd0da63539cf72282adbaef6897a"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "librosa/librosa",
+    "category": "audio",
+    "url": "https://github.com/librosa/librosa",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/librosa/librosa/main/README.md",
+      "characters": 3905,
+      "first_lines": "[![librosa logo](docs/img/librosa_logo_text.svg)](https://librosa.org/)\n\n# librosa\n\n`librosa` is a Python library for audio and music signal processing. It provides the foundational algorithms and tools required for building music information retrieval (MIR) systems.\n\n[![PyPI](https://img.shields.io/pypi/v/librosa.svg)](https://pypi.python.org/pypi/librosa)\n[![Anaconda-Server Badge](https://anaconda.org/conda-forge/librosa/badges/version.svg)](https://anaconda.org/conda-forge/librosa)\n[![License](https://img.shields.io/pypi/l/librosa.svg)](https://github.com/librosa/librosa/blob/main/LICENSE.md)",
+      "saved_sha256": "5887811bcf8720e315cebfcc7ebe62637cc284bf005077dc1a0340a8b97e3b36"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/librosa/librosa/main/LICENSE.md",
+      "characters": 766,
+      "first_lines": "## ISC License\n\nCopyright (c) 2013--2026, librosa development team.\n\nPermission to use, copy, modify, and/or distribute this software for any\npurpose with or without fee is hereby granted, provided that the above\ncopyright notice and this permission notice appear in all copies.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES",
+      "saved_sha256": "79aa4a8086d51ac89f9a7322f546670cdef73e758c67f04587b7af8afafd6df8"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "spotify/pedalboard",
+    "category": "audio",
+    "url": "https://github.com/spotify/pedalboard",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/spotify/pedalboard/master/README.md",
+      "characters": 16057,
+      "first_lines": "![Pedalboard Logo](https://user-images.githubusercontent.com/213293/131147303-4805181a-c7d5-4afe-afb2-f591a4b8e586.png)\n\n\n[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/spotify/pedalboard/blob/master/LICENSE)\n[![Documentation](https://img.shields.io/badge/Documentation-on%20github.io-brightgreen)](https://spotify.github.io/pedalboard)\n[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pedalboard)](https://pypi.org/project/pedalboard)\n[![Supported Platforms](https://img.shields.io/badge/platforms-macOS%20%7C%20Windows%20%7C%20Linux-green)](https://pypi.org/project/pedalboard)\n[![Apple Silicon support for macOS and Linux (Docker)](https://img.shields.io/badge/Apple%20Silicon-macOS%20and%20Linux-brightgreen)](https://pypi.org/project/pedalboard)\n[![PyPI - Wheel](https://img.shields.io/pypi/wheel/pedalboard)](https://pypi.org/project/pedalboard)",
+      "saved_sha256": "3035badeae94c9c26227bbbba0431befa750799ebcd879c9cf848be0fae62b36"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/spotify/pedalboard/master/LICENSE",
+      "characters": 35149,
+      "first_lines": "                    GNU GENERAL PUBLIC LICENSE\n                       Version 3, 29 June 2007\n\n Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>\n Everyone is permitted to copy and distribute verbatim copies\n of this license document, but changing it is not allowed.\n\n                            Preamble\n",
+      "saved_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "facebookresearch/audiocraft",
+    "category": "musicgen",
+    "url": "https://github.com/facebookresearch/audiocraft",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/facebookresearch/audiocraft/main/README.md",
+      "characters": 4833,
+      "first_lines": "# AudioCraft\n![docs badge](https://github.com/facebookresearch/audiocraft/workflows/audiocraft_docs/badge.svg)\n![linter badge](https://github.com/facebookresearch/audiocraft/workflows/audiocraft_linter/badge.svg)\n![tests badge](https://github.com/facebookresearch/audiocraft/workflows/audiocraft_tests/badge.svg)\n\nAudioCraft is a PyTorch library for deep learning research on audio generation. AudioCraft contains inference and training code\nfor two state-of-the-art AI generative models producing high-quality audio: AudioGen and MusicGen.\n\n",
+      "saved_sha256": "0240bd901c60c42508680e6beb580574836fd44b8476e721f811831fd2780638"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/facebookresearch/audiocraft/main/LICENSE",
+      "characters": 1088,
+      "first_lines": "MIT License\n\nCopyright (c) Meta Platforms, Inc. and affiliates.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "Stability-AI/stable-audio-tools",
+    "category": "musicgen",
+    "url": "https://github.com/Stability-AI/stable-audio-tools",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/Stability-AI/stable-audio-tools/main/README.md",
+      "characters": 7930,
+      "first_lines": "# stable-audio-tools\nTraining and inference code for audio generation models\n\n# Install\n\nRequires PyTorch 2.5 or later for Flash Attention and Flex Attention support. Development for the repo is done in Python 3.10.\n\nWe use [uv](https://docs.astral.sh/uv/) for fast, reproducible dependency management. Install it with `pip install uv` or see the [uv docs](https://docs.astral.sh/uv/getting-started/installation/).\n",
+      "saved_sha256": "55d170f97663ca9ce361e73ca680c7e1399cfc9ee1604e59a226dacffdad3a46"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/Stability-AI/stable-audio-tools/main/LICENSE",
+      "characters": 1069,
+      "first_lines": "MIT License\n\nCopyright (c) 2023 Stability AI\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "a1fac33b7bcd791b74fb33aeb439f825e7277e239fc119fb7d2ab6f084a0c101"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "ace-step/ACE-Step",
+    "category": "musicgen",
+    "url": "https://github.com/ace-step/ACE-Step",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/ace-step/ACE-Step/main/README.md",
+      "characters": 18336,
+      "first_lines": "<h1 align=\"center\">ACE-Step</h1>\n<h1 align=\"center\">A Step Towards Music Generation Foundation Model</h1>\n<p align=\"center\">\n    <a href=\"https://ace-step.github.io/\">Project</a> |\n    <a href=\"https://huggingface.co/ACE-Step/ACE-Step-v1-3.5B\">Hugging Face</a> |\n    <a href=\"https://modelscope.cn/models/ACE-Step/ACE-Step-v1-3.5B\">ModelScope</a> |\n    <a href=\"https://huggingface.co/spaces/ACE-Step/ACE-Step\">Space Demo</a> |\n    <a href=\"https://discord.gg/PeWDxrkdj7\">Discord</a> |\n    <a href=\"https://arxiv.org/abs/2506.00045\">Technical Report</a> |",
+      "saved_sha256": "7a3de19b5471d434b1222c82f4bd93c0c4de46bf4b3726441f55a2771f52b9eb"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/ace-step/ACE-Step/main/LICENSE",
+      "characters": 11359,
+      "first_lines": "\n                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n",
+      "saved_sha256": "1402dd74e3b2fecdfc7cd4427a924b93cbd134eb96f09d0df80dcd01fc29102a"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "ace-step/ACE-Step-1.5",
+    "category": "musicgen",
+    "url": "https://github.com/ace-step/ACE-Step-1.5",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/ace-step/ACE-Step-1.5/main/README.md",
+      "characters": 19710,
+      "first_lines": "<h1 align=\"center\">ACE-Step 1.5</h1>\n<h1 align=\"center\">Pushing the Boundaries of Open-Source Music Generation</h1>\n<p align=\"center\">\n    <a href=\"https://acemusic.ai\">ACEMusic</a> |\n    <a href=\"https://ace-step.github.io/ace-step-v1.5.github.io/\">Project</a> |\n    <a href=\"https://huggingface.co/ACE-Step/Ace-Step1.5\">Hugging Face</a> |\n    <a href=\"https://modelscope.cn/models/ACE-Step/Ace-Step1.5\">ModelScope</a> |\n    <a href=\"https://huggingface.co/spaces/ACE-Step/Ace-Step-v1.5\">Space Demo</a> |\n    <a href=\"https://discord.gg/PeWDxrkdj7\">Discord</a> |",
+      "saved_sha256": "650c6ef98b70289886669895c4fd68aab3cc45bba74b3525d728a45a85cbcd66"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/ace-step/ACE-Step-1.5/main/LICENSE",
+      "characters": 1064,
+      "first_lines": "MIT License\n\nCopyright (c) 2026 ACEStep\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "05a6bce42a62636d2cfb24139cc008b6b899754e244175814bb5dd2f4a485357"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "facebookresearch/demucs",
+    "category": "audio",
+    "url": "https://github.com/facebookresearch/demucs",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/facebookresearch/demucs/main/README.md",
+      "characters": 18462,
+      "first_lines": "# Demucs Music Source Separation\n\n[![Support Ukraine](https://img.shields.io/badge/Support-Ukraine-FFD500?style=flat&labelColor=005BBB)](https://opensource.fb.com/support-ukraine)\n![tests badge](https://github.com/facebookresearch/demucs/workflows/tests/badge.svg)\n![linter badge](https://github.com/facebookresearch/demucs/workflows/linter/badge.svg)\n\n\n**Important:** As I am no longer working at Meta, **this repository is not maintained anymore**.\nI've created a fork at [github.com/adefossez/demucs](https://github.com/adefossez/demucs). Note that this project is not actively maintained anymore",
+      "saved_sha256": "b2156a62247dae102c6ca3b000022d67f512743bd919523df320780120a329be"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/facebookresearch/demucs/main/LICENSE",
+      "characters": 1087,
+      "first_lines": "MIT License\n\nCopyright (c) Meta Platforms, Inc. and affiliates.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "cf9b17822d1fcd4ff32ccbe14183386fb3adf6f2ff92dc184130823f7fc28173"
+    },
+    "repository_http_status": 200,
+    "archived_banner": true,
+    "default_branch": "main"
+  },
+  {
+    "repo": "nomadkaraoke/python-audio-separator",
+    "category": "audio",
+    "url": "https://github.com/nomadkaraoke/python-audio-separator",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/nomadkaraoke/python-audio-separator/main/README.md",
+      "characters": 51875,
+      "first_lines": "<div align=\"center\">\n\n# 🎶 Audio Separator 🎶\n\n[![PyPI version](https://badge.fury.io/py/audio-separator.svg)](https://badge.fury.io/py/audio-separator)\n[![Conda Version](https://img.shields.io/conda/vn/conda-forge/audio-separator.svg)](https://anaconda.org/conda-forge/audio-separator)\n[![Docker pulls](https://img.shields.io/docker/pulls/beveradb/audio-separator.svg)](https://hub.docker.com/r/beveradb/audio-separator/tags)\n[![codecov](https://codecov.io/gh/karaokenerds/python-audio-separator/graph/badge.svg?token=N7YK4ET5JP)](https://codecov.io/gh/karaokenerds/python-audio-separator)\n[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1gSlmSmna7f7fH6OjsiMEDLl-aJ9kGPkY?usp=sharing)",
+      "saved_sha256": "130940c409235e5f4c3f7749133289de2d19202c93d63b800c94c3fefbdae922"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/nomadkaraoke/python-audio-separator/main/LICENSE",
+      "characters": 1069,
+      "first_lines": "MIT License\n\nCopyright (c) 2023 karaokenerds\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "0623e284f0f187120f131eb203155f0258c3e41866fd71b6b5e09b3c48ff9b46"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "freesound/freesound-python",
+    "category": "assets",
+    "url": "https://github.com/freesound/freesound-python",
+    "read_at": "2026-11-08",
+    "readme": null,
+    "license": null,
+    "repository_http_status": null,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "repo": "WordPress/openverse",
+    "category": "assets",
+    "url": "https://github.com/WordPress/openverse",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/WordPress/openverse/main/README.md",
+      "characters": 4229,
+      "first_lines": "<a href=\"https://openverse.org\">\n  <img src=\"documentation/meta/brand/banner.svg\" width=\"100%\" alt=\"Visit Openverse.org\"/>\n</a>\n\n<p align=\"center\">\n  <a href=\"https://github.com/orgs/WordPress/projects/75\">Project Board</a> |\n  <a href=\"https://make.wordpress.org/openverse/\">Community Site</a> |\n  <a href=\"https://make.wordpress.org/chat/\">#openverse @ Slack</a> |\n  <a href=\"https://make.wordpress.org/openverse/handbook/\">Handbook</a> |",
+      "saved_sha256": "4766b29118443be56f03b900a5e03a217978201d2505bd4a351bea82bc8f6104"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/WordPress/openverse/main/LICENSE",
+      "characters": 1066,
+      "first_lines": "MIT License\n\nCopyright (c) 2021 Openverse\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "3b795eeeacf5303d7061bedb5928aefecbf38fb5c11bdc6b2ff9181fb7e674b6"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "WordPress/openverse-api",
+    "category": "assets",
+    "url": "https://github.com/WordPress/openverse-api",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/WordPress/openverse-api/main/README.md",
+      "characters": 268,
+      "first_lines": "# This repository has moved\n\nThe Openverse API is now part of the Openverse monorepo. Please use\nhttps://github.com/WordPress/openverse instead.\n\nThe API code can specifically be found in the\n[`./api/` directory](https://github.com/WordPress/openverse/tree/main/api).",
+      "saved_sha256": "1acb2aea288c555d86b08a4832ec2f0b6d5bafd77609218b12a5c02c329675dd"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/WordPress/openverse-api/main/LICENSE",
+      "characters": 1066,
+      "first_lines": "MIT License\n\nCopyright (c) 2021 Openverse\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "3b795eeeacf5303d7061bedb5928aefecbf38fb5c11bdc6b2ff9181fb7e674b6"
+    },
+    "repository_http_status": 200,
+    "archived_banner": true,
+    "default_branch": "main"
+  },
+  {
+    "repo": "pexels/pexels-javascript",
+    "category": "assets",
+    "url": "https://github.com/pexels/pexels-javascript",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/pexels/pexels-javascript/master/readme.md",
+      "characters": 782,
+      "first_lines": "# Pexels Javascript Library\n\n\n[![npm version](https://img.shields.io/npm/v/pexels.svg?style=flat)](https://www.npmjs.com/package/pexels) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/pexels/pexels-javascript/blob/master/readme.md)\n\nThe Pexels Javascript library is a convenient wrapper around the Pexels API that can be used both on the server in Node.js and in the browser.\n\n## Installation\n",
+      "saved_sha256": "3ca7f059b5a97d9cb34df03460a84b6424cd77438d1c1bd2f442b4ecedf24d22"
+    },
+    "license": null,
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "unsplash/unsplash-js",
+    "category": "assets",
+    "url": "https://github.com/unsplash/unsplash-js",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/unsplash/unsplash-js/master/README.md",
+      "characters": 24918,
+      "first_lines": "# Unsplash\n\n[![npm](https://img.shields.io/npm/v/unsplash-js.svg?style=flat-square)](https://www.npmjs.com/package/unsplash-js)\n\nOfficial JavaScript wrapper for the [Unsplash API](https://unsplash.com/developers).\n\nKey Links:\n\n- Before using the Unsplash API, [register as a developer](https://unsplash.com/developers).",
+      "saved_sha256": "3a23dd28238a7e362ae163d04625a3ce25eb1bebaf3b614524af406f28dd56b6"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/unsplash/unsplash-js/master/LICENSE",
+      "characters": 1065,
+      "first_lines": "MIT License\n\nCopyright (c) 2020 Unsplash\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "0d58cad27b0ce95a7fbb53673794c94a8ee6f5f9056303d067ded2b3b0fe29e8"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "mwclient/mwclient",
+    "category": "assets",
+    "url": "https://github.com/mwclient/mwclient",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/mwclient/mwclient/master/README.md",
+      "characters": 3123,
+      "first_lines": "<div align=\"center\">\n    <img alt=\"mwclient logo\" src=\"docs/source/logo.png\"/>\n    <h1>mwclient</h1>\n</div>\n\n[![Build status][build-status-img]](https://github.com/mwclient/mwclient)\n[![Test coverage][test-coverage-img]](https://coveralls.io/r/mwclient/mwclient)\n[![Latest version][latest-version-img]](https://pypi.python.org/pypi/mwclient)\n[![MIT license][mit-license-img]](http://opensource.org/licenses/MIT)",
+      "saved_sha256": "9e07dd8d10b8532e4f55700ca455c0ef5daa6e1b0e0157a949467b518df856a5"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/mwclient/mwclient/master/LICENSE.md",
+      "characters": 1109,
+      "first_lines": "## MIT License\n\nCopyright (c) Bryan Tong Minh, Dan Michael O. Heggø and contributors\n\nPermission is hereby granted, free of charge, to any person\nobtaining a copy of this software and associated documentation\nfiles (the \"Software\"), to deal in the Software without\nrestriction, including without limitation the rights to use,\ncopy, modify, merge, publish, distribute, sublicense, and/or sell",
+      "saved_sha256": "67689d1fd48a5adba31272eed653c12160dd3abbfe92ab056ac42a155e12e523"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "googleapis/google-api-python-client",
+    "category": "youtube",
+    "url": "https://github.com/googleapis/google-api-python-client",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/googleapis/google-api-python-client/main/README.md",
+      "characters": 5399,
+      "first_lines": "# Google API Client\n\n[![PyPI version](https://badge.fury.io/py/google-api-python-client.svg)](https://badge.fury.io/py/google-api-python-client)\n\nThis is the [Google API Python client library](https://cloud.google.com/apis/docs/client-libraries-explained#google_api_client_libraries)\nfor Google's discovery based APIs. To get started, please see the\n[docs folder](https://github.com/googleapis/google-api-python-client/blob/main/docs/README.md).\n\nThis library is considered complete and is in maintenance mode. This means",
+      "saved_sha256": "4806ed9838f572797917e23c032267c30298df4009f1afb8d130e4a86927fa70"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/googleapis/google-api-python-client/main/LICENSE",
+      "characters": 11357,
+      "first_lines": "                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,",
+      "saved_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "googleapis/google-auth-library-python-oauthlib",
+    "category": "youtube",
+    "url": "https://github.com/googleapis/google-auth-library-python-oauthlib",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/googleapis/google-auth-library-python-oauthlib/main/README.rst",
+      "characters": 1721,
+      "first_lines": ":**NOTE**: **This github repository is archived. The repository contents and history have moved to** `google-cloud-python`_.\n\n.. _google-cloud-python: https://github.com/googleapis/google-cloud-python/tree/main/packages/google-auth-oauthlib\n\n\noauthlib integration for Google Auth\n====================================\n\n|pypi|",
+      "saved_sha256": "9a7ccf27d8a40d93f61715f5c5d4310fe41292de70fe628ed1997754a2e42fba"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/googleapis/google-auth-library-python-oauthlib/main/LICENSE",
+      "characters": 11358,
+      "first_lines": "\n                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n",
+      "saved_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "repository_http_status": 200,
+    "archived_banner": true,
+    "default_branch": "main"
+  },
+  {
+    "repo": "youtube/api-samples",
+    "category": "youtube",
+    "url": "https://github.com/youtube/api-samples",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/youtube/api-samples/master/README.md",
+      "characters": 217,
+      "first_lines": "api-samples\n===========\n\nCode samples for YouTube APIs, including the YouTube Data API, YouTube Analytics API, and YouTube Live Streaming API. The repo contains language-specific directories that contain the samples.",
+      "saved_sha256": "052de556ad278a905dd1ad83a76c135295603963d8b8e87a0769914f1f8be1b8"
+    },
+    "license": null,
+    "repository_http_status": 200,
+    "archived_banner": true,
+    "default_branch": "master"
+  },
+  {
+    "repo": "yt-dlp/yt-dlp",
+    "category": "youtube",
+    "url": "https://github.com/yt-dlp/yt-dlp",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/yt-dlp/yt-dlp/master/README.md",
+      "characters": 179069,
+      "first_lines": "<!-- MANPAGE: BEGIN EXCLUDED SECTION -->\n<div align=\"center\">\n\n[![YT-DLP](https://raw.githubusercontent.com/yt-dlp/yt-dlp/master/.github/banner.svg)](#readme)\n\n[![Release version](https://img.shields.io/github/v/release/yt-dlp/yt-dlp?color=brightgreen&label=Latest&style=for-the-badge)](#installation \"Installation\")\n[![Python Version](https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Fyt-dlp%2Fyt-dlp%2Frefs%2Fheads%2Fmaster%2Fpyproject.toml&style=for-the-badge)](https://github.com/yt-dlp/yt-dlp/blob/master/pyproject.toml \"Python Version\")\n[![PyPI](https://img.shields.io/badge/-PyPI-blue.svg?logo=pypi&labelColor=555555&style=for-the-badge)](https://pypi.org/project/yt-dlp \"PyPI\")",
+      "saved_sha256": "6adba80a892aee34940550ee8d7085041afca6140b7ac56d6414f1e6eb484bfe"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/yt-dlp/yt-dlp/master/LICENSE",
+      "characters": 1211,
+      "first_lines": "This is free and unencumbered software released into the public domain.\n\nAnyone is free to copy, modify, publish, use, compile, sell, or\ndistribute this software, either in source code form or as a compiled\nbinary, for any purpose, commercial or non-commercial, and by any\nmeans.\n\nIn jurisdictions that recognize copyright laws, the author or authors",
+      "saved_sha256": "7e12e5df4bae12cb21581ba157ced20e1986a0508dd10d0e8a4ab9a4cf94e85c"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "PrefectHQ/prefect",
+    "category": "orchestration",
+    "url": "https://github.com/PrefectHQ/prefect",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/PrefectHQ/prefect/main/README.md",
+      "characters": 8982,
+      "first_lines": "<p align=\"center\"><img src=\"https://github.com/PrefectHQ/prefect/assets/3407835/c654cbc6-63e8-4ada-a92a-efd2f8f24b85\" width=1000></p>\n\n<p align=\"center\">\n    <a href=\"https://pypi.org/project/prefect/\" alt=\"PyPI version\">\n        <img alt=\"PyPI\" src=\"https://img.shields.io/pypi/v/prefect?color=0052FF&labelColor=090422\" />\n    </a>\n    <a href=\"https://pypi.org/project/prefect/\" alt=\"PyPI downloads/month\">\n        <img alt=\"Downloads\" src=\"https://img.shields.io/pypi/dm/prefect?color=0052FF&labelColor=090422\" />\n    </a>",
+      "saved_sha256": "ea65184760f7e6d32def7fc740e6b1bebe31edae113323a891d80243d704795e"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/PrefectHQ/prefect/main/LICENSE",
+      "characters": 11357,
+      "first_lines": "                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,",
+      "saved_sha256": "302c6c9fca2c024cdfc4a0b8082fdd2dc52453c0d92e4ca2859f261acdc08774"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "rq/rq",
+    "category": "orchestration",
+    "url": "https://github.com/rq/rq",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/rq/rq/master/README.md",
+      "characters": 10675,
+      "first_lines": "RQ (_Redis Queue_) is a simple Python library for queueing jobs and processing\nthem in the background with workers. It is backed by Redis/Valkey and is designed\nto have a low barrier to entry while scaling incredibly well for large applications.\nIt can be integrated into your web stack easily, making it suitable for projects\nof any size—from simple applications to high-volume enterprise systems.\n\nRQ requires Redis >= 5 or Valkey >= 7.2.\n\n[![Build status](https://github.com/rq/rq/workflows/Test/badge.svg)](https://github.com/rq/rq/actions?query=workflow%3A%22Test%22)",
+      "saved_sha256": "ec46dca29b1f3146c4ed2ba96de121cf4a70bda5697077011c1000bf52898f6f"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/rq/rq/master/LICENSE",
+      "characters": 1502,
+      "first_lines": "Copyright 2012 Vincent Driessen. All rights reserved.\n\nRedistribution and use in source and binary forms, with or without modification,\nare permitted provided that the following conditions are met:\n\n   1. Redistributions of source code must retain the above copyright notice,\n      this list of conditions and the following disclaimer.\n\n   2. Redistributions in binary form must reproduce the above copyright notice,",
+      "saved_sha256": "8460b8ac592189fa38543b09ca6e86e4a996387af8cdf7951b7485ff0328ceae"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "pgvector/pgvector",
+    "category": "search",
+    "url": "https://github.com/pgvector/pgvector",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/pgvector/pgvector/master/README.md",
+      "characters": 42227,
+      "first_lines": "# pgvector\n\nOpen-source vector similarity search for Postgres\n\nStore your vectors with the rest of your data. Supports:\n\n- exact and approximate nearest neighbor search\n- single-precision, half-precision, binary, and sparse vectors\n- L2 distance, inner product, cosine distance, L1 distance, Hamming distance, and Jaccard distance",
+      "saved_sha256": "19cebadeeb8d3181d01ef00399674ec41bd2f0363850cdccc7685d4260c5a1c6"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/pgvector/pgvector/master/LICENSE",
+      "characters": 1104,
+      "first_lines": "Portions Copyright (c) 1996-2026, PostgreSQL Global Development Group\n\nPortions Copyright (c) 1994, The Regents of the University of California\n\nPermission to use, copy, modify, and distribute this software and its\ndocumentation for any purpose, without fee, and without a written agreement\nis hereby granted, provided that the above copyright notice and this\nparagraph and the following two paragraphs appear in all copies.\n",
+      "saved_sha256": "6bba9ebeb73e27477463b05e5ef1bf303bccbddb3db9bbc95905d351604d6a87"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "meilisearch/meilisearch",
+    "category": "search",
+    "url": "https://github.com/meilisearch/meilisearch",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/meilisearch/meilisearch/main/README.md",
+      "characters": 25847,
+      "first_lines": "<p align=\"center\">\n  <a href=\"https://www.meilisearch.com/?utm_campaign=oss&utm_source=github&utm_medium=meilisearch&utm_content=logo#gh-light-mode-only\" target=\"_blank\">\n    <img src=\"assets/meilisearch-logo-light.svg?sanitize=true#gh-light-mode-only\">\n  </a>\n  <a href=\"https://www.meilisearch.com/?utm_campaign=oss&utm_source=github&utm_medium=meilisearch&utm_content=logo#gh-dark-mode-only\" target=\"_blank\">\n    <img src=\"assets/meilisearch-logo-dark.svg?sanitize=true#gh-dark-mode-only\">\n  </a>\n</p>\n",
+      "saved_sha256": "e5789c1a778b189de2ef428ddc281193836c3ca7cf8d14ed9d145367de4f9b9b"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/meilisearch/meilisearch/main/LICENSE",
+      "characters": 354,
+      "first_lines": "# License\n\nCopyright (c) 2019-2025 Meili SAS\n\nPart of this work fall under the Meilisearch Enterprise Edition (EE) and are licensed under the Business Source License 1.1, please refer to [LICENSE-EE](./LICENSE-EE) for details.\n\nThe other parts of this work are licensed under the [MIT license](./LICENSE-MIT).\n\n`SPDX-License-Identifier: MIT AND BUSL-1.1`",
+      "saved_sha256": "315c57000333ab29e78c67d46e96494e987cdc2b76479fb745e4ad6b496de642"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "rapidfuzz/RapidFuzz",
+    "category": "content",
+    "url": "https://github.com/rapidfuzz/RapidFuzz",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/rapidfuzz/RapidFuzz/main/README.md",
+      "characters": 11280,
+      "first_lines": "<h1 align=\"center\">\n<img src=\"https://raw.githubusercontent.com/rapidfuzz/RapidFuzz/main/docs/img/RapidFuzz.svg?sanitize=true\" alt=\"RapidFuzz\" width=\"400\">\n</h1>\n<h4 align=\"center\">Rapid fuzzy string matching in Python and C++ using the Levenshtein Distance</h4>\n\n<p align=\"center\">\n  <a href=\"https://github.com/rapidfuzz/RapidFuzz/actions\">\n    <img src=\"https://github.com/rapidfuzz/RapidFuzz/workflows/Test%20Build/badge.svg\"\n         alt=\"Continuous Integration\">",
+      "saved_sha256": "b40c3883449cb82c6a75bae5f3eab0f555db4e5cfe9dcdbc73f42f5119a84c00"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/rapidfuzz/RapidFuzz/main/LICENSE",
+      "characters": 1090,
+      "first_lines": "Copyright © 2020-present Max Bachmann\nCopyright © 2011 Adam Cohen\n\nPermission is hereby granted, free of charge, to any person obtaining\na copy of this software and associated documentation files (the\n\"Software\"), to deal in the Software without restriction, including\nwithout limitation the rights to use, copy, modify, merge, publish,\ndistribute, sublicense, and/or sell copies of the Software, and to\npermit persons to whom the Software is furnished to do so, subject to",
+      "saved_sha256": "f34ccdffdff56fc417785915eedf18601d5479755df3c472b2c754c29802d683"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "explosion/spaCy",
+    "category": "content",
+    "url": "https://github.com/explosion/spaCy",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/explosion/spaCy/master/README.md",
+      "characters": 23649,
+      "first_lines": "<a href=\"https://explosion.ai\"><img src=\"https://explosion.ai/assets/img/logo.svg\" width=\"125\" height=\"125\" align=\"right\" /></a>\n\n# spaCy: Industrial-strength NLP\n\nspaCy is a library for **advanced Natural Language Processing** in Python and\nCython. It's built on the very latest research, and was designed from day one to\nbe used in real products.\n\nspaCy comes with [pretrained pipelines](https://spacy.io/models) and currently",
+      "saved_sha256": "f7a66a3473456b6d28520c9aa8baafa57ac4404994808118f1a6ae8e9440c9ce"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/explosion/spaCy/master/LICENSE",
+      "characters": 1128,
+      "first_lines": "The MIT License (MIT)\n\nCopyright (C) 2016-2024 ExplosionAI GmbH, 2016 spaCy GmbH, 2015 Matthew Honnibal\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "3f4378e67708fecacd3e27651c8bc0f977cf20789e19da0d81a2840e7cf573a2"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "jxmorris12/language_tool_python",
+    "category": "content",
+    "url": "https://github.com/jxmorris12/language_tool_python",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/jxmorris12/language_tool_python/master/README.md",
+      "characters": 4170,
+      "first_lines": "# `language_tool_python`: Python wrapper for LanguageTool\n\n[![language tool python on pypi](https://img.shields.io/pypi/v/language-tool-python)](https://pypi.org/project/language-tool-python/)\n[![Documentation Status](https://readthedocs.org/projects/language-tool-python/badge/?version=latest)](https://language-tool-python.readthedocs.io/en/latest/)\n[![Test with PyTest](https://github.com/jxmorris12/language_tool_python/workflows/Test%20with%20PyTest/badge.svg)](https://github.com/jxmorris12/language_tool_python/actions)\n[![Coverage Status](https://codecov.io/gh/jxmorris12/language_tool_python/branch/master/graph/badge.svg)](https://codecov.io/gh/jxmorris12/language_tool_python)\n[![Downloads](https://img.shields.io/pypi/dw/language-tool-python)](https://pypistats.org/packages/language-tool-python)\n[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)\n[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/jxmorris12/language_tool_python/pulls)",
+      "saved_sha256": "85a0330f62a3c29e1869ea1c11df2d3ce75a20daa4b2f23071b3e8ed55229495"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/jxmorris12/language_tool_python/master/LICENSE",
+      "characters": 35151,
+      "first_lines": "                    GNU GENERAL PUBLIC LICENSE\n                       Version 3, 29 June 2007\n\n Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>\n Everyone is permitted to copy and distribute verbatim copies\n of this license document, but changing it is not allowed.\n\n                            Preamble\n",
+      "saved_sha256": "e79e9c8a0c85d735ff98185918ec94ed7d175efc377012787aebcf3b80f0d90b"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "rspeer/wordfreq",
+    "category": "content",
+    "url": "https://github.com/rspeer/wordfreq",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/rspeer/wordfreq/master/README.md",
+      "characters": 27372,
+      "first_lines": "wordfreq is a Python library for looking up the frequencies of words in many\nlanguages, based on many sources of data.\n\nThe word frequencies are a snapshot of language usage through about 2021. I may\ncontinue to make packaging updates, but the data is unlikely to be updated again.\nThe world where I had a reasonable way to collect reliable word frequencies is\nnot the world we live in now. See [SUNSET.md](./SUNSET.md) for more information.\n\nAuthor: Robyn Speer",
+      "saved_sha256": "0f1db058e1df2e6bda2db5d0ea851a7111d2390ec16a9939d971ef53ea24f684"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/rspeer/wordfreq/master/LICENSE.txt",
+      "characters": 675,
+      "first_lines": "Copyright 2022 Robyn Speer\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software",
+      "saved_sha256": "8990c551671a51765c4dfe9428f3e1d58dc327f49aca346a32d28cc0fcc7aa88"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "master"
+  },
+  {
+    "repo": "UKPLab/sentence-transformers",
+    "category": "content",
+    "url": "https://github.com/UKPLab/sentence-transformers",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/UKPLab/sentence-transformers/main/README.md",
+      "characters": 17553,
+      "first_lines": "<!--- BADGES: START --->\n\n[![HF Models](https://img.shields.io/badge/%F0%9F%A4%97-models-yellow)](https://huggingface.co/models?library=sentence-transformers)\n[![GitHub - License](https://img.shields.io/github/license/huggingface/sentence-transformers?logo=github&style=flat&color=green)][#github-license]\n[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/sentence-transformers?logo=pypi&style=flat&color=blue)][#pypi-package]\n[![PyPI - Package Version](https://img.shields.io/pypi/v/sentence-transformers?logo=pypi&style=flat&color=orange)][#pypi-package]\n[![Docs - GitHub.io](https://img.shields.io/static/v1?logo=github&style=flat&color=pink&label=docs&message=sentence-transformers)][#docs-package]\n\n<!-- [![PyPI - Downloads](https://img.shields.io/pypi/dm/sentence-transformers?logo=pypi&style=flat&color=green)][#pypi-package] -->",
+      "saved_sha256": "77d3457b8233da01a844c64fc8a69e06b71fa0dd69a2e12d4c7b0bce015ee98d"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/UKPLab/sentence-transformers/main/LICENSE",
+      "characters": 11338,
+      "first_lines": "                                Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,",
+      "saved_sha256": "624b030fd62b8b989dd502d5bb6322cbc0dbb524ab9c9708f32efe33d7275735"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "microsoft/playwright-python",
+    "category": "testing",
+    "url": "https://github.com/microsoft/playwright-python",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/microsoft/playwright-python/main/README.md",
+      "characters": 2309,
+      "first_lines": "# 🎭 [Playwright](https://playwright.dev) for Python [![PyPI](https://badge.fury.io/py/playwright.svg)](https://pypi.python.org/pypi/playwright/) [![Join Discord](https://img.shields.io/badge/join-discord-infomational)](https://aka.ms/playwright/discord)\n\nPlaywright is a Python library to automate [Chromium](https://www.chromium.org/Home), [Firefox](https://www.mozilla.org/en-US/firefox/new/) and [WebKit](https://webkit.org/) browsers with a single API. Playwright delivers automation that is **ever-green**, **capable**, **reliable** and **fast**. [See how Playwright is better](https://playwright.dev/python).\n\n|          | Linux | macOS | Windows |\n|   :---   | :---: | :---: | :---:   |\n| Chromium <!-- GEN:chromium-version -->158.0.8127.2<!-- GEN:stop --> | ✅ | ✅ | ✅ |\n| WebKit <!-- GEN:webkit-version -->27.2<!-- GEN:stop --> | ✅ | ✅ | ✅ |\n| Firefox <!-- GEN:firefox-version -->159.0<!-- GEN:stop --> | ✅ | ✅ | ✅ |",
+      "saved_sha256": "91a9ac19aac80e83079f9338f1bba0ef9ad97e2e7a554500e4755789ddaba4aa"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/microsoft/playwright-python/main/LICENSE",
+      "characters": 11399,
+      "first_lines": "                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,",
+      "saved_sha256": "7fab1461b41970ff376f1c9303a637076bfaaeb71cd12dd3a1c44aaf59a1a2b9"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "MoneyPrinterTurbo/MoneyPrinterTurbo",
+    "category": "reference",
+    "url": "https://github.com/MoneyPrinterTurbo/MoneyPrinterTurbo",
+    "read_at": "2026-11-08",
+    "readme": null,
+    "license": null,
+    "repository_http_status": null,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "repo": "FujiwaraChoki/MoneyPrinterV2",
+    "category": "reference",
+    "url": "https://github.com/FujiwaraChoki/MoneyPrinterV2",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/FujiwaraChoki/MoneyPrinterV2/main/README.md",
+      "characters": 4317,
+      "first_lines": "# MoneyPrinter V2\n\n[![Sponsor](https://readme.cash/i/d3t49gsk71.svg)](https://readme.cash/c/d3t49gsk71)\n\n\n[![madewithlove](https://img.shields.io/badge/made_with-%E2%9D%A4-red?style=for-the-badge&labelColor=orange)](https://github.com/FujiwaraChoki/MoneyPrinterV2)\n\n[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-brightgreen?logo=buymeacoffee)](https://www.buymeacoffee.com/fujicodes)\n[![GitHub license](https://img.shields.io/github/license/FujiwaraChoki/MoneyPrinterV2?style=for-the-badge)](https://github.com/FujiwaraChoki/MoneyPrinterV2/blob/main/LICENSE)",
+      "saved_sha256": "9f916931c0a3d40de3e3ab11ca6ebbf0839b6786027f1f922dfa07b9a27b4862"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/FujiwaraChoki/MoneyPrinterV2/main/LICENSE",
+      "characters": 34518,
+      "first_lines": "                    GNU AFFERO GENERAL PUBLIC LICENSE\n                       Version 3, 19 November 2007\n\n Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>\n Everyone is permitted to copy and distribute verbatim copies\n of this license document, but changing it is not allowed.\n\n                            Preamble\n",
+      "saved_sha256": "4f36279286bdd88670d4a4fee638ec9eea5eb8f10da5e38f9ec2ef419985ee44"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "moeru-ai/airi",
+    "category": "reference",
+    "url": "https://github.com/moeru-ai/airi",
+    "read_at": "2026-11-08",
+    "readme": {
+      "url": "https://raw.githubusercontent.com/moeru-ai/airi/main/README.md",
+      "characters": 27144,
+      "first_lines": "<picture>\n  <source\n    width=\"100%\"\n    srcset=\"./docs/assets/banner-dark-1280x640.avif\"\n    media=\"(prefers-color-scheme: dark)\"\n  />\n  <source\n    width=\"100%\"\n    srcset=\"./docs/assets/banner-light-1280x640.avif\"",
+      "saved_sha256": "164b7288562b601f23420fc1fab001ecb1614cd5c25d63cff55d9de27ef8c2fb"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/moeru-ai/airi/main/LICENSE",
+      "characters": 1075,
+      "first_lines": "MIT License\n\nCopyright (c) 2024-PRESENT Neko Ayaka\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is",
+      "saved_sha256": "f334260edf0508041280b534ca9d0abd5a02a9626c1d2e20a556ac4eb72b07f9"
+    },
+    "repository_http_status": 200,
+    "archived_banner": false,
+    "default_branch": "main"
+  },
+  {
+    "repo": "MTG/freesound-python",
+    "category": "assets",
+    "url": "https://github.com/MTG/freesound-python",
+    "read_at": "2026-11-08",
+    "repository_http_status": 200,
+    "default_branch": "master",
+    "archived_banner": false,
+    "readme": {
+      "url": "https://raw.githubusercontent.com/MTG/freesound-python/master/Readme.md",
+      "characters": 3062,
+      "first_lines": "freesound.py\n============\n\nA Python client for the [Freesound](https://freesound.org) APIv2.\n\nFind the API documentation at http://www.freesound.org/docs/api/. \nApply for an API key at https://www.freesound.org/apiv2/apply/. ",
+      "saved_sha256": "e3dbcea50bb6b7466b83b403ec02d45c9c16dd7b93f83d15ef23e2f7f6dcf4cb"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/MTG/freesound-python/master/COPYING.txt",
+      "characters": 1096,
+      "first_lines": "The MIT License (MIT)\n\nCopyright (c) 2013-2014 Universitat Pompeu Fabra\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights",
+      "saved_sha256": "960f0797f5b6d86838dd93c74c712c205945ca12f54805bf044e7006fbff5eb7"
+    }
+  },
+  {
+    "repo": "harry0703/MoneyPrinterTurbo",
+    "category": "reference",
+    "url": "https://github.com/harry0703/MoneyPrinterTurbo",
+    "read_at": "2026-11-08",
+    "repository_http_status": 200,
+    "default_branch": "main",
+    "archived_banner": false,
+    "readme": {
+      "url": "https://raw.githubusercontent.com/harry0703/MoneyPrinterTurbo/main/README.md",
+      "characters": 29419,
+      "first_lines": "<div align=\"center\">\n\n# MoneyPrinterTurbo 💸\n\n### 一站式 AI 短视频生成工具\n\n只需提供视频<b>主题</b>或<b>关键词</b>，即可自动生成视频脚本、匹配素材、生成字幕和背景音乐，并合成高清短视频。",
+      "saved_sha256": "b2e1ef65da546c9a971992b67cd7a6a63f58b7bc0910165b392d25df1eb60b48"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/harry0703/MoneyPrinterTurbo/main/LICENSE",
+      "characters": 1061,
+      "first_lines": "MIT License\n\nCopyright (c) 2024 Harry\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights",
+      "saved_sha256": "87dd19b6a0779e14a91c1b06423ef251df37e89666160c031130a26bae68c229"
+    }
+  },
+  {
+    "repo": "gyoridavid/short-video-maker",
+    "category": "reference",
+    "url": "https://github.com/gyoridavid/short-video-maker",
+    "read_at": "2026-11-08",
+    "repository_http_status": 200,
+    "default_branch": "main",
+    "archived_banner": false,
+    "readme": {
+      "url": "https://raw.githubusercontent.com/gyoridavid/short-video-maker/main/README.md",
+      "characters": 22220,
+      "first_lines": "## [📚 Join our Skool community for support, premium content and more!](https://www.skool.com/ai-agents-az/about?s1m)\n\n### Be part of a growing community and help us create more content like this\n\n# Description\n\nAn open source automated video creation tool for generating short-form video content. Short Video Maker combines text-to-speech, automatic captions, background videos, and music to create engaging short videos from simple text inputs.",
+      "saved_sha256": "988343eff457ca6fed7655a385b9d91243461fb39de9c835f2524f76ba0e5e50"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/gyoridavid/short-video-maker/main/LICENSE",
+      "characters": 1068,
+      "first_lines": "MIT License\n\nCopyright (c) 2025 David Gyori\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights",
+      "saved_sha256": "5e713cc4f3505602da68604f334dc45cd0d88de110c34c919f1ad13963a94af4"
+    }
+  },
+  {
+    "repo": "SamurAIGPT/AI-Youtube-Shorts-Generator",
+    "category": "reference",
+    "url": "https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator",
+    "read_at": "2026-11-08",
+    "repository_http_status": 200,
+    "default_branch": "main",
+    "archived_banner": false,
+    "readme": {
+      "url": "https://raw.githubusercontent.com/SamurAIGPT/AI-Youtube-Shorts-Generator/main/README.md",
+      "characters": 15146,
+      "first_lines": "# AI YouTube Shorts Generator\n\n[![Powered by MuAPI](https://img.shields.io/badge/Powered%20by-MuAPI-6366f1?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0tMSAxNHYtNGgtMnYtMmg0djZoLTJ6bTAtOFY2aDJ2MmgtMnoiLz48L3N2Zz4=)](https://muapi.ai?utm_source=github&utm_medium=badge&utm_campaign=ai-youtube-shorts-generator)\n\n\n**The open-source alternative to Opus Clip, Vidyo.ai, Klap, SubMagic, 2short.ai, and other AI clipping tools.** Drop in any long-form YouTube video and get back ranked, viral-ready 9:16 shorts — for free, with no per-clip credits, no watermarks, and full control over the highlight algorithm.\n",
+      "saved_sha256": "29cc7755c5d018ac4259dbebf5a17484fbcb318015f131c1ca1156bc996af25a"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/SamurAIGPT/AI-Youtube-Shorts-Generator/main/LICENSE",
+      "characters": 1082,
+      "first_lines": "MIT License\n\nCopyright (c) 2026 Anil Chandra Naidu Matcha\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights",
+      "saved_sha256": "638c5b6b5199b0de27cf3c7060725419ffc96fa9b57d3867624ebe83a297b683"
+    }
+  },
+  {
+    "repo": "Breakthrough/PySceneDetect",
+    "category": "video",
+    "url": "https://github.com/Breakthrough/PySceneDetect",
+    "read_at": "2026-11-08",
+    "repository_http_status": 200,
+    "default_branch": "main",
+    "archived_banner": false,
+    "readme": {
+      "url": "https://raw.githubusercontent.com/Breakthrough/PySceneDetect/main/README.md",
+      "characters": 7770,
+      "first_lines": "\n<picture>\n  <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://raw.githubusercontent.com/Breakthrough/PySceneDetect/main/website/pages/img/pyscenedetect_logo_small_darkmode.png\">\n  <img alt=\"PySceneDetect\" src=\"https://raw.githubusercontent.com/Breakthrough/PySceneDetect/main/website/pages/img/pyscenedetect_logo_small.png\">\n</picture>\n\n# Video Cut Detection and Analysis Tool",
+      "saved_sha256": "ff45f6f05b01cfd5e6e796e494e5fb5ee83741925da7b6485d4a18c53b755ba7"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/Breakthrough/PySceneDetect/main/LICENSE",
+      "characters": 1505,
+      "first_lines": "BSD 3-Clause License\n\nCopyright (C) 2014, Brandon Castellano\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n",
+      "saved_sha256": "e855ca89e457a7d0b6b7c92ad475d1120a9a5b5bf4e5048c706b1b3889fbc349"
+    }
+  },
+  {
+    "repo": "googleapis/google-cloud-python",
+    "category": "youtube",
+    "url": "https://github.com/googleapis/google-cloud-python",
+    "read_at": "2026-11-08",
+    "repository_http_status": 200,
+    "default_branch": "main",
+    "archived_banner": false,
+    "readme": {
+      "url": "https://raw.githubusercontent.com/googleapis/google-cloud-python/main/README.rst",
+      "characters": 150323,
+      "first_lines": "Google Cloud Python Client\n==========================\n\nPython idiomatic clients for `Google Cloud Platform`_ services.\n\n.. _Google Cloud Platform: https://cloud.google.com/\n",
+      "saved_sha256": "54d59e7a7c58408944751cf350cca323edccf34bec88efe2298b101e533e45ae"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/googleapis/google-cloud-python/main/LICENSE",
+      "characters": 11358,
+      "first_lines": "\n                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n",
+      "saved_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  },
+  {
+    "repo": "fluent-ffmpeg/node-fluent-ffmpeg",
+    "category": "video",
+    "url": "https://github.com/fluent-ffmpeg/node-fluent-ffmpeg",
+    "read_at": "2026-11-08",
+    "repository_http_status": 200,
+    "default_branch": "master",
+    "archived_banner": true,
+    "readme": {
+      "url": "https://raw.githubusercontent.com/fluent-ffmpeg/node-fluent-ffmpeg/master/README.md",
+      "characters": 53969,
+      "first_lines": "# Fluent ffmpeg-API for node.js\n\n[![Coverage Status](https://coveralls.io/repos/github/fluent-ffmpeg/node-fluent-ffmpeg/badge.svg?branch=master)](https://coveralls.io/github/fluent-ffmpeg/node-fluent-ffmpeg?branch=master)\n[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ffluent-ffmpeg%2Fnode-fluent-ffmpeg.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ffluent-ffmpeg%2Fnode-fluent-ffmpeg?ref=badge_shield)\n\n## Fluent-ffmpeg is now deprecated\n\nThis library is **no longer maintained** and no longer works properly with recent ffmpeg versions. Use it as your own risk, this repository is readonly and does not accept issues or PRs.",
+      "saved_sha256": "8482e4ccc4efb078cf7ca7a5e964b8bbf24f6175ca178df21de7352f0cf7ee4b"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/fluent-ffmpeg/node-fluent-ffmpeg/master/LICENSE",
+      "characters": 1107,
+      "first_lines": "(The MIT License)\n\nCopyright (c) 2011-2015 The fluent-ffmpeg contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n",
+      "saved_sha256": "1c3854d65bd657271ab7ee776370adc178a988bcb19c8bf6269dfc358f38c0d4"
+    }
+  },
+  {
+    "repo": "google/fonts",
+    "category": "design",
+    "url": "https://github.com/google/fonts",
+    "read_at": "2026-11-08",
+    "repository_http_status": 200,
+    "default_branch": "main",
+    "archived_banner": false,
+    "readme": {
+      "url": "https://raw.githubusercontent.com/google/fonts/main/README.md",
+      "characters": 4791,
+      "first_lines": "[![CI Status](https://github.com/google/fonts/workflows/Continuous%20Test/badge.svg?branch=main)](https://github.com/google/fonts/actions/workflows/ci.yml?query=workflow%3ATest+branch%3Amain)\n\n# Google Fonts Files\n\nThis project mainly contains the binary font files served by Google Fonts ([fonts.google.com](https://fonts.google.com))\n\nThe top-level directories indicate the license of all files found within them.\nSubdirectories are named according to the family name of the fonts within.",
+      "saved_sha256": "99b7fb7a8be1ad77e3138e94cdb342fce0d978002119b447513bbd571e6f1a5a"
+    }
+  },
+  {
+    "repo": "libass/libass",
+    "category": "captions",
+    "url": "https://github.com/libass/libass",
+    "read_at": "2026-11-08",
+    "repository_http_status": 200,
+    "default_branch": "master",
+    "archived_banner": false,
+    "readme": {
+      "url": "https://raw.githubusercontent.com/libass/libass/master/README.md",
+      "characters": 4174,
+      "first_lines": "libass [![Coverity scan build status](https://scan.coverity.com/projects/3531/badge.svg)](https://scan.coverity.com/projects/3531) [![Build status](https://github.com/libass/libass/actions/workflows/ghci.yml/badge.svg?branch=master&event=push)](https://github.com/libass/libass/actions/workflows/ghci.yml?query=branch%3Amaster+event%3Apush)\n======\nlibass is a portable subtitle renderer for the ASS/SSA (Advanced Substation Alpha/Substation Alpha) subtitle format. It is mostly compatible with VSFilter.\n\nGet it\n======\nSee [GitHub releases](https://github.com/libass/libass/releases) for the latest release 0.17.5 (released 2026-06-24).\nSee the [changelog](https://github.com/libass/libass/blob/master/Changelog) for a detailed list of changes.",
+      "saved_sha256": "5debce96ec954a7ab41e635c72eb1460a17e595fe8dd63229a3d1923d774b81e"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/libass/libass/master/COPYING",
+      "characters": 755,
+      "first_lines": "ISC License\n\nCopyright (C) 2006-2016 libass contributors\n\nPermission to use, copy, modify, and/or distribute this software for any\npurpose with or without fee is hereby granted, provided that the above\ncopyright notice and this permission notice appear in all copies.\n",
+      "saved_sha256": "f7e30699d02798351e7f839e3d3bfeb29ce65e44efa7735c225464c4fd7dfe9c"
+    }
+  },
+  {
+    "repo": "slhck/ffmpeg-normalize",
+    "category": "audio",
+    "url": "https://github.com/slhck/ffmpeg-normalize",
+    "read_at": "2026-11-08",
+    "repository_http_status": 200,
+    "default_branch": "master",
+    "archived_banner": false,
+    "readme": {
+      "url": "https://raw.githubusercontent.com/slhck/ffmpeg-normalize/master/README.md",
+      "characters": 15843,
+      "first_lines": "<h1 align=\"center\">ffmpeg-normalize</h1>\n\n<p align=\"center\">\n  <img src=\"icon.png\" alt=\"ffmpeg-normalize logo\" width=\"160\" height=\"160\">\n</p>\n\n[![PyPI version](https://img.shields.io/pypi/v/ffmpeg-normalize.svg)](https://pypi.org/project/ffmpeg-normalize)\n[![Docker Image Version](https://img.shields.io/docker/v/slhck/ffmpeg-normalize?sort=semver&label=Docker%20image)](https://hub.docker.com/r/slhck/ffmpeg-normalize)",
+      "saved_sha256": "03b4d75b9c042c808182369856e3274336bccb3658af358fe585e77f48796667"
+    },
+    "license": {
+      "url": "https://raw.githubusercontent.com/slhck/ffmpeg-normalize/master/LICENSE.md",
+      "characters": 1082,
+      "first_lines": "# License\n\nffmpeg-normalize, Copyright (c) Werner Robitza\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n",
+      "saved_sha256": "8a0fbf6208262466cf402fe052004d15ad3f5ccb2e1d3a68722bc59e5385e2d1"
+    }
+  }
+]

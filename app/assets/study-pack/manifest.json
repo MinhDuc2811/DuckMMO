@@ -1,0 +1,99 @@
+{
+  "version": 4,
+  "provenance": {
+    "backgrounds": "Real photographs from scikit-image tutorials, individually credited; no AI imagery",
+    "music": "Original upbeat pop groove, country-pop and acoustic pop; explicitly composed original motifs, no song melody/recording used",
+    "music_generator": "Historical source archived in english-upbeat-v4.zip and /workspace/archive/rejected-study-assets/generators/generate_upbeat_music.py",
+    "soundfont_source": "https://github.com/mrbumpy409/GeneralUser-GS",
+    "soundfont_license_file": "v4/SOUNDFONT-LICENSE.txt",
+    "soundfont_sha256": "9575028c7a1f589f5770fccc8cff2734566af40cd26ed836944e9a5152688cfe",
+    "reverb": false,
+    "chorus": false,
+    "bass": "Rhythmic fingered/acoustic bass with short offbeat pickups",
+    "eq": "highpass 75 Hz; -2 dB at 180 Hz",
+    "meters": "4/4; 90/120/120 BPM",
+    "audio_format": "PCM 16-bit mono 22050 Hz",
+    "generator_sha256": {
+      "generate_upbeat_music.py": "f80baa72ed5ee2a1068202a1a977dde2769dcafcd6d52f512092760726691bc2",
+      "generate_chamber_music.py": "82f837f211cd7d392981fbe1afb2609ce3aa35f1823ee2caa4ddc48a24506220"
+    },
+    "drums": "light kick, snare/rim, hi-hat/shaker; no vocals"
+  },
+  "assets": {
+    "background/misty-lake": {
+      "file": "v3/backgrounds/real-beach.png",
+      "sha256": "a88e1796e9fef93cc88630f9ec1e991de10990b0d133d4d1e2b2334cd40390a3",
+      "bytes": 2083627,
+      "dimensions": [
+        1280,
+        960
+      ],
+      "photograph": true,
+      "ai_generated": false,
+      "credit": "real-beach: scikit-image tutorial contributors; CC0 1.0; https://github.com/scikit-image/skimage-tutorials/blob/main/images/Bells-Beach.jpg; https://creativecommons.org/publicdomain/zero/1.0/. JPEG-to-PNG conversion only; video may crop/resize and overlay lesson text.",
+      "source_url": "https://github.com/scikit-image/skimage-tutorials/blob/main/images/Bells-Beach.jpg",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original_file": "v3/originals/bells-beach.jpg"
+    },
+    "background/quiet-work": {
+      "file": "v3/backgrounds/real-petra.png",
+      "sha256": "8f55e3f9b59be4aeecc8da9d464163bcb817af91ccaba6e1a0e399df5bd53d33",
+      "bytes": 8854680,
+      "dimensions": [
+        3000,
+        1987
+      ],
+      "photograph": true,
+      "ai_generated": false,
+      "credit": "real-petra: Francois Malan; CC BY 3.0; https://github.com/scikit-image/skimage-tutorials/blob/main/images/pano/DFM_4209.jpg; https://creativecommons.org/licenses/by/3.0/. JPEG-to-PNG conversion only; video may crop/resize and overlay lesson text.",
+      "source_url": "https://github.com/scikit-image/skimage-tutorials/blob/main/images/pano/DFM_4209.jpg",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "original_file": "v3/originals/DFM_4209.jpg"
+    },
+    "background/study-morning": {
+      "file": "v3/backgrounds/real-spices.png",
+      "sha256": "3d5e3778d118d03ad87aca401cb0d2a0af48a304d4136209882a63251d2ef2f0",
+      "bytes": 1192575,
+      "dimensions": [
+        1024,
+        683
+      ],
+      "photograph": true,
+      "ai_generated": false,
+      "credit": "real-spices: Riyaad Minty; CC BY 2.0; https://www.flickr.com/photos/riym/3326786046; https://creativecommons.org/licenses/by/2.0/. JPEG-to-PNG conversion only; video may crop/resize and overlay lesson text.",
+      "source_url": "https://www.flickr.com/photos/riym/3326786046",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "original_file": "v3/originals/spices.jpg"
+    },
+    "music/morning-air": {
+      "file": "v4/music/morning-air.wav",
+      "sha256": "d4e5913b5f2c6ffce4f368738c66c7039f631b0d5348bcaf5a737f79a281d19e",
+      "bytes": 1411278,
+      "name": "Good Mood \u00b7 acoustic pop",
+      "duration_seconds": 32,
+      "bpm": 120,
+      "composition": "new original melodic phrase and rhythm arrangement"
+    },
+    "music/quiet-pages": {
+      "file": "v4/music/quiet-pages.wav",
+      "sha256": "b668fe98158bc781676f59068797e69258a31dcc3a7ef6620110c2064b24c4ac",
+      "bytes": 1411278,
+      "name": "Sunny Steps \u00b7 pop groove",
+      "duration_seconds": 32,
+      "bpm": 90,
+      "composition": "new original melodic phrase and rhythm arrangement"
+    },
+    "music/soft-focus": {
+      "file": "v4/music/soft-focus.wav",
+      "sha256": "9d8803ad43982acd9f0507f518f0fccba9a43ed48c451ca14c19a3d499071e01",
+      "bytes": 1764078,
+      "name": "Open Road \u00b7 country-pop",
+      "duration_seconds": 40,
+      "bpm": 120,
+      "composition": "new original melodic phrase and rhythm arrangement"
+    }
+  }
+}

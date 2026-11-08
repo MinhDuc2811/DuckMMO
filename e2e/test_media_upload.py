@@ -48,8 +48,15 @@ def test_browser_upload_clip_and_queue(page, studio, tmp_path):
     page.goto(studio.ui_url)
     page.get_by_role("button", name="Clip upload fixture", exact=True).click()
     page.get_by_role("button", name="Tiếp tục dựng video", exact=True).click()
+    expect(page.get_by_role("tab", name="Phase 3 · Sản xuất video", exact=True)).to_have_attribute(
+        "aria-selected", "true"
+    )
+    expect(page.get_by_test_id("stApp")).to_have_attribute("data-test-script-state", "notRunning")
     page.get_by_text("Clip", exact=True).click()
     uploader = page.get_by_test_id("stFileUploader")
+    # Streamlit briefly retains the old image uploader during the Clip rerun.
+    expect(page.get_by_test_id("stApp")).to_have_attribute("data-test-script-state", "notRunning")
+    expect(uploader).to_have_count(1)
     expect(uploader).to_contain_text("Clip cho video")
     uploader.locator("input[type=file]").set_input_files(clip)
     expect(page.get_by_text("clip.mp4", exact=True)).to_be_visible()

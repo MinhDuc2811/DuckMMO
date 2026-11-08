@@ -23,9 +23,17 @@ def test_free_vietnamese_voice_and_rate_are_queued(page, studio):
     page.goto(studio.ui_url)
     page.get_by_role("button", name="Chọn giọng Việt miễn phí", exact=True).click()
     page.get_by_role("button", name="Tiếp tục dựng video", exact=True).click()
+    expect(page.get_by_role("tab", name="Phase 3 · Sản xuất video", exact=True)).to_have_attribute(
+        "aria-selected", "true"
+    )
+    expect(page.get_by_test_id("stApp")).to_have_attribute("data-test-script-state", "notRunning")
     voice = page.get_by_role("combobox", name="Giọng đọc", exact=True)
-    voice.click()
-    page.get_by_role("option", name="Nam Minh · nam · Microsoft Edge", exact=True).click()
+    expect(voice).to_have_count(1)
+    # Use the combobox's supported search/keyboard path. A real-browser diagnostic
+    # showed Open could leave aria-expanded=false with no options in this version.
+    voice.fill("Nam Minh")
+    voice.press("ArrowDown")
+    voice.press("Enter")
     expect(voice).to_have_value("Nam Minh · nam · Microsoft Edge")
     rate = page.get_by_role("group", name="Tốc độ đọc (%)", exact=True).get_by_role("slider")
     rate.focus()

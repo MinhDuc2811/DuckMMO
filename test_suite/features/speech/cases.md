@@ -39,3 +39,12 @@ Audio/video hoàn thành cần nghe thủ công để chấm phát âm/ngữ đi
   là native `value`, không có attribute `aria-valuenow`. Chọn group theo nhãn rồi
   slider bên trong, kiểm tra `to_have_value("10")`. Vẫn giữ thao tác ArrowRight
   và assert `speech_rate == 10` trong DB; không giảm kỳ vọng sản phẩm.
+
+- SPT-E2E-001 correction (2026-11-08): traces showed input-click and Open-button
+  selection could leave the React Aria popup closed. A standalone real-browser
+  diagnostic read `aria-expanded=false`, no options, then successfully selected
+  Nam Minh by typing into the searchable combobox, ArrowDown and Enter. The test
+  uses that supported keyboard interaction and waits for the production tab,
+  Streamlit notRunning and one voice control. Provider/voice/rate/database
+  assertions are unchanged. No force click, retry, skip, fake backend, lowered
+  threshold or extended timeout was introduced.

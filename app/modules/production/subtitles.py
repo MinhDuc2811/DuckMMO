@@ -1,4 +1,5 @@
-from app.contracts.captions import split_captions, timestamp
+from app.contracts.captions import split_captions
+from app.infrastructure.media.subtitle_files import write_srt
 from app.quality.evaluators import subtitle_checks
 from app.services.styles import write_ass
 
@@ -33,11 +34,5 @@ def resolve_subtitles(directory, cues, style, elapsed, width, height, progress):
         evaluations = subtitle_checks(cues, elapsed, style, width, height)
         progress(f"Subtitle layout repair {repairs}/2")
     write_ass(directory, cues, style, width, height)
-    (directory / "subtitles.srt").write_text(
-        "\n".join(
-            f"{i + 1}\n{timestamp(start)} --> {timestamp(end)}\n{text}\n"
-            for i, (start, end, text) in enumerate(cues)
-        ),
-        encoding="utf-8",
-    )
+    write_srt(directory / "subtitles.srt", cues)
     return cues, style, repairs, evaluations

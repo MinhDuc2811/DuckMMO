@@ -20,6 +20,7 @@ def visual_controls(request, job_id, saved):
             "panels": "Chia khung hình thành nhiều ô sinh động",
             "quote": "Gọn gàng, tập trung vào câu chữ",
             "full": "Hình toàn màn hình, chữ lớn nổi bật",
+            "lesson_card": "Chữ trong khung trắng; ảnh hoặc clip của bạn làm nền phía sau",
         }
         for index, item in enumerate(catalog["presets"]):
             with columns[index % 3].container(border=True):
@@ -48,6 +49,7 @@ def visual_controls(request, job_id, saved):
             "collage": "Ảnh xếp lớp",
             "panels": "Chia nhiều ô",
             "quote": "Tập trung vào câu chữ",
+            "lesson_card": "Khung trắng trên ảnh / video nền",
         }
         layout = st.selectbox(
             "Bố cục",
@@ -104,7 +106,7 @@ def music_controls(catalog, assets, saved, job_id):
     st.markdown("### 2. Thêm nhạc nền")
     st.caption("Không bắt buộc. Giọng đọc luôn được giữ riêng với nhạc nền.")
     old = saved.get("music", {})
-    sources = {"off": "Không dùng", "library": "Nhạc có sẵn", "upload": "File của bạn"}
+    sources = {"off": "Không dùng", "library": "Bản thử nghiệm cũ", "upload": "File của bạn"}
     default = "library" if old.get("track") else "upload" if old.get("asset_id") else "off"
     mode = st.radio(
         "Nguồn nhạc nền",
@@ -124,7 +126,12 @@ def music_controls(catalog, assets, saved, job_id):
                 format_func=tracks.get,
                 index=list(tracks).index(old.get("track") or "ambient"),
             )
-        st.caption("Hai bản nền đơn giản có sẵn miễn phí. Bạn cũng có thể tải nhạc của mình lên.")
+        st.caption(
+            "Các bản tự tạo cũ chỉ giữ để tương thích. "
+            "Ưu tiên upload nhạc đã nghe và có quyền dùng."
+        )
+        if track in {"quiet-pages", "soft-focus", "morning-air"}:
+            st.caption("Dùng “Nghe thử nhạc nền” bên dưới để kiểm tra với mức âm lượng đã chọn.")
     elif mode == "upload":
         available = {
             a["id"]: f"{a['id'][:8]} · {a['duration']:.1f} giây"
@@ -172,7 +179,8 @@ def music_controls(catalog, assets, saved, job_id):
             step=1.0,
             disabled=mode == "off",
             key=f"music-offset-{job_id}",
-            help="0 là đầu bài. Hai bản nhạc có sẵn dài 8 giây và sẽ tự lặp.",
+            help="0 là đầu bài. Nhạc có sẵn tự lặp; "
+            "chọn điểm bắt đầu nằm trong thời lượng bản nhạc.",
         )
 
     return (

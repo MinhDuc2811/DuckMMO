@@ -6,6 +6,7 @@ from ui.client.api import request
 from ui.client.media import upload_media
 from ui.components.presentation import music_controls, visual_controls
 from ui.components.progress import render_production_progress
+from ui.components.stock import stock_controls
 from ui.state.workspace import select_workspace
 
 
@@ -48,6 +49,7 @@ def render(opened=None, active=True, jobs_snapshot=None):
                     st.rerun()
             if render_job.get("error"):
                 st.error(render_job["error"])
+            stock_controls(request, render_id)
             st.markdown("### Hình ảnh cho video")
             media_mode = st.radio(
                 "Nguồn hình", ["Ảnh", "Clip"], horizontal=True, key=f"media-mode-{render_id}"
@@ -68,8 +70,54 @@ def render(opened=None, active=True, jobs_snapshot=None):
                             st.rerun()
             saved = render_job.get("render_config") or {}
             visual, presentation_catalog = visual_controls(request, render_id, saved)
+            background_id = None
+            if kind == "image":
+                backgrounds = {
+                    item["id"]: item for item in presentation_catalog.get("backgrounds", [])
+                }
+                choices = [None, *backgrounds]
+                background_id = st.selectbox(
+                    "Ảnh nền có sẵn",
+                    choices,
+                    index=choices.index(saved.get("background_id"))
+                    if saved.get("background_id") in choices
+                    else 0,
+                    format_func=lambda value: (
+                        backgrounds[value]["name"] if value else "Dùng file của bạn / nền màu"
+                    ),
+                    key=f"library-background-{render_id}",
+                )
+                if background_id:
+                    st.caption("Chủ đề: " + ", ".join(backgrounds[background_id]["topics"]))
+                    credit = backgrounds[background_id].get("credit")
+                    if credit:
+                        st.caption(credit)
+                        st.download_button(
+                            "Tải credit ảnh (.txt)",
+                            credit,
+                            file_name=f"photo-credit-{background_id}.txt",
+                            mime="text/plain",
+                            key=f"photo-credit-{render_id}",
+                        )
+                    preview = request("GET", backgrounds[background_id]["url"], raw=True)
+                    if preview:
+                        st.image(preview, width=200)
+            if visual["preset"] == "lesson-card":
+                st.caption("Chọn ảnh hoặc clip liên quan đến bài học để làm nền cho khung trắng.")
+                defaults_key = f"lesson-card-audio-defaults-{render_id}"
+                if not saved.get("music") and not st.session_state.get(defaults_key):
+                    st.session_state[f"music-mode-{render_id}"] = "off"
+                    st.session_state[f"music-volume-{render_id}"] = 10
+                    st.session_state[f"music-ducking-{render_id}"] = True
+                    st.session_state[defaults_key] = True
+            music_saved = saved
+            if visual["preset"] == "lesson-card" and not saved.get("music"):
+                music_saved = {
+                    **saved,
+                    "music": {"volume": 0.10, "ducking": True},
+                }
             music, music_upload, music_mode = music_controls(
-                presentation_catalog, saved_assets, saved, render_id
+                presentation_catalog, saved_assets, music_saved, render_id
             )
             with st.form(f"render-{render_id}"):
                 st.markdown("### 3. Giọng đọc & xuất video")
@@ -77,7 +125,22 @@ def render(opened=None, active=True, jobs_snapshot=None):
                 voices = {
                     item["id"]: item["label"] for item in catalog["voices"] if item["available"]
                 }
-                voice = st.selectbox("Giọng đọc", list(voices), format_func=voices.get)
+                preferred_voice = saved.get("voice") or (
+                    catalog.get("english_default_voice", "en-GB-SoniaNeural")
+                    if render_job["package"].get("language") == "en"
+                    else catalog.get("default_voice", "vi-VN-HoaiMyNeural")
+                )
+                voice_ids = list(voices)
+                voice = st.selectbox(
+                    "Giọng đọc",
+                    voice_ids,
+                    format_func=voices.get,
+                    index=voice_ids.index(preferred_voice) if preferred_voice in voices else 0,
+                )
+                if render_job["package"].get("language") == "en":
+                    st.caption(
+                        "Sonia và Ryan là giọng English (UK). Nghe thử câu mẫu trước khi dựng."
+                    )
                 speech_rate = st.slider(
                     "Tốc độ đọc (%)", -30, 30, 0, step=10, help="0 là tốc độ mặc định của giọng."
                 )
@@ -124,8 +187,13 @@ def render(opened=None, active=True, jobs_snapshot=None):
                 preview_text = st.text_area(
                     "Đoạn nghe thử",
                     max_chars=300,
-                    value="Xin chào, đây là giọng đọc tiếng Việt dành cho video của bạn. "
-                    "Chúng ta cùng lắng nghe một câu chuyện thật tự nhiên và liền mạch.",
+                    value=(
+                        "Although online courses are convenient, "
+                        "some learners need face-to-face support."
+                        if render_job["package"].get("language") == "en"
+                        else "Xin chào, đây là giọng đọc tiếng Việt dành cho video của bạn. "
+                        "Chúng ta cùng lắng nghe một câu chuyện thật tự nhiên và liền mạch."
+                    ),
                 )
                 voice_action, music_action = st.columns(2)
                 with voice_action:
@@ -184,6 +252,9 @@ def render(opened=None, active=True, jobs_snapshot=None):
                     st.audio(audio, format="audio/wav")
             if build:
                 uploads = ([pictures] if pictures else []) if kind == "video" else pictures
+                if background_id and (uploads or reused):
+                    st.error("Chọn ảnh có sẵn hoặc file của bạn, không chọn cả hai.")
+                    st.stop()
                 limit = 100_000_000 if kind == "video" else 3_000_000
                 count_limit = 1 if kind == "video" else 10
                 if len(uploads) + len(reused) > count_limit or any(p.size > limit for p in uploads):
@@ -203,6 +274,7 @@ def render(opened=None, active=True, jobs_snapshot=None):
                         "POST",
                         f"/api/jobs/{render_id}/render",
                         json={
+                            "background_id": background_id,
                             "voice": voice,
                             "visual": visual,
                             "music": music,

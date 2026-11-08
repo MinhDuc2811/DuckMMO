@@ -22,6 +22,8 @@ VOICES = (
     Voice("vi-VN-NamMinhNeural", "Nam Minh · nam · Microsoft Edge", "edge"),
     Voice("local-vi", "Tiếng Việt · giọng Windows đã cài", "windows"),
     Voice("en-US-AriaNeural", "Aria · English · Microsoft Edge", "edge", "en-US"),
+    Voice("en-GB-SoniaNeural", "Sonia · English (UK) · Microsoft Edge", "edge", "en-GB"),
+    Voice("en-GB-RyanNeural", "Ryan · English (UK) · Microsoft Edge", "edge", "en-GB"),
     Voice("local-en", "English · giọng Windows đã cài", "windows", "en-US"),
 )
 

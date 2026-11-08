@@ -5,12 +5,21 @@ import shutil
 
 from PIL import Image, ImageOps
 
+from app.contracts.presentation import uses_lesson_card
 from app.db import MediaAsset
 from app.infrastructure.media.probe import MediaFailure
 from app.infrastructure.media.storage import file_digest
+from app.infrastructure.media.study_pack import bundled_asset
 
 
 def pin_assets(session, storage, job_id, options, directory, config):
+    if options.background_id:
+        source = bundled_asset("background", options.background_id)
+        storage.ensure_capacity(source.stat().st_size)
+        filename = "library-background.png"
+        shutil.copyfile(source, directory / filename)
+        config["image_files"].append(filename)
+        config["background_sha256"] = file_digest(source)
     ids = options.image_asset_ids or ([options.video_asset_id] if options.video_asset_id else [])
     for index, asset_id in enumerate(ids):
         asset = session.get(MediaAsset, str(asset_id)) if session is not None else None
@@ -61,6 +70,9 @@ def input_arguments(config, directory, threads):
 def visual_filters(config, style, width, height):
     filters = "fps=24"
     if config.get("motion_file"):
+        if uses_lesson_card(config.get("visual", {})):
+            # Card already contains text; retain downloads without a duplicate overlay.
+            return filters
         return filters + ",ass=subtitles.ass"
     if config.get("video_file"):
         if config["video_fit"] == "crop":

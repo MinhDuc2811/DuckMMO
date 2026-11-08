@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from app.api.routers import content, jobs, media, production, publishing, quality, system
+from app.api.routers import content, ielts, jobs, media, production, publishing, quality, system
 from app.api.routers import settings as settings_routes
 from app.config import Settings
 from app.db import make_engine, make_sessions
@@ -31,6 +31,16 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             status_code=exc.status_code, content={"detail": exc.detail}, headers=exc.headers
         )
 
-    for module in (content, system, jobs, media, production, quality, publishing, settings_routes):
+    for module in (
+        content,
+        system,
+        jobs,
+        media,
+        production,
+        quality,
+        publishing,
+        settings_routes,
+        ielts,
+    ):
         api.include_router(module.router)
     return api

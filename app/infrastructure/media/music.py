@@ -8,14 +8,19 @@ import wave
 
 import imageio_ffmpeg
 
+from app.contracts.study_pack import STUDY_TRACKS
 from app.db import MediaAsset
 from app.infrastructure.media.commands import run_command
 from app.infrastructure.media.probe import MediaFailure
 from app.infrastructure.media.storage import file_digest
+from app.infrastructure.media.study_pack import bundled_asset
 
 
 def original_track(path, track):
-    """Eight-second original synthesized loops; no downloaded/licensed recordings."""
+    """Original bundled instrumentals or legacy eight-second synthesized loops."""
+    if track in STUDY_TRACKS:
+        shutil.copyfile(bundled_asset("music", track), path)
+        return
     rate, duration = 22050, 8
     notes = (130.81, 164.81, 196.0) if track == "ambient" else (146.83, 174.61, 220.0)
     with wave.open(str(path), "wb") as output:
@@ -53,10 +58,10 @@ def pin_music(session, storage, job_id, options, directory, config):
             shutil.copyfile(source, destination)
         duration = asset.details["duration"]
     else:
-        duration = 8
-        if options.start_seconds >= 7.8:
-            raise MediaFailure("Nhạc có sẵn dài 8 giây; chọn điểm bắt đầu dưới 7,8 giây.")
-        storage.ensure_capacity(1_000_000)
+        duration = STUDY_TRACKS.get(options.track, {}).get("duration_seconds", 8)
+        if options.start_seconds >= duration - 0.2:
+            raise MediaFailure(f"Nhạc có sẵn dài {duration} giây; chọn điểm bắt đầu sớm hơn.")
+        storage.ensure_capacity(int(duration * 22050 * 2 + 44))
         original_track(destination, options.track)
     config["music_file"] = destination.name
     config["music_sha256"] = file_digest(destination)

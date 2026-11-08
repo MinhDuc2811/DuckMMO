@@ -1,0 +1,5 @@
+real-spices: Riyaad Minty; CC BY 2.0; https://www.flickr.com/photos/riym/3326786046; https://creativecommons.org/licenses/by/2.0/. JPEG-to-PNG conversion only; video may crop/resize and overlay lesson text.
+
+real-petra: Francois Malan; CC BY 3.0; https://github.com/scikit-image/skimage-tutorials/blob/main/images/pano/DFM_4209.jpg; https://creativecommons.org/licenses/by/3.0/. JPEG-to-PNG conversion only; video may crop/resize and overlay lesson text.
+
+real-beach: scikit-image tutorial contributors; CC0 1.0; https://github.com/scikit-image/skimage-tutorials/blob/main/images/Bells-Beach.jpg; https://creativecommons.org/publicdomain/zero/1.0/. JPEG-to-PNG conversion only; video may crop/resize and overlay lesson text.

@@ -8,6 +8,18 @@ FastAPI, Streamlit, SQLAlchemy, migration Alembic, PostgreSQL hoặc SQLite loca
 hàng đợi job bền vững, kiểm tra Content Package và duyệt thủ công có audit trail.
 Chưa có DOCX gốc nên schema và backlog là đề xuất tạm, chưa phải bản đối chiếu đủ 18 mục.
 
+## IELTS YouTube Shorts
+
+Đã có thư viện topic/từ vựng theo nghĩa/cấu trúc/sample/bài tập, import preview,
+duyệt và lưu phiên bản, rồi soạn một Short từ một mục. Preset **Khung trắng** đặt chữ
+trên ảnh/clip; nội dung English mặc định chọn Sonia UK. Nhạc mặc định tắt, ưu tiên file
+đã nghe và có quyền dùng. Tìm ảnh/audio Openverse và ảnh/video Pexels ở Phase 3.
+
+Chạy `uv sync --frozen --group dev` và `uv run alembic upgrade head` trước khi mở bản mới.
+[Runtime và giới hạn](docs/ielts-shorts/runtime.md) ·
+[Khảo sát 59 repo và lựa chọn tích hợp](docs/research/shorts-toolkit/README.md) ·
+[Nguồn ảnh/nhạc](docs/study-pack.md).
+
 ## Chạy local (PowerShell)
 
 Yêu cầu Python 3.12+ và uv. Không cần API key AI hoặc Docker cho chế độ SQLite.

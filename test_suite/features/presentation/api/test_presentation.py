@@ -10,7 +10,17 @@ from tests.test_video import approved_script
 def test_catalog_and_actual_animated_preview(client):
     catalog = client.get("/api/production/catalog")
     assert catalog.status_code == 200
-    assert len(catalog.json()["presets"]) == 6
+    # User requested a seventh white-card preset; retain every existing preset as well.
+    assert len(catalog.json()["presets"]) == 7
+    assert {preset["id"] for preset in catalog.json()["presets"]} == {
+        "editorial",
+        "comic",
+        "minimal",
+        "kinetic",
+        "scrapbook",
+        "gallery",
+        "lesson-card",
+    }
     response = client.post("/api/production/style-preview", json={"preset": "comic"})
     assert response.status_code == 200
     image = Image.open(io.BytesIO(response.content))

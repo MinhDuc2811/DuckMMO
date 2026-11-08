@@ -5,13 +5,17 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-PresetId = Literal["auto", "editorial", "comic", "minimal", "kinetic", "scrapbook", "gallery"]
+from app.contracts.study_pack import BACKGROUNDS, STUDY_TRACKS, StudyTrackId
+
+PresetId = Literal[
+    "auto", "editorial", "comic", "minimal", "kinetic", "scrapbook", "gallery", "lesson-card"
+]
 
 
 class VisualOptions(BaseModel):
     model_config = ConfigDict(extra="forbid")
     preset: PresetId = "auto"
-    layout: Literal["preset", "full", "collage", "panels", "quote", "mix"] = "preset"
+    layout: Literal["preset", "full", "collage", "panels", "quote", "mix", "lesson_card"] = "preset"
     intensity: Literal["gentle", "medium", "strong"] = "medium"
     transition: Literal["cut", "fade", "slide"] = "fade"
     accent: str | None = Field(default=None, pattern=r"^#[0-9a-fA-F]{6}$")
@@ -21,7 +25,7 @@ class VisualOptions(BaseModel):
 class MusicOptions(BaseModel):
     model_config = ConfigDict(extra="forbid")
     asset_id: UUID | None = None
-    track: Literal["ambient", "pulse"] | None = None
+    track: Literal["ambient", "pulse"] | StudyTrackId | None = None
     volume: float = Field(default=0.16, ge=0, le=0.5, allow_inf_nan=False)
     ducking: bool = True
     start_seconds: float = Field(default=0, ge=0, le=600, allow_inf_nan=False)
@@ -40,16 +44,33 @@ PRESETS = {
     "kinetic": dict(name="Kinetic", layout="full", background="#24153d", accent="#d4f36b"),
     "scrapbook": dict(name="Scrapbook", layout="collage", background="#42332f", accent="#f4caa4"),
     "gallery": dict(name="Gallery", layout="panels", background="#142437", accent="#92c9ff"),
+    "lesson-card": dict(
+        name="Khung trắng", layout="lesson_card", background="#263d35", accent="#254d42"
+    ),
 }
+
+
+def uses_lesson_card(options):
+    return options.get("layout") == "lesson_card" or (
+        options.get("preset") == "lesson-card" and options.get("layout", "preset") == "preset"
+    )
 
 
 def presentation_catalog():
     return {
-        "version": 1,
+        "version": 6,
         "presets": [{"id": key, **value} for key, value in PRESETS.items()],
         "tracks": [
             {"id": "ambient", "name": "Nền êm", "license": "Original synthesized audio"},
             {"id": "pulse", "name": "Nhịp nhẹ", "license": "Original synthesized audio"},
+            *[
+                {"id": key, **value, "license": "Original synthesized instrumental"}
+                for key, value in STUDY_TRACKS.items()
+            ],
+        ],
+        "backgrounds": [
+            {"id": key, **value, "url": f"/api/production/library/background/{key}"}
+            for key, value in BACKGROUNDS.items()
         ],
     }
 
