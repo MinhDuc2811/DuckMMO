@@ -2,6 +2,7 @@ import httpx
 import streamlit as st
 
 from ui.client.api import API_URL, HEADERS, request
+from ui.components.output_quality import output_quality_panel
 
 
 def render(opened=None, active=True, jobs_snapshot=None):
@@ -43,6 +44,7 @@ def render(opened=None, active=True, jobs_snapshot=None):
             f"{meta['width']}×{meta['height']} · {meta['duration']:.1f} giây · "
             f"{meta['caption_count']} đoạn phụ đề · Đã kiểm tra hình và tiếng"
         )
+        output_quality_panel(meta)
         if active:
             try:
                 media = httpx.get(

@@ -21,6 +21,7 @@ from app.infrastructure.media.commands import run_command
 from app.infrastructure.media.encoding import encode_video, inspect_video
 from app.infrastructure.media.frames import make_frame
 from app.infrastructure.media.music import mix_audio
+from app.infrastructure.media.output_quality import inspect_output
 from app.infrastructure.media.scenes import build_plan
 from app.infrastructure.media.speech import synthesize
 from app.infrastructure.media.storage import LocalMediaStorage
@@ -254,11 +255,15 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
     checkpoint("render", "end", {"filename": "video.mp4"})
     checkpoint("qa", "start")
     progress("Checking video and audio")
+    output_quality = inspect_output(directory, elapsed, width, height, run_command=run_command)
+    if output_quality["status"] == "fail":
+        checkpoint("qa", "end", {"output_quality": output_quality}, output_quality["evaluations"])
+        raise VideoFailure("Video không đạt kiểm tra FFmpeg. Xem tab Chất lượng để biết lỗi.")
     metadata, sample_times = inspect_video(directory, elapsed, run_command=run_command)
     result = {
         "run_id": config["run_id"],
         "content_hash": config["expected_content_hash"],
-        "sha256": hashlib.sha256((directory / "video.mp4").read_bytes()).hexdigest(),
+        "sha256": output_quality["sha256"],
         "duration": metadata["duration"],
         "width": metadata["size"][0],
         "height": metadata["size"][1],
@@ -281,7 +286,11 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
     }
     result["presentation"] = config.get("visual", {"preset": "auto"})
     result["music"] = {**config.get("music", {}), "mixed": bool(config.get("music_file"))}
-    result["quality"] = {"subtitle_repairs": repairs, "sample_times": sample_times}
+    result["quality"] = {
+        "subtitle_repairs": repairs,
+        "sample_times": sample_times,
+        "output": output_quality,
+    }
     result["speech"] = {
         "segmentation_version": 2,
         "segments": speech_timeline,
@@ -295,7 +304,11 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
     checkpoint(
         "qa",
         "end",
-        {"sha256": result["sha256"], "sample_times": sample_times},
+        {
+            "sha256": result["sha256"],
+            "sample_times": sample_times,
+            "output_quality": output_quality,
+        },
         [
             check("video_decode_samples", "pass", {"sample_times": sample_times}),
             check(
@@ -303,7 +316,7 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
                 "pass",
                 {"difference_seconds": abs(metadata["duration"] - elapsed)},
             ),
-            check("black_frames", "unknown", {"reason": "No intent-aware black-frame detection"}),
+            *output_quality["evaluations"],
         ],
     )
     (directory / "manifest.json").write_text(json.dumps(result, indent=2), encoding="utf-8")

@@ -30,7 +30,15 @@ def endpoint_queue_render(job_id: UUID, payload: RenderOptions, session=Depends(
 def endpoint_get_artifact(
     job_id: UUID,
     kind: Literal[
-        "video", "audio", "soundtrack", "subtitles", "styled_subtitles", "style", "poster", "script"
+        "video",
+        "audio",
+        "soundtrack",
+        "subtitles",
+        "styled_subtitles",
+        "style",
+        "poster",
+        "script",
+        "quality_report",
     ],
     session=Depends(get_session),
 ):

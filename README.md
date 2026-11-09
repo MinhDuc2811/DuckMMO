@@ -20,6 +20,11 @@ Chạy `uv sync --frozen --group dev` và `uv run alembic upgrade head` trước
 [Khảo sát 59 repo và lựa chọn tích hợp](docs/research/shorts-toolkit/README.md) ·
 [Nguồn ảnh/nhạc](docs/study-pack.md).
 
+## Kiểm tra chất lượng đầu ra
+
+Video mới được FFmpeg/FFprobe kiểm tra toàn bộ file sau render. Lỗi kỹ thuật chặn duyệt;
+cảnh báo và báo cáo JSON hiện ở màn hình xem video. [Tiêu chí và giới hạn](docs/output-quality.md).
+
 ## MoneyPrinterTurbo · chuẩn bị footage
 
 Phase 3 có phần **MoneyPrinterTurbo · Tự chuẩn bị clip nền**: tìm/tải/ghép footage từ

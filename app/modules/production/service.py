@@ -52,7 +52,15 @@ def queue_render(job_id: UUID, payload: RenderOptions, *, session):
 def get_artifact(
     job_id: UUID,
     kind: Literal[
-        "video", "audio", "soundtrack", "subtitles", "styled_subtitles", "style", "poster", "script"
+        "video",
+        "audio",
+        "soundtrack",
+        "subtitles",
+        "styled_subtitles",
+        "style",
+        "poster",
+        "script",
+        "quality_report",
     ],
     *,
     session,
@@ -72,6 +80,7 @@ def get_artifact(
         "style": ("style.json", "application/json"),
         "poster": ("poster.png", "image/png"),
         "script": ("script.txt", "text/plain"),
+        "quality_report": ("output-quality.json", "application/json"),
     }[kind]
     path = artifact_directory(job.id, job.video["run_id"]) / filename
     if not path.is_file():
