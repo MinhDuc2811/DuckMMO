@@ -36,7 +36,7 @@ def list_assets(job_id, *, session):
     ]
 
 
-async def upload_asset(job_id, kind, chunks, content_length, *, settings, session):
+async def upload_asset(job_id, kind, chunks, content_length, *, settings, session, provenance=None):
     load_job(session, job_id)
     storage = LocalMediaStorage(settings)
     path = storage.asset_path(uuid4())
@@ -94,6 +94,8 @@ async def upload_asset(job_id, kind, chunks, content_length, *, settings, sessio
                 if kind == "audio"
                 else await to_thread(inspect_video, temporary, settings)
             )
+            if provenance is not None:
+                details["provenance"] = provenance
             # Recheck deletion after receiving a potentially slow request.
             session.expire_all()
             load_job(session, job_id)
@@ -141,3 +143,20 @@ def delete_asset(job_id, asset_id, *, settings, session):
             return {"deleted": True}
     except LocalBusy as exc:
         raise ApplicationError(429, str(exc)) from exc
+
+
+def download_asset(job_id, asset_id, *, settings, session):
+    from app.contracts.artifacts import ArtifactDownload
+
+    load_job(session, job_id)
+    asset = session.get(MediaAsset, str(asset_id))
+    if not asset or asset.job_id != str(job_id):
+        raise ApplicationError(404, "Không tìm thấy file thuộc nội dung này.")
+    try:
+        path = LocalMediaStorage(settings).verify(asset)
+    except MediaFailure as exc:
+        raise ApplicationError(409, str(exc)) from exc
+    media_type = "video/mp4" if asset.kind == "video" else "application/octet-stream"
+    return ArtifactDownload(
+        path, media_type, f"{asset.id}.mp4" if asset.kind == "video" else asset.id
+    )

@@ -4,6 +4,7 @@ from typing import Literal
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Request
+from fastapi.responses import FileResponse
 
 from app.api.dependencies import authenticate, get_session, get_settings
 from app.modules.production import assets
@@ -39,3 +40,11 @@ def delete_asset(
     job_id: UUID, asset_id: UUID, settings=Depends(get_settings), session=Depends(get_session)
 ):
     return assets.delete_asset(job_id, asset_id, settings=settings, session=session)
+
+
+@router.get("/{job_id}/assets/{asset_id}/file")
+def download_asset(
+    job_id: UUID, asset_id: UUID, settings=Depends(get_settings), session=Depends(get_session)
+):
+    artifact = assets.download_asset(job_id, asset_id, settings=settings, session=session)
+    return FileResponse(artifact.path, media_type=artifact.media_type, filename=artifact.filename)

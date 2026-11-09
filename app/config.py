@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     youtube_refresh_token: SecretStr = SecretStr("")
     speech_cache_enabled: bool = True
     pexels_api_key: SecretStr = SecretStr("")
+    pixabay_api_key: SecretStr = SecretStr("")
+    coverr_api_key: SecretStr = SecretStr("")
+    mpt_dir: Path = Path("data/moneyprinter")
+    mpt_python: Path | None = None
     style_catalog_url: str = ""
     artifact_dir: Path = Path("data/artifacts")
     stickman_dir: Path = Path("data/stickman")

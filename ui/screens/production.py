@@ -4,6 +4,7 @@ import streamlit as st
 
 from ui.client.api import request
 from ui.client.media import upload_media
+from ui.components.moneyprinter import footage_controls
 from ui.components.presentation import music_controls, visual_controls
 from ui.components.progress import render_production_progress
 from ui.components.stock import stock_controls
@@ -49,6 +50,8 @@ def render(opened=None, active=True, jobs_snapshot=None):
                     st.rerun()
             if render_job.get("error"):
                 st.error(render_job["error"])
+            if active:
+                footage_controls(request, render_job)
             stock_controls(request, render_id)
             st.markdown("### Hình ảnh cho video")
             media_mode = st.radio(
@@ -57,6 +60,11 @@ def render(opened=None, active=True, jobs_snapshot=None):
             saved_assets = request("GET", f"/api/jobs/{render_id}/assets") or []
             kind = "video" if media_mode == "Clip" else "image"
             available = [a for a in saved_assets if a["kind"] == kind]
+            selected_mpt = st.session_state.pop(f"mpt-selected-{render_id}", None)
+            if selected_mpt and kind == "video":
+                st.session_state[f"media-reuse-{render_id}-{kind}"] = [
+                    a for a in available if a["id"] == selected_mpt
+                ]
             reused = st.multiselect(
                 "File đã tải lên",
                 available,

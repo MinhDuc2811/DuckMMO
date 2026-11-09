@@ -24,6 +24,7 @@ jobs:
           cache-dependency-path: integrations/stickman-video-director/package-lock.json
       - run: npm ci --prefix integrations/stickman-video-director --ignore-scripts --no-audit --no-fund
       - run: uv sync --frozen --group dev --python 3.12
+      - run: uv sync --project integrations/moneyprinter-turbo --frozen --no-dev
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
       - name: Choose comparison base
         env:

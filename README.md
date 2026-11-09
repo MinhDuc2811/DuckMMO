@@ -20,6 +20,13 @@ Chạy `uv sync --frozen --group dev` và `uv run alembic upgrade head` trước
 [Khảo sát 59 repo và lựa chọn tích hợp](docs/research/shorts-toolkit/README.md) ·
 [Nguồn ảnh/nhạc](docs/study-pack.md).
 
+## MoneyPrinterTurbo · chuẩn bị footage
+
+Phase 3 có phần **MoneyPrinterTurbo · Tự chuẩn bị clip nền**: tìm/tải/ghép footage từ
+Pexels/Pixabay/Coverr, xem clip và nguồn rồi chọn làm nền cho khung trắng hiện có.
+Runtime MPT được cách ly bằng uv project riêng; không thay database IELTS, không tự sinh
+nhạc hoặc đăng bài. [Setup và cách dùng](docs/moneyprinter.md).
+
 ## Stickman Studio riêng
 
 Chọn **Không gian làm việc → Stickman Studio** để dùng phần tích hợp độc lập từ

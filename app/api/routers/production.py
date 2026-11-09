@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse
 from starlette.background import BackgroundTask
 
 from app.api.dependencies import authenticate, get_session, get_settings
+from app.contracts.moneyprinter import FootageRequest
 from app.contracts.presentation import MusicOptions, VisualOptions, presentation_catalog
 from app.modules.production.library import library_asset, stock_search
 from app.modules.production.previews import audio_preview, style_preview
@@ -126,3 +127,22 @@ def endpoint_stock_search(
     settings=Depends(get_settings),
 ):
     return stock_search(provider, kind, q, page, settings)
+
+
+@router.get("/api/production/moneyprinter", dependencies=protected)
+def moneyprinter_status(settings=Depends(get_settings)):
+    from app.modules.production.footage import runtime_status
+
+    return runtime_status(settings)
+
+
+@router.post("/api/jobs/{job_id}/moneyprinter/footage", dependencies=protected, status_code=201)
+async def moneyprinter_footage(
+    job_id: UUID,
+    payload: FootageRequest,
+    settings=Depends(get_settings),
+    session=Depends(get_session),
+):
+    from app.modules.production.footage import prepare_footage
+
+    return await prepare_footage(job_id, payload, settings=settings, session=session)
