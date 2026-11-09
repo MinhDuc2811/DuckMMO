@@ -20,6 +20,14 @@ Chạy `uv sync --frozen --group dev` và `uv run alembic upgrade head` trước
 [Khảo sát 59 repo và lựa chọn tích hợp](docs/research/shorts-toolkit/README.md) ·
 [Nguồn ảnh/nhạc](docs/study-pack.md).
 
+## Stickman Studio riêng
+
+Chọn **Không gian làm việc → Stickman Studio** để dùng phần tích hợp độc lập từ
+[kaomei/stickman-video-director](https://github.com/kaomei/stickman-video-director).
+Có Director brief/reference export và Autopilot renderer từ media/timeline đã chuẩn bị:
+preview → duyệt → MP4/phụ đề. Không tự gọi model sinh ảnh hoặc TTS trả phí.
+[Setup, phân tách dữ liệu và giới hạn](docs/stickman-studio.md).
+
 ## Chạy local (PowerShell)
 
 Yêu cầu Python 3.12+ và uv. Không cần API key AI hoặc Docker cho chế độ SQLite.

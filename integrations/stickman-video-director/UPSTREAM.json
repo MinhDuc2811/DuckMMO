@@ -1,0 +1,394 @@
+{
+  "repository": "https://github.com/kaomei/stickman-video-director",
+  "commit": "eb4bb378c4716a617f9ad7d98a60379b9d1fa54a",
+  "date": "2026-11-09",
+  "files": [
+    {
+      "upstream_path": "LICENSE",
+      "local_path": "LICENSE",
+      "sha256": "39db520f9483ddb84418c21d59547f39da00083bf2dae1039166299d64f715c3",
+      "bytes": 1093,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/LICENSE"
+    },
+    {
+      "upstream_path": "README.en.md",
+      "local_path": "README.en.md",
+      "sha256": "89e6b91d3a43a282be4c079c094a9b2ac25b97d0b45035b05230ec54bc3c64fc",
+      "bytes": 38832,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/README.en.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/SKILL.md",
+      "local_path": "SKILL.md",
+      "sha256": "74dd576ab9fe89ed124822a8b31d875ea9863aff59b25e98eb873b5f8401f48a",
+      "bytes": 14658,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/SKILL.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/package.json",
+      "local_path": "package.json",
+      "sha256": "ee63ec8edb9558bf3b8aa324cc1f2bf00fb36c6da570a4d4b611738226307faa",
+      "bytes": 390,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/package.json"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/package-lock.json",
+      "local_path": "package-lock.json",
+      "sha256": "11a2c018a7f0af7f0b04a81893ab48f128e83b5f18e4ecde23d56360f394c0ab",
+      "bytes": 8423,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/package-lock.json"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/fonts/Caveat.ttf",
+      "local_path": "assets/fonts/Caveat.ttf",
+      "sha256": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
+      "bytes": 403648,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/fonts/Caveat.ttf"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/fonts/NotoSans.ttf",
+      "local_path": "assets/fonts/NotoSans.ttf",
+      "sha256": "bfb7bb691513f12e734dc346c03a03f784912432d7e3fa8e56efcf906fe86b3d",
+      "bytes": 2049096,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/fonts/NotoSans.ttf"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/fonts/OFL-Caveat.txt",
+      "local_path": "assets/fonts/OFL-Caveat.txt",
+      "sha256": "163a2b400e16916ad3196296c946c526d0efce6baf22a2164269ffc62fb9f671",
+      "bytes": 4384,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/fonts/OFL-Caveat.txt"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/fonts/OFL-NotoSans.txt",
+      "local_path": "assets/fonts/OFL-NotoSans.txt",
+      "sha256": "e2e177a32561584d4fc13aaa3cd8e53758a12910f013fe9ca125419111722029",
+      "bytes": 4395,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/fonts/OFL-NotoSans.txt"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/b1/character-pose-sheet-v6.png",
+      "local_path": "assets/b1/character-pose-sheet-v6.png",
+      "sha256": "94b601f640112314965525f49536f87942c577e1e5556a11503b19ed00777bb7",
+      "bytes": 263306,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/b1/character-pose-sheet-v6.png"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/a6_finish.py",
+      "local_path": "scripts/a6_finish.py.txt",
+      "sha256": "b903f5da67c845a30bd3233e8ad866e0e6c948993c21f7397d969e89241eeecf",
+      "bytes": 14650,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/a6_finish.py"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/a6_reference_check.py",
+      "local_path": "scripts/a6_reference_check.py.txt",
+      "sha256": "af9317a9db40485f36df2db9adff82121e1066ad2b242113952e18756286b851",
+      "bytes": 8419,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/a6_reference_check.py"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/align_captions.py",
+      "local_path": "scripts/align_captions.py.txt",
+      "sha256": "ba3f4308fd99238e95195f796a4ae4cdebb992c25b976816433d45dbd19e9913",
+      "bytes": 2171,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/align_captions.py"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/autopilot-core.mjs",
+      "local_path": "scripts/autopilot-core.mjs",
+      "sha256": "0c876a252dae4e0663878ac6a3c197e59b11163d4389a3a9e1b7b02514e0218f",
+      "bytes": 12692,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/autopilot-core.mjs"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/autopilot-render.mjs",
+      "local_path": "scripts/autopilot-render.mjs",
+      "sha256": "2649e7bd2bc989ba877d98bd859e66e395c80c07dd5b56dc351a1452b497dd9b",
+      "bytes": 18788,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/autopilot-render.mjs"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/autopilot.mjs",
+      "local_path": "scripts/autopilot.mjs",
+      "sha256": "566c69fb7616711b89aaa2bbf6cc03f658f99effdfa04f31140b4d22d37d4edb",
+      "bytes": 6410,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/autopilot.mjs"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/b3-graphics.mjs",
+      "local_path": "scripts/b3-graphics.mjs",
+      "sha256": "3e6775203f94f2e0a46e7c44ebdc0900e37e45f0030fbe1389365bcc4c53d67d",
+      "bytes": 5012,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/b3-graphics.mjs"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/b4-opening-audio-check.mjs",
+      "local_path": "scripts/b4-opening-audio-check.mjs",
+      "sha256": "95f120adf0042cd38cf7f33e785c6aac072c0f9d7fa87b09141a36da8429abee",
+      "bytes": 4128,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/b4-opening-audio-check.mjs"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/b4-production-check.mjs",
+      "local_path": "scripts/b4-production-check.mjs.txt",
+      "sha256": "29b4d128cb3e9e74901a14105bf2ee1e1cda38520a4f197bf6977514acd6d626",
+      "bytes": 8964,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/b4-production-check.mjs"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/b4-runtime.mjs",
+      "local_path": "scripts/b4-runtime.mjs",
+      "sha256": "015eb11b419d42fa396f8f46560d2a8756a3812c8ae4836a4ba062a08df7a893",
+      "bytes": 5716,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/b4-runtime.mjs"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/b4-style-lock.mjs",
+      "local_path": "scripts/b4-style-lock.mjs",
+      "sha256": "2355036616a454db08a3ab84256164b66c4e13fdf45dd3e14d32de1a71c57f6d",
+      "bytes": 3291,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/b4-style-lock.mjs"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/scripts/gemini-media.mjs",
+      "local_path": "scripts/gemini-media.mjs.txt",
+      "sha256": "634115a29e4afd7f24da817c34332c988ff0142daedf80e036047abe65255b96",
+      "bytes": 4749,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/scripts/gemini-media.mjs"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/a6-finishing.md",
+      "local_path": "references/a6-finishing.md",
+      "sha256": "45de4a202e79774b8f6db883478bc5572133fc359c732c87982b03e9fd16d83d",
+      "bytes": 6848,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/a6-finishing.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/a6-reference-prompts.md",
+      "local_path": "references/a6-reference-prompts.md",
+      "sha256": "f13e52a0648c7e3a48a04fc8b8659b966e5aef4b51aff29e3047784928a4af50",
+      "bytes": 5678,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/a6-reference-prompts.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/amber-noir.md",
+      "local_path": "references/amber-noir.md",
+      "sha256": "0d13c0ee6f8718cf7ca3d5a3dafacded9195788494755cfc09dc12ef8c2d9f35",
+      "bytes": 13511,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/amber-noir.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/autopilot-production-qa.md",
+      "local_path": "references/autopilot-production-qa.md",
+      "sha256": "4c2ff0072736f4d7d5951aa75035bf304b869d91ab7b9a7278f8fc35c0bde206",
+      "bytes": 12298,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/autopilot-production-qa.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/autopilot-runtime.md",
+      "local_path": "references/autopilot-runtime.md",
+      "sha256": "59e0dc7c0d4c73962ab117a1f7d8e34dcd1df5ddd13a178284fa8d71c033fe48",
+      "bytes": 14938,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/autopilot-runtime.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/autopilot-sound-system.md",
+      "local_path": "references/autopilot-sound-system.md",
+      "sha256": "f98d05968b633a866d0acf00b7a1878d0d65c5d1d558768ab0cf82900e5d8c07",
+      "bytes": 24088,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/autopilot-sound-system.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/autopilot.md",
+      "local_path": "references/autopilot.md",
+      "sha256": "a6776d27a219fbe1e7f55545fd52286c0174be1aba26173993be9818e492bc23",
+      "bytes": 15339,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/autopilot.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/b1-minimal-handdrawn.md",
+      "local_path": "references/b1-minimal-handdrawn.md",
+      "sha256": "4136ca3aa89154ecc746fb858ecacb94e0ddd236132996d8cb0b94ff9ad09b7f",
+      "bytes": 9650,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/b1-minimal-handdrawn.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/b1-production-qa.md",
+      "local_path": "references/b1-production-qa.md",
+      "sha256": "4588c24be939e0494bbee1d48e6677f78cd8592f09da8b0943ab6455a347e45f",
+      "bytes": 5407,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/b1-production-qa.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/b2-colorful-handdrawn.md",
+      "local_path": "references/b2-colorful-handdrawn.md",
+      "sha256": "992b92f639df54cd19f3085b56f8c28fc3e3d95397438a739f79bfa1233505bd",
+      "bytes": 6498,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/b2-colorful-handdrawn.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/b3-television.md",
+      "local_path": "references/b3-television.md",
+      "sha256": "cffc1cf184e7b17a0d7320e594699fa917e70a0e93ab399d9422926d38e0e83b",
+      "bytes": 16336,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/b3-television.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/b4-audio-direction.md",
+      "local_path": "references/b4-audio-direction.md",
+      "sha256": "9ce491941e88042154e16b1971b194e93d0601e053c94ba145275b91424fb932",
+      "bytes": 16347,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/b4-audio-direction.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/b4-opening-direction.md",
+      "local_path": "references/b4-opening-direction.md",
+      "sha256": "f112485950364c1d642b98bca5f706a3f43be85125fd86f10ede6eeeab87dcd6",
+      "bytes": 12877,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/b4-opening-direction.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/b4-repeatability-check.md",
+      "local_path": "references/b4-repeatability-check.md",
+      "sha256": "a0149b13851e09b402b49b06ae0e79744bbb082ebc7e3e63311c26a2e9ea96ac",
+      "bytes": 4725,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/b4-repeatability-check.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/b4-survival-storytelling.md",
+      "local_path": "references/b4-survival-storytelling.md",
+      "sha256": "62cba34557ce1fc6fa420024f53f206c99b77fa7fe55d10935211af71390cc64",
+      "bytes": 18868,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/b4-survival-storytelling.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/cozy-storytelling.md",
+      "local_path": "references/cozy-storytelling.md",
+      "sha256": "a0b3f5890857582bb1e7bfa819cefcc7ffd55af72ab8997e1b286b7ad27f1419",
+      "bytes": 7542,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/cozy-storytelling.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/examples.md",
+      "local_path": "references/examples.md",
+      "sha256": "c183e159304eb6dc12f9ad0b06f037a3f880282bc0b75bf06a2863705ddf00f4",
+      "bytes": 35063,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/examples.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/getting-started.md",
+      "local_path": "references/getting-started.md",
+      "sha256": "7a40d6e9d6fc9897f2cbb53b954cdb88ce746e7478c3adc0580713f50a4ad7d3",
+      "bytes": 26047,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/getting-started.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/historical-cartoon.md",
+      "local_path": "references/historical-cartoon.md",
+      "sha256": "74ad606ea2d8a237806661b0ee5e81ead4759aae003cee50bf328f2b383a38bd",
+      "bytes": 14618,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/historical-cartoon.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/mode-execution-boundaries.md",
+      "local_path": "references/mode-execution-boundaries.md",
+      "sha256": "e4898bcf1480873655e7cadf44a6f46bef7803f52ed5980b6357426f2d30d356",
+      "bytes": 8004,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/mode-execution-boundaries.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/omni-flash-prompt-contract.md",
+      "local_path": "references/omni-flash-prompt-contract.md",
+      "sha256": "54003ad011d60a9d8fc7f923f97f1ee4b260e1a5d6b24d53106ee601efb16487",
+      "bytes": 13380,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/omni-flash-prompt-contract.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/prehistoric-dark-comedy.md",
+      "local_path": "references/prehistoric-dark-comedy.md",
+      "sha256": "1a3a58a22b392cc087a0aa645b3f8478a3136e7e7f35d086ddb588ac091df860",
+      "bytes": 6497,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/prehistoric-dark-comedy.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/storyboard-template.md",
+      "local_path": "references/storyboard-template.md",
+      "sha256": "486338e79397c73443fb390ff03883e5712834b1ddf542c3af54a8dbf6cb870b",
+      "bytes": 11324,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/storyboard-template.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/style-catalog.md",
+      "local_path": "references/style-catalog.md",
+      "sha256": "717a32d850865e3473ca1e791269a66d364c73eee34e7637341db1dc2b91dd9c",
+      "bytes": 14824,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/style-catalog.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/thumbnail-publishing-kit.md",
+      "local_path": "references/thumbnail-publishing-kit.md",
+      "sha256": "cdc5f85098cc6a91492ad0057a44f6d6827247c84a68f5952addb3aeda3d4506",
+      "bytes": 6116,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/thumbnail-publishing-kit.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/references/voice-continuity.md",
+      "local_path": "references/voice-continuity.md",
+      "sha256": "ac14fce4f8e4176815d05260de8eeea22345c0920d8e3e2b3911a380affe2ed3",
+      "bytes": 6754,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/references/voice-continuity.md"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/b4/approved-style.json",
+      "local_path": "assets/b4/approved-style.json",
+      "sha256": "4ade4010ac32c47e28737d2e3c8d62ea4a320d563f69578c54bad5a21b9a9b95",
+      "bytes": 6641,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/b4/approved-style.json"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/b4/reference-01-motor-room.png",
+      "local_path": "assets/b4/reference-01-motor-room.png",
+      "sha256": "23a4dd6c5d1141bfddacd381525a1d96e82be81b070b2d63acbc58d7a8fe13fa",
+      "bytes": 1854316,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/b4/reference-01-motor-room.png"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/b4/reference-02-rooftop.png",
+      "local_path": "assets/b4/reference-02-rooftop.png",
+      "sha256": "ad1cfb7b30d9e1aa44130760781dce91c29febf4e2688a8362b9b5443466ffeb",
+      "bytes": 1917440,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/b4/reference-02-rooftop.png"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/b4/reference-03-driver.png",
+      "local_path": "assets/b4/reference-03-driver.png",
+      "sha256": "364a80b28843e14b55addd3114aed9c113d91a56885d8cd25d46fc964a90fb9e",
+      "bytes": 2039351,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/b4/reference-03-driver.png"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/b4/reference-04-street.png",
+      "local_path": "assets/b4/reference-04-street.png",
+      "sha256": "5167ca2b1d904481feb0d6b8590c85c6a5e223dc8e9bca6943d6baf98dbff2d4",
+      "bytes": 2036708,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/b4/reference-04-street.png"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/b4/reference-05-opposite-rooftop.png",
+      "local_path": "assets/b4/reference-05-opposite-rooftop.png",
+      "sha256": "80a33dd11c830525e475ef8d1ffb62c5fd47131b14af01edf59dd1137ff71769",
+      "bytes": 1748998,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/b4/reference-05-opposite-rooftop.png"
+    },
+    {
+      "upstream_path": "skills/directing-stickman-videos/assets/b4/style-lock.txt",
+      "local_path": "assets/b4/style-lock.txt",
+      "sha256": "a724ce29b03624c13e70a8ae5a8c8209e83a48b697b28244263d3eefa0193795",
+      "bytes": 3524,
+      "url": "https://raw.githubusercontent.com/kaomei/stickman-video-director/eb4bb378c4716a617f9ad7d98a60379b9d1fa54a/skills/directing-stickman-videos/assets/b4/style-lock.txt"
+    }
+  ],
+  "scope": "Pinned local renderer, skill references, B1 atlas, B4 integrity-locked reference pack and font licenses; generation helpers are text-only references; no provider integration or private original videos.",
+  "normalization": "Text snapshots use LF and no trailing whitespace. Original hashes retained as upstream_sha256 where bytes changed; helper .py/.mjs sources outside the renderer closure are stored as .txt and not executed."
+}

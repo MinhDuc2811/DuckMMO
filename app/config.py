@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     pexels_api_key: SecretStr = SecretStr("")
     style_catalog_url: str = ""
     artifact_dir: Path = Path("data/artifacts")
+    stickman_dir: Path = Path("data/stickman")
     media_upload_max_bytes: int = Field(default=100_000_000, ge=1)
     media_storage_max_bytes: int = Field(default=10_000_000_000, ge=1)
     media_min_free_bytes: int = Field(default=500_000_000, ge=0)

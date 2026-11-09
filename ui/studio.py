@@ -11,13 +11,28 @@ import streamlit as st
 from ui.client.api import request
 from ui.components.activity import render_activity_log
 from ui.components.workspace import render_workspace
-from ui.screens import content_review, ielts, ingestion, production, publishing, video_review
+from ui.screens import (
+    content_review,
+    ielts,
+    ingestion,
+    production,
+    publishing,
+    stickman,
+    video_review,
+)
 from ui.state.workspace import apply_pending_navigation
 
 st.set_page_config(page_title="AI Content Studio", page_icon="🦆", layout="wide")
 apply_pending_navigation()
 st.title("🦆 AI Content Studio")
 st.caption("Soạn, chỉnh sửa và tải nội dung video")
+space = st.sidebar.radio(
+    "Không gian làm việc", ["Nội dung & IELTS", "Stickman Studio"], key="studio-space"
+)
+if space == "Stickman Studio":
+    stickman.render()
+    st.stop()
+
 if notice := st.session_state.pop("submission_notice", None):
     st.success(notice)
 with st.sidebar:

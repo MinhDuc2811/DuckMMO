@@ -3,7 +3,17 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from app.api.routers import content, ielts, jobs, media, production, publishing, quality, system
+from app.api.routers import (
+    content,
+    ielts,
+    jobs,
+    media,
+    production,
+    publishing,
+    quality,
+    stickman,
+    system,
+)
 from app.api.routers import settings as settings_routes
 from app.config import Settings
 from app.db import make_engine, make_sessions
@@ -41,6 +51,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         publishing,
         settings_routes,
         ielts,
+        stickman,
     ):
         api.include_router(module.router)
     return api
