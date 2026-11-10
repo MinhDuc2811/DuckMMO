@@ -72,6 +72,7 @@ def create_plan(payload, *, settings, session):
         channel_id="",
         options={
             "voice": "en-GB-SoniaNeural",
+            "render_quality": "final",
             "background_id": payload.background_id,
             "made_for_kids": payload.made_for_kids,
             "allow_quality_warnings": payload.allow_quality_warnings,

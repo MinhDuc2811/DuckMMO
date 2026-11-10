@@ -44,7 +44,15 @@ def render(opened=None, active=True, jobs_snapshot=None):
             f"{meta['width']}×{meta['height']} · {meta['duration']:.1f} giây · "
             f"{meta['caption_count']} đoạn phụ đề · Đã kiểm tra hình và tiếng"
         )
+        if delivery := meta.get("delivery"):
+            st.caption(
+                f"Xuất: {delivery['profile']} · {delivery['fps']}fps · "
+                f"{delivery['video_encode_passes']} lượt nén hình"
+            )
         output_quality_panel(meta)
+        if background := meta.get("quality", {}).get("background"):
+            with st.expander("Đoạn nền và điểm nối"):
+                st.json(background)
         if active:
             try:
                 media = httpx.get(

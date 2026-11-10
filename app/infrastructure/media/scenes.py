@@ -8,7 +8,9 @@ from pathlib import Path
 
 from PIL import Image
 
-from app.contracts.presentation import PRESETS
+from app.contracts.presentation import PRESETS, uses_lesson_card
+from app.contracts.render_quality import profile
+from app.infrastructure.media.backgrounds import ambient_frames
 from app.infrastructure.media.frame_streams import clip_frames, encode_frames
 from app.infrastructure.media.scene_components import scene_frame
 
@@ -17,7 +19,7 @@ VERSION = 1
 
 def build_plan(config, title, timeline, width, height):
     options = config["visual"]
-    preset = PRESETS[options["preset"]]
+    preset = PRESETS["lesson-card"] if uses_lesson_card(options) else PRESETS[options["preset"]]
     layouts = ("collage", "panels", "quote", "full")
     scenes = []
     for index, slot in enumerate(timeline):
@@ -41,9 +43,14 @@ def build_plan(config, title, timeline, width, height):
     return {
         "version": VERSION,
         "size": [width, height],
-        "fps": 24,
+        "fps": profile(config)["fps"],
+        "quality": profile(config),
+        "background_options": config.get("background_options"),
         "options": options,
-        "style": config["style"],
+        "style": {
+            **config["style"],
+            **({"card_safe_right": 0.16} if config.get("render_quality") == "final" else {}),
+        },
         "images": config["image_files"],
         "video_file": config.get("video_file"),
         "video_fit": config.get("video_fit", "pad"),
@@ -59,7 +66,15 @@ def frames(plan, directory):
     outgoing, previous = None, None
     try:
         if plan.get("video_file"):
-            reader = clip_frames(directory / plan["video_file"], plan.get("threads", 2))
+            if plan.get("background_options"):
+                reader = ambient_frames(
+                    directory / plan["video_file"],
+                    plan["background_options"],
+                    fps,
+                    plan.get("threads", 2),
+                )
+            else:
+                reader = clip_frames(directory / plan["video_file"], plan.get("threads", 2), fps)
         current, total_frames = 0, math.ceil(sum(s["duration"] for s in plan["scenes"]) * fps)
         for number in range(total_frames):
             t = number / fps
@@ -104,7 +119,12 @@ def frames(plan, directory):
 def export(plan, directory, threads):
     plan = {**plan, "threads": threads}
     encode_frames(
-        frames(plan, directory), directory / "motion.mp4", tuple(plan["size"]), plan["fps"], threads
+        frames(plan, directory),
+        directory / "motion.mp4",
+        tuple(plan["size"]),
+        plan["fps"],
+        threads,
+        plan.get("quality"),
     )
 
 

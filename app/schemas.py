@@ -5,7 +5,8 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, field_validator, model_validator
 
-from app.contracts.presentation import MusicOptions, VisualOptions
+from app.contracts.presentation import MusicOptions, VisualOptions, uses_lesson_card
+from app.contracts.render_quality import BackgroundOptions, ProfileId
 from app.contracts.study_pack import BackgroundId
 from app.contracts.voices import get_voice
 
@@ -148,6 +149,8 @@ class AudioPreview(VoicePreview):
 
 
 class RenderOptions(SpeechOptions):
+    render_quality: ProfileId = "preview"
+    background_options: BackgroundOptions | None = None
     background_id: BackgroundId | None = None
     visual: VisualOptions = Field(default_factory=VisualOptions)
     music: MusicOptions = Field(default_factory=MusicOptions)
@@ -160,6 +163,12 @@ class RenderOptions(SpeechOptions):
 
     @model_validator(mode="after")
     def bound_images(self):
+        if self.render_quality == "final" and not uses_lesson_card(self.visual.model_dump()):
+            raise ValueError("Bản Final HD hiện dành cho layout Khung trắng.")
+        if self.background_options and (
+            not self.video_asset_id or not uses_lesson_card(self.visual.model_dump())
+        ):
+            raise ValueError("Tối ưu nền cần clip đã upload và layout Khung trắng.")
         if self.background_id and (self.images or self.image_asset_ids or self.video_asset_id):
             raise ValueError("Chọn ảnh có sẵn hoặc file của bạn, không chọn cả hai.")
         if self.video_asset_id and (self.images or self.image_asset_ids):

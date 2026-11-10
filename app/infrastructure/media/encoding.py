@@ -2,6 +2,8 @@ import imageio_ffmpeg
 
 from app.config import Settings
 from app.contracts.errors import VideoFailure
+from app.contracts.presentation import uses_lesson_card
+from app.contracts.render_quality import profile
 from app.infrastructure.media.commands import run_command
 from app.infrastructure.media.probe import MediaFailure
 from app.infrastructure.media.storage import LocalMediaStorage
@@ -16,7 +18,27 @@ def encode_video(directory, config, style, width, height, elapsed, *, run_comman
         visual_input = input_arguments(config, directory, settings.ffmpeg_threads)
     except MediaFailure as exc:
         raise VideoFailure(str(exc)) from exc
-    filters = visual_filters(config, style, width, height)
+    # Lesson-card motion already has every visual/text layer. Remux, never compress it again.
+    copy_video = bool(config.get("motion_file")) and uses_lesson_card(config.get("visual", {}))
+    quality = profile(config)
+    video_output = (
+        ["-c:v", "copy"]
+        if copy_video
+        else [
+            "-vf",
+            visual_filters(config, style, width, height),
+            "-c:v",
+            "libx264",
+            "-threads",
+            str(settings.ffmpeg_threads),
+            "-preset",
+            quality["preset"],
+            "-crf",
+            str(quality["crf"]),
+            "-pix_fmt",
+            "yuv420p",
+        ]
+    )
     run_command(
         [
             ffmpeg,
@@ -31,18 +53,7 @@ def encode_video(directory, config, style, width, height, elapsed, *, run_comman
             "0:v:0",
             "-map",
             "1:a:0",
-            "-vf",
-            filters,
-            "-c:v",
-            "libx264",
-            "-threads",
-            str(settings.ffmpeg_threads),
-            "-preset",
-            "veryfast",
-            "-crf",
-            "23",
-            "-pix_fmt",
-            "yuv420p",
+            *video_output,
             "-c:a",
             "aac",
             "-b:a",

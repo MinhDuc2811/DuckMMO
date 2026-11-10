@@ -11,7 +11,7 @@ from app.infrastructure.media.probe import inspect_video
 from app.infrastructure.processes import stop_process
 
 
-def clip_frames(path, threads):
+def clip_frames(path, threads, fps=24):
     metadata = inspect_video(path, Settings())
     size = (metadata["width"], metadata["height"])
     frame_bytes = size[0] * size[1] * 3
@@ -36,7 +36,7 @@ def clip_frames(path, threads):
                 "0:v:0",
                 "-an",
                 "-vf",
-                "fps=24",
+                f"fps={fps}",
                 "-filter_threads",
                 str(threads),
                 "-threads",
@@ -62,7 +62,8 @@ def clip_frames(path, threads):
             process.wait()
 
 
-def encode_frames(images, path, size, fps, threads):
+def encode_frames(images, path, size, fps, threads, quality=None):
+    quality = quality or {"preset": "veryfast", "crf": 23}
     with (path.parent / "scene-encoder.log").open("wb") as log:
         process = subprocess.Popen(
             [
@@ -88,9 +89,9 @@ def encode_frames(images, path, size, fps, threads):
                 "-threads",
                 str(threads),
                 "-preset",
-                "veryfast",
+                quality["preset"],
                 "-crf",
-                "23",
+                str(quality["crf"]),
                 str(path),
             ],
             stdin=subprocess.PIPE,

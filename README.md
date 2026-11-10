@@ -25,6 +25,11 @@ Chạy `uv sync --frozen --group dev` và `uv run alembic upgrade head` trước
 Tab **Tự động hóa**: kết nối Google, chọn hàng đợi bài học đã duyệt, đặt giờ và bật lịch.
 Worker tự dựng/QA/hẹn giờ YouTube; lỗi hiện trong dashboard. [Setup và giới hạn](docs/automation.md).
 
+## Background ambient và Final HD
+
+Phase 3 hỗ trợ Khung trắng Full HD/30fps, nén hình một lần và tối ưu clip nền bằng chọn
+cảnh/crossfade loop. [Cách dùng, profile và giới hạn](docs/ambient-backgrounds.md).
+
 ## Kiểm tra chất lượng đầu ra
 
 Video mới được FFmpeg/FFprobe kiểm tra toàn bộ file sau render. Lỗi kỹ thuật chặn duyệt;

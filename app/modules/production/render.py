@@ -13,6 +13,8 @@ from app.config import Settings
 from app.contracts.captions import split_captions, timestamp
 from app.contracts.content import content_hash, content_text
 from app.contracts.errors import VideoFailure
+from app.contracts.presentation import uses_lesson_card
+from app.contracts.render_quality import dimensions, profile
 from app.contracts.speech import speech_segments
 from app.contracts.voices import get_voice
 from app.infrastructure.media.artifacts import artifact_directory
@@ -168,7 +170,7 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
     (directory / "audio.ffconcat").write_text("\n".join(audios), encoding="utf-8")
     (directory / "subtitles.srt").write_text("\n".join(subtitles), encoding="utf-8")
     (directory / "script.txt").write_text(text, encoding="utf-8")
-    width, height = (720, 1280) if config["layout"] == "portrait" else (1280, 720)
+    width, height = dimensions(config)
     checkpoint("subtitles", "start")
     cues, style, repairs, evaluations = resolve_subtitles(
         directory, cues, style, elapsed, width, height, progress
@@ -232,7 +234,9 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
     else:
         checkpoint("audio_mix", "end", {"filename": "narration.wav"})
     checkpoint("render", "start")
-    if config.get("visual", {}).get("preset", "auto") != "auto":
+    if config.get("visual", {}).get("preset", "auto") != "auto" or uses_lesson_card(
+        config.get("visual", {})
+    ):
         input_arguments(config, directory, settings.ffmpeg_threads)  # verify pinned clip
         plan = build_plan(config, package["title"], scene_timeline, width, height)
         plan_path = directory / "scene-plan.json"
@@ -284,6 +288,15 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         "audio_checked": True,
         "video_checked": True,
     }
+    result["delivery"] = {
+        **profile(config),
+        "profile": config.get("render_quality", "preview"),
+        "video_encode_passes": 1
+        if config.get("motion_file") and uses_lesson_card(config.get("visual", {}))
+        else 2
+        if config.get("motion_file")
+        else 1,
+    }
     result["presentation"] = config.get("visual", {"preset": "auto"})
     result["music"] = {**config.get("music", {}), "mixed": bool(config.get("music_file"))}
     result["quality"] = {
@@ -291,6 +304,9 @@ def render_video(job_id, package, config, progress, checkpoint=None, *, adapters
         "sample_times": sample_times,
         "output": output_quality,
     }
+    background_report = directory / "background-analysis.json"
+    if background_report.is_file():
+        result["quality"]["background"] = json.loads(background_report.read_text())
     result["speech"] = {
         "segmentation_version": 2,
         "segments": speech_timeline,

@@ -6,10 +6,20 @@ import shutil
 from PIL import Image, ImageOps
 
 from app.contracts.presentation import uses_lesson_card
+from app.contracts.render_quality import dimensions
 from app.db import MediaAsset
 from app.infrastructure.media.probe import MediaFailure
 from app.infrastructure.media.storage import file_digest
 from app.infrastructure.media.study_pack import bundled_asset
+
+
+def prepare_image(image, config):
+    image = ImageOps.exif_transpose(image).convert("RGB")
+    if config.get("render_quality") == "final":
+        # Crop the original wallpaper before downsampling, rather than enlarge a 720p crop.
+        return ImageOps.fit(image, dimensions(config), method=Image.Resampling.LANCZOS)
+    image.thumbnail((1920, 1920))
+    return image
 
 
 def pin_assets(session, storage, job_id, options, directory, config):
@@ -39,8 +49,7 @@ def pin_assets(session, storage, job_id, options, directory, config):
         else:
             filename = f"asset-{index:02}.png"
             with Image.open(source) as image:
-                image = ImageOps.exif_transpose(image).convert("RGB")
-                image.thumbnail((1920, 1920))
+                image = prepare_image(image, config)
                 image.save(directory / filename)
             config["image_files"].append(filename)
 

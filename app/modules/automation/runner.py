@@ -81,6 +81,7 @@ def advance(run, plan, *, settings, session, clock):
             UUID(job.id),
             RenderOptions(
                 voice=plan.options["voice"],
+                render_quality=plan.options.get("render_quality", "preview"),
                 background_id=plan.options["background_id"],
                 visual={"preset": "lesson-card"},
                 expected_content_hash=content_hash(job.package),

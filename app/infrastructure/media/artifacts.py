@@ -5,7 +5,7 @@ import io
 import shutil
 from uuid import UUID, uuid4
 
-from PIL import Image, ImageOps
+from PIL import Image
 
 from app.config import Settings
 from app.contracts.errors import VideoFailure
@@ -14,7 +14,7 @@ from app.infrastructure.local_lock import LocalBusy, exclusive_lock
 from app.infrastructure.media.music import pin_music
 from app.infrastructure.media.probe import MediaFailure
 from app.infrastructure.media.storage import LocalMediaStorage
-from app.infrastructure.media.visuals import pin_assets
+from app.infrastructure.media.visuals import pin_assets, prepare_image
 from app.services.styles import choose_style
 
 
@@ -47,8 +47,7 @@ def prepare_render(job_id, options, package=None, *, session=None):
                 with Image.open(io.BytesIO(raw)) as image:
                     if image.width * image.height > 20_000_000:
                         raise ValueError("Image too large")
-                    image = ImageOps.exif_transpose(image).convert("RGB")
-                    image.thumbnail((1920, 1920))
+                    image = prepare_image(image, config)
                     filename = f"input-{i:02}.png"
                     image.save(directory / filename)
                     config["image_files"].append(filename)

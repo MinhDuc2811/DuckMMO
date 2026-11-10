@@ -155,11 +155,39 @@ def render(opened=None, active=True, jobs_snapshot=None):
                 layout = st.selectbox(
                     "Khung hình",
                     ["portrait", "landscape"],
-                    format_func=lambda value: (
-                        "Dọc 9:16 · 720×1280" if value == "portrait" else "Ngang 16:9 · 1280×720"
+                    format_func=lambda value: "Dọc 9:16" if value == "portrait" else "Ngang 16:9",
+                )
+                render_quality = st.selectbox(
+                    "Chất lượng xuất",
+                    ["preview", "final"],
+                    format_func=lambda v: (
+                        "Xem thử · 720p / 24fps"
+                        if v == "preview"
+                        else "Final HD · 1080p / 30fps · Khung trắng"
                     ),
                 )
+                st.caption("Final HD: Khung trắng, nén hình một lần; dựng lâu hơn bản xem thử.")
+                background_options = None
                 if media_mode == "Clip":
+                    optimize_background = st.checkbox(
+                        "Tối ưu clip nền cho Khung trắng", value=False
+                    )
+                    start = st.number_input(
+                        "Bắt đầu đoạn nền (giây)", min_value=0.0, max_value=117.0, value=0.0
+                    )
+                    seconds = st.number_input(
+                        "Độ dài đoạn nền (giây)", min_value=3.0, max_value=20.0, value=8.0
+                    )
+                    if optimize_background:
+                        background_options = {
+                            "start_seconds": start,
+                            "duration_seconds": seconds,
+                            "smooth_loop": True,
+                            "auto_scene": True,
+                        }
+                    st.caption(
+                        "Tối ưu: chọn cảnh liền mạch trong đoạn đã chọn và nối bằng crossfade nhẹ."
+                    )
                     pictures = st.file_uploader(
                         "Clip cho video",
                         type=["mp4", "mov", "webm"],
@@ -283,6 +311,8 @@ def render(opened=None, active=True, jobs_snapshot=None):
                         f"/api/jobs/{render_id}/render",
                         json={
                             "background_id": background_id,
+                            "render_quality": render_quality,
+                            "background_options": background_options,
                             "voice": voice,
                             "visual": visual,
                             "music": music,
