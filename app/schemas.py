@@ -203,4 +203,13 @@ class YouTubePublish(BaseModel):
     description: str = Field(default="", max_length=5000)
     privacy: Literal["private", "unlisted", "public"] = "private"
     made_for_kids: bool
+    publish_at: datetime | None = None
+    expected_channel_id: str | None = Field(default=None, max_length=100)
+
+    @model_validator(mode="after")
+    def scheduled_private(self):
+        if self.publish_at and (self.publish_at.tzinfo is None or self.privacy != "private"):
+            raise ValueError("Lịch YouTube cần timestamp có múi giờ và privacy private.")
+        return self
+
     expected_video_hash: str = Field(pattern=r"^[a-f0-9]{64}$")

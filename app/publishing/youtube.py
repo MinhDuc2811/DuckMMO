@@ -8,8 +8,8 @@ from urllib.parse import urlsplit
 import httpx
 from sqlalchemy import select
 
-from app.config import Settings
 from app.db import Job, OutcomeSnapshot, StepRun
+from app.publishing import connection
 from app.quality.recorder import begin, finish
 from app.services.video import artifact_directory, content_hash
 
@@ -18,37 +18,15 @@ class PublishFailure(ValueError):
     pass
 
 
-def connected():
-    s = Settings()
-    return all(
-        (
-            s.youtube_client_id,
-            s.youtube_client_secret.get_secret_value(),
-            s.youtube_refresh_token.get_secret_value(),
-        )
-    )
+def connected(settings=None):
+    return connection.status(settings)["connected"]
 
 
-def token(client):
-    s = Settings()
-    if not connected():
-        raise PublishFailure(
-            "Cần OAuth YouTube: client ID, secret và refresh token. Key Gemini không dùng để đăng."
-        )
-    response = client.post(
-        "https://oauth2.googleapis.com/token",
-        data={
-            "client_id": s.youtube_client_id,
-            "client_secret": s.youtube_client_secret.get_secret_value(),
-            "refresh_token": s.youtube_refresh_token.get_secret_value(),
-            "grant_type": "refresh_token",
-        },
-    )
-    if response.status_code != 200:
-        raise PublishFailure(
-            f"OAuth YouTube trả HTTP {response.status_code}. Kiểm tra quyền tài khoản."
-        )
-    return response.json()["access_token"]
+def token(client, settings=None):
+    try:
+        return connection.access_token(client, settings)
+    except connection.ConnectionFailure as exc:
+        raise PublishFailure(str(exc)) from exc
 
 
 def media(job, expected_hash):
@@ -65,12 +43,20 @@ def media(job, expected_hash):
     return path
 
 
-def upload(session, attempt, payload):
+def upload(session, attempt, payload, settings=None):
     job = session.get(Job, attempt.job_id)
     path = media(job, attempt.artifact_hash)
     started = time.monotonic()
     with httpx.Client(timeout=30, follow_redirects=False) as client:
-        auth = {"Authorization": "Bearer " + token(client)}
+        access = token(client, settings)
+        if payload.expected_channel_id:
+            try:
+                destination = connection.channel(client, access)
+            except connection.ConnectionFailure as exc:
+                raise PublishFailure(str(exc)) from exc
+            if destination["id"] != payload.expected_channel_id:
+                raise PublishFailure("Kênh OAuth không trùng kênh đã ủy quyền; dừng upload.")
+        auth = {"Authorization": "Bearer " + access}
         size = path.stat().st_size
         details = dict(attempt.details)
         url = details.get("session_url")
@@ -121,6 +107,11 @@ def upload(session, attempt, payload):
                     "status": {
                         "privacyStatus": payload.privacy,
                         "selfDeclaredMadeForKids": payload.made_for_kids,
+                        **(
+                            {"publishAt": payload.publish_at.isoformat()}
+                            if payload.publish_at
+                            else {}
+                        ),
                     },
                 },
             )
@@ -177,7 +168,7 @@ def upload(session, attempt, payload):
         session.commit()
 
 
-def analytics(session, attempt):
+def analytics(session, attempt, settings=None):
     if attempt.state != "uploaded" or not attempt.platform_id:
         raise PublishFailure("Video chưa được upload thành công.")
     latest = session.scalar(
@@ -193,7 +184,7 @@ def analytics(session, attempt):
     with httpx.Client(timeout=30, follow_redirects=False) as client:
         response = client.get(
             "https://youtubeanalytics.googleapis.com/v2/reports",
-            headers={"Authorization": "Bearer " + token(client)},
+            headers={"Authorization": "Bearer " + token(client, settings)},
             params={
                 "ids": "channel==MINE",
                 "startDate": str((attempt.created_at - timedelta(days=1)).date()),
@@ -235,3 +226,16 @@ def analytics(session, attempt):
     finish(session, run, record.metrics)
     session.commit()
     return record
+
+
+def remote_status(platform_id, settings):
+    """Read actual processing/privacy; an accepted upload is not proof of publication."""
+    with httpx.Client(timeout=30, follow_redirects=False) as client:
+        response = client.get(
+            "https://www.googleapis.com/youtube/v3/videos",
+            params={"part": "status,processingDetails", "id": platform_id},
+            headers={"Authorization": "Bearer " + token(client, settings)},
+        )
+    if response.status_code != 200 or not response.json().get("items"):
+        raise PublishFailure("Không kiểm tra được video đã upload trên YouTube.")
+    return response.json()["items"][0]

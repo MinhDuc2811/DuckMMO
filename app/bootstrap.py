@@ -4,6 +4,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
 from app.api.routers import (
+    automation,
     content,
     ielts,
     jobs,
@@ -42,6 +43,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         )
 
     for module in (
+        automation,
         content,
         system,
         jobs,

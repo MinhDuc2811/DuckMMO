@@ -2,7 +2,7 @@ import time
 from uuid import UUID
 
 import httpx
-from sqlalchemy import select, update
+from sqlalchemy import or_, select, update
 from sqlalchemy.exc import IntegrityError
 
 from app.db import (
@@ -17,17 +17,10 @@ from app.schemas import (
 )
 
 
-def youtube_status():
-    return {
-        "connected": youtube.connected(),
-        "platform": "youtube",
-        "requires": [
-            "STUDIO_YOUTUBE_CLIENT_ID",
-            "STUDIO_YOUTUBE_CLIENT_SECRET",
-            "STUDIO_YOUTUBE_REFRESH_TOKEN",
-        ],
-        "scopes": ["youtube.upload", "yt-analytics.readonly"],
-    }
+def youtube_status(settings=None):
+    from app.publishing.connection import status
+
+    return status(settings)
 
 
 def public_attempt(row):
@@ -52,13 +45,13 @@ def youtube_attempts(job_id: UUID, *, session):
     ]
 
 
-def publish_youtube(job_id: UUID, payload: YouTubePublish, *, session):
+def publish_youtube(job_id: UUID, payload: YouTubePublish, *, session, settings=None):
     job = load_job(session, job_id)
     try:
         youtube.media(job, payload.expected_video_hash)
     except youtube.PublishFailure as exc:
         raise ApplicationError(409, str(exc))
-    if not youtube.connected():
+    if not youtube.connected(settings):
         raise ApplicationError(
             409, "Chưa kết nối OAuth YouTube. Cần tài khoản có quyền upload và analytics."
         )
@@ -68,7 +61,7 @@ def publish_youtube(job_id: UUID, payload: YouTubePublish, *, session):
             PublishAttempt.artifact_hash == payload.expected_video_hash,
         )
     )
-    metadata = payload.model_dump(exclude={"expected_video_hash"})
+    metadata = payload.model_dump(mode="json", exclude={"expected_video_hash"}, exclude_none=True)
     if row is None:
         row = PublishAttempt(
             job_id=job.id, artifact_hash=payload.expected_video_hash, details={"metadata": metadata}
@@ -91,7 +84,15 @@ def publish_youtube(job_id: UUID, payload: YouTubePublish, *, session):
     details = {**row.details, "lease_until": time.time() + 120}
     claimed = session.execute(
         update(PublishAttempt)
-        .where(PublishAttempt.id == row.id, PublishAttempt.state == previous_state)
+        .where(
+            PublishAttempt.id == row.id,
+            PublishAttempt.state == previous_state,
+            or_(
+                PublishAttempt.state != "uploading",
+                PublishAttempt.details["lease_until"].as_float().is_(None),
+                PublishAttempt.details["lease_until"].as_float() <= time.time(),
+            ),
+        )
         .values(state="uploading", details=details)
     )
     if claimed.rowcount != 1:
@@ -100,7 +101,7 @@ def publish_youtube(job_id: UUID, payload: YouTubePublish, *, session):
     session.commit()
     session.refresh(row)
     try:
-        youtube.upload(session, row, payload)
+        youtube.upload(session, row, payload, settings=settings)
     except (youtube.PublishFailure, httpx.RequestError) as exc:
         row.state = "uncertain"
         session.commit()

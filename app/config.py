@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     youtube_client_id: str = ""
     youtube_client_secret: SecretStr = SecretStr("")
     youtube_refresh_token: SecretStr = SecretStr("")
+    youtube_redirect_uri: str = "http://127.0.0.1:8000/api/youtube/oauth/callback"
     speech_cache_enabled: bool = True
     pexels_api_key: SecretStr = SecretStr("")
     pixabay_api_key: SecretStr = SecretStr("")

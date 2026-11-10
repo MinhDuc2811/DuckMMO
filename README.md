@@ -20,6 +20,11 @@ Chạy `uv sync --frozen --group dev` và `uv run alembic upgrade head` trước
 [Khảo sát 59 repo và lựa chọn tích hợp](docs/research/shorts-toolkit/README.md) ·
 [Nguồn ảnh/nhạc](docs/study-pack.md).
 
+## Tự động tạo và đăng YouTube Shorts
+
+Tab **Tự động hóa**: kết nối Google, chọn hàng đợi bài học đã duyệt, đặt giờ và bật lịch.
+Worker tự dựng/QA/hẹn giờ YouTube; lỗi hiện trong dashboard. [Setup và giới hạn](docs/automation.md).
+
 ## Kiểm tra chất lượng đầu ra
 
 Video mới được FFmpeg/FFprobe kiểm tra toàn bộ file sau render. Lỗi kỹ thuật chặn duyệt;

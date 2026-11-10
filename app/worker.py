@@ -9,6 +9,7 @@ from app.db import make_engine, make_sessions
 from app.infrastructure.local_lock import LocalBusy, exclusive_lock
 from app.infrastructure.media.cleanup import cleanup
 from app.infrastructure.media.storage import LocalMediaStorage
+from app.modules.automation.runner import tick
 from app.pipeline.lifecycle import claim_one
 from app.pipeline.runner import PipelineDependencies
 from app.pipeline.runner import execute_job as run_pipeline
@@ -57,6 +58,12 @@ def main():
                 logging.getLogger(__name__).info("Skipping cleanup while upload is active")
             recover_interrupted(sessions)
             while True:
+                try:
+                    tick(sessions, settings)
+                except LocalBusy:
+                    pass
+                except Exception:
+                    logging.getLogger(__name__).exception("Automation coordinator failed")
                 job_id = claim_one(sessions)
                 handled = job_id is not None
                 if job_id:

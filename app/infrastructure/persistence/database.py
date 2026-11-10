@@ -268,3 +268,30 @@ class LearningRevision(Base):
     version: Mapped[int] = mapped_column(Integer, primary_key=True)
     snapshot: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class AutomationPlan(Base):
+    __tablename__ = "automation_plans"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    name: Mapped[str] = mapped_column(String(200))
+    enabled: Mapped[bool] = mapped_column(default=False)
+    channel_id: Mapped[str] = mapped_column(String(100))
+    options: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class AutomationRun(Base):
+    __tablename__ = "automation_runs"
+    __table_args__ = (UniqueConstraint("plan_id", "position", name="uq_automation_slot"),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    plan_id: Mapped[str] = mapped_column(ForeignKey("automation_plans.id"), index=True)
+    position: Mapped[int] = mapped_column(Integer)
+    publish_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    state: Mapped[str] = mapped_column(String(20), default="pending", index=True)
+    snapshot: Mapped[dict] = mapped_column(JSON)
+    job_id: Mapped[str | None] = mapped_column(ForeignKey("jobs.id"), nullable=True)
+    publish_id: Mapped[str | None] = mapped_column(ForeignKey("publish_attempts.id"), nullable=True)
+    error: Mapped[str | None] = mapped_column(Text, nullable=True)
+    failures: Mapped[int] = mapped_column(Integer, default=0)
+    retry_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)

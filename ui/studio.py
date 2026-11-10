@@ -12,6 +12,7 @@ from ui.client.api import request
 from ui.components.activity import render_activity_log
 from ui.components.workspace import render_workspace
 from ui.screens import (
+    automation,
     content_review,
     ielts,
     ingestion,
@@ -57,12 +58,13 @@ with main_column:
             "Phase 4 · Duyệt video",
             "Phase 5 · YouTube",
             "Thư viện IELTS",
+            "Tự động hóa",
         ],
         key="workflow_phase",
         on_change="rerun",
     )
     for tab, screen in zip(
-        tabs, (ingestion, content_review, production, video_review, publishing, ielts)
+        tabs, (ingestion, content_review, production, video_review, publishing, ielts, automation)
     ):
         with tab:
             screen.render(opened=opened, active=tab.open, jobs_snapshot=jobs_snapshot)

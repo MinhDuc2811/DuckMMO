@@ -1,22 +1,14 @@
 import streamlit as st
 
 from ui.client.api import request
+from ui.components.youtube_connection import connection_controls
 
 
 def render(opened=None, active=True, jobs_snapshot=None):
     st.subheader("Đăng YouTube và theo dõi hiệu quả")
-    connection = request("GET", "/api/youtube/status")
-    if connection and not connection["connected"]:
-        st.info("Chưa kết nối YouTube. Cần OAuth của kênh; không dùng key Gemini.")
-        with st.expander("Kết nối một lần"):
-            st.write(
-                "Thiết lập Google OAuth với quyền youtube.upload và yt-analytics.readonly. "
-                "Lưu client ID, client secret và refresh token trong cấu hình cục bộ."
-            )
-            st.code(
-                "STUDIO_YOUTUBE_CLIENT_ID\nSTUDIO_YOUTUBE_CLIENT_SECRET\nSTUDIO_YOUTUBE_REFRESH_TOKEN"
-            )
-            st.caption("Không gửi token hoặc client secret vào chat.")
+    connection = (
+        connection_controls("manual-youtube") if active else request("GET", "/api/youtube/status")
+    )
     if opened:
         publish_job = request("GET", f"/api/jobs/{opened['id']}")
         if publish_job and publish_job["status"] == "video_approved":
